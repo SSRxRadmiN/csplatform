@@ -22,13 +22,13 @@ $passwordFields = ['cassa_secret', 'cassa_secret_key'];
 <section class="admin-page">
     <div class="admin-header">
         <h1 class="admin-title">Налаштування</h1>
-        <nav class="admin-nav">
+        <div class="admin-nav">
             <a href="/admin" class="admin-nav-link">Dashboard</a>
             <a href="/admin/products" class="admin-nav-link">Товари</a>
             <a href="/admin/orders" class="admin-nav-link">Замовлення</a>
             <a href="/admin/users" class="admin-nav-link">Користувачі</a>
             <a href="/admin/settings" class="admin-nav-link active">Налаштування</a>
-        </nav>
+        </div>
     </div>
 
     <div class="admin-section">
