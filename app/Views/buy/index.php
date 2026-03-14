@@ -38,26 +38,10 @@ $duration = (int) $product['duration_days'];
 
                 <div class="payment-methods">
                     <label class="payment-method">
-                        <input type="radio" name="ps" value="liqpay" checked>
+                        <input type="radio" name="ps" value="p2p" checked>
                         <div class="payment-method-card">
-                            <span class="payment-method-name">LiqPay</span>
-                            <span class="payment-method-desc">Visa / Mastercard</span>
-                        </div>
-                    </label>
-
-                    <label class="payment-method">
-                        <input type="radio" name="ps" value="fondy">
-                        <div class="payment-method-card">
-                            <span class="payment-method-name">Fondy</span>
-                            <span class="payment-method-desc">Картка / Apple Pay</span>
-                        </div>
-                    </label>
-
-                    <label class="payment-method">
-                        <input type="radio" name="ps" value="p2p">
-                        <div class="payment-method-card">
-                            <span class="payment-method-name">P2P</span>
-                            <span class="payment-method-desc">Переказ на картку</span>
+                            <span class="payment-method-name">Банківська картка</span>
+                            <span class="payment-method-desc">Приватбанк / Монобанк</span>
                         </div>
                     </label>
                 </div>

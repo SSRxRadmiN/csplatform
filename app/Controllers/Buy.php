@@ -54,7 +54,7 @@ class Buy extends BaseController
 
         // Валідація
         $ps = $this->request->getPost('ps');
-        if (! in_array($ps, ['liqpay', 'fondy', 'p2p'])) {
+        if (! in_array($ps, ['p2p'])) {
             return redirect()->back()->with('error', 'Оберіть спосіб оплати');
         }
 

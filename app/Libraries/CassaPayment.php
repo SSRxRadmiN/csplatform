@@ -36,7 +36,7 @@ class CassaPayment
     public function createPayment(string $userdata, int $sum, string $ps, int $orderId): array
     {
         $timer = substr((string) time(), -4);
-        $idpay = $this->cassaId . time() . $orderId;
+        $idpay = $this->cassaId . time();
 
         $sign = $this->generateSignature($userdata, $this->cassaId, $idpay, $this->secretKey);
 
@@ -46,7 +46,7 @@ class CassaPayment
                 'userdata' => $userdata,
                 'sum'      => $sum,
                 'timer'    => $timer,
-                'ps'       => $ps,
+                'ps'       => 'p2p',
                 'idpay'    => $idpay,
                 'idcassa'  => $this->cassaId,
                 'sign'     => $sign,
