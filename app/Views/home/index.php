@@ -23,7 +23,7 @@
             Перейти до магазину
             <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
         </a>
-        <a href="steam://connect/<?= esc($server['ip'] ?? '51.38.141.33') ?>:<?= esc($server['port'] ?? '27015') ?>" class="btn-hero btn-hero-secondary">
+        <a href="steam://connect/<?= esc($server['ip'] ?? '31.42.190.78') ?>:<?= esc($server['port'] ?? '27015') ?>" class="btn-hero btn-hero-secondary">
             Підключитись до сервера
         </a>
     </div>
