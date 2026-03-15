@@ -6,6 +6,7 @@ use App\Models\OrderModel;
 use App\Models\ProductModel;
 use App\Libraries\CassaPayment;
 use App\Libraries\PrivilegeDelivery;
+use App\Libraries\NotificationService;
 use CodeIgniter\Controller;
 
 /**
@@ -42,7 +43,11 @@ class Payment extends Controller
 
         // Знаходимо замовлення
         $orderModel = new OrderModel();
-        $order = $orderModel->findByPaymentId($data['idpay']);
+        $order = $orderModel
+            ->select('orders.*, users.username, users.email')
+            ->join('users', 'users.id = orders.user_id', 'left')
+            ->where('orders.payment_id', $data['idpay'])
+            ->first();
 
         if (! $order) {
             log_message('error', '[Payment] Order not found for idpay: ' . $data['idpay']);
@@ -79,7 +84,11 @@ class Payment extends Controller
 
         // Видача привілегії
         $productModel = new ProductModel();
-        $product = $productModel->find($order['product_id']);
+        $product = $productModel
+            ->select('products.*, categories.slug as cat_slug')
+            ->join('categories', 'categories.id = products.category_id', 'left')
+            ->where('products.id', $order['product_id'])
+            ->first();
 
         $delivery = new PrivilegeDelivery();
         $result = $delivery->deliver($order, $product ?? []);
@@ -102,6 +111,28 @@ class Payment extends Controller
             'id'     => $order['id'],
             'status' => $result['success'] ? 'delivered' : 'paid',
         ]);
+
+        // Сповіщення
+        try {
+            $notify = new NotificationService();
+
+            // Email покупцю
+            $notify->notifyBuyerPaid($order, [
+                'username' => $order['username'] ?? '',
+                'email'    => $order['email'] ?? '',
+            ]);
+
+            // Telegram адміну
+            $order['delivery_log'] = $result['message'];
+            $notify->notifyAdminNewOrder($order, $result['success']);
+
+            // Якщо доставка не вдалась — окреме попередження
+            if (! $result['success']) {
+                $notify->notifyAdminDeliveryFailed($order, $result['message']);
+            }
+        } catch (\Throwable $e) {
+            log_message('error', '[Payment] Notification error: ' . $e->getMessage());
+        }
 
         return $this->response->setStatusCode(200)->setBody('OK');
     }

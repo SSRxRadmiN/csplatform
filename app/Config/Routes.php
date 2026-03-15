@@ -76,3 +76,10 @@ $routes->group('admin', ['filter' => 'admin'], function ($routes) {
     $routes->get('settings', 'Admin\Settings::index');
     $routes->post('settings', 'Admin\Settings::update');
 });
+
+// ============================================
+// Cron tasks (захист через секретний ключ)
+// ============================================
+$routes->get('cron/expire', 'Cron::expire');
+$routes->get('cron/serverstats', 'Cron::serverstats');
+$routes->get('cron/health', 'Cron::health');
