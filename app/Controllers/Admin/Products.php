@@ -49,7 +49,7 @@ class Products extends BaseController
             'description_ua', 'description_en',
             'price', 'duration_days',
             'amx_access', 'amx_flags',
-            'sort_order', 'is_active',
+            'image_url', 'sort_order', 'is_active',
         ]);
 
         $data['is_active']  = $data['is_active'] ?? 0;
@@ -98,7 +98,7 @@ class Products extends BaseController
             'description_ua', 'description_en',
             'price', 'duration_days',
             'amx_access', 'amx_flags',
-            'sort_order', 'is_active',
+            'image_url', 'sort_order', 'is_active',
         ]);
 
         $data['is_active']  = $data['is_active'] ?? 0;

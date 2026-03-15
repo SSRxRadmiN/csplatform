@@ -23,6 +23,12 @@ $catInfo = $catLabels[$cat] ?? $catLabels['other'];
     <div class="product-layout">
         <!-- Ліва частина — інфо -->
         <div class="product-info">
+            <?php if (!empty($product['image_url'])): ?>
+                <div class="product-image">
+                    <img src="<?= esc($product['image_url']) ?>" alt="<?= esc($name) ?>">
+                </div>
+            <?php endif ?>
+
             <div class="product-badge product-badge--<?= esc($cat) ?>">
                 <?= $catInfo['icon'] ?> <?= esc($catInfo['label']) ?>
             </div>

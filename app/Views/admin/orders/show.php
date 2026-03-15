@@ -23,9 +23,21 @@ $statusLabels = [
     <div class="admin-section">
         <div class="admin-section-header">
             <a href="/admin/orders" class="admin-link">← Назад до замовлень</a>
-            <span class="status-badge status-<?= esc($order['status']) ?>">
-                <?= $statusLabels[$order['status']] ?? $order['status'] ?>
-            </span>
+            <div class="admin-order-status-row">
+                <span class="status-badge status-<?= esc($order['status']) ?>">
+                    <?= $statusLabels[$order['status']] ?? $order['status'] ?>
+                </span>
+                <!-- Форма зміни статусу -->
+                <form method="post" action="/admin/orders/<?= $order['id'] ?>/status" class="admin-inline-form">
+                    <?= csrf_field() ?>
+                    <select name="status" class="admin-input admin-input-sm">
+                        <?php foreach ($statusLabels as $key => $label): ?>
+                            <option value="<?= $key ?>" <?= $order['status'] === $key ? 'selected' : '' ?>><?= $label ?></option>
+                        <?php endforeach ?>
+                    </select>
+                    <button type="submit" class="admin-btn-sm">Змінити</button>
+                </form>
+            </div>
         </div>
 
         <div class="admin-detail-grid">
@@ -57,10 +69,16 @@ $statusLabels = [
                         <span><?= date('d.m.Y H:i:s', strtotime($order['paid_at'])) ?></span>
                     </div>
                 <?php endif ?>
+                <?php if (!empty($order['delivered_at'])): ?>
+                    <div class="admin-detail-row">
+                        <span class="admin-detail-label">Доставлено</span>
+                        <span><?= date('d.m.Y H:i:s', strtotime($order['delivered_at'])) ?></span>
+                    </div>
+                <?php endif ?>
                 <?php if (!empty($order['expires_at'])): ?>
                     <div class="admin-detail-row">
                         <span class="admin-detail-label">Діє до</span>
-                        <span><?= date('d.m.Y', strtotime($order['expires_at'])) ?></span>
+                        <span><?= date('d.m.Y H:i:s', strtotime($order['expires_at'])) ?></span>
                     </div>
                 <?php endif ?>
             </div>
@@ -77,7 +95,7 @@ $statusLabels = [
                 </div>
                 <div class="admin-detail-row">
                     <span class="admin-detail-label">Steam ID</span>
-                    <code><?= esc($order['steam_id'] ?? '—') ?></code>
+                    <code><?= esc($order['user_steam'] ?? $order['steam_id'] ?? '—') ?></code>
                 </div>
             </div>
 
@@ -103,5 +121,38 @@ $statusLabels = [
                 <?php endif ?>
             </div>
         </div>
+    </div>
+
+    <!-- Форма ручного редагування -->
+    <div class="admin-section">
+        <h3 class="admin-section-title">Редагування замовлення</h3>
+        <form method="post" action="/admin/orders/<?= $order['id'] ?>/update" class="admin-form">
+            <?= csrf_field() ?>
+
+            <div class="admin-form-grid">
+                <div class="admin-form-group">
+                    <label class="admin-label">Steam ID</label>
+                    <input type="text" name="steam_id" class="admin-input"
+                        value="<?= esc($order['steam_id'] ?? '') ?>"
+                        placeholder="STEAM_0:1:...">
+                </div>
+
+                <div class="admin-form-group">
+                    <label class="admin-label">Діє до (expires_at)</label>
+                    <input type="datetime-local" name="expires_at" class="admin-input"
+                        value="<?= !empty($order['expires_at']) ? date('Y-m-d\TH:i', strtotime($order['expires_at'])) : '' ?>">
+                    <small class="admin-hint">Залиште порожнім для безстрокових</small>
+                </div>
+
+                <div class="admin-form-group admin-form-full">
+                    <label class="admin-label">Лог доставки</label>
+                    <textarea name="delivery_log" class="admin-textarea" rows="4"><?= esc($order['delivery_log'] ?? '') ?></textarea>
+                </div>
+            </div>
+
+            <button type="submit" class="btn-admin-primary" style="margin-top:1rem;">
+                Зберегти зміни
+            </button>
+        </form>
     </div>
 </section>

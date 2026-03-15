@@ -83,6 +83,20 @@ $action = $isEdit ? '/admin/products/edit/' . $product['id'] : '/admin/products/
                     <small class="admin-hint">0 = одноразово</small>
                 </div>
 
+                <div class="admin-form-group admin-form-full">
+                    <label class="admin-label">Зображення (URL)</label>
+                    <input type="url" name="image_url" class="admin-input"
+                        value="<?= esc(old('image_url', $product['image_url'] ?? '')) ?>"
+                        placeholder="https://cs-headshot.com/assets/images/product.png">
+                    <small class="admin-hint">URL картинки товару (моделі зброї тощо)</small>
+                    <?php if (!empty($product['image_url'])): ?>
+                        <div style="margin-top:0.5rem;">
+                            <img src="<?= esc($product['image_url']) ?>" alt="Preview"
+                                style="max-height:80px; border-radius:6px; border:1px solid rgba(74,222,128,0.15);">
+                        </div>
+                    <?php endif ?>
+                </div>
+
                 <div class="admin-form-group">
                     <label class="admin-label">AMX Access</label>
                     <input type="text" name="amx_access" class="admin-input"

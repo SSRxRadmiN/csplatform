@@ -48,6 +48,12 @@ foreach ($products as $p) {
                                 $duration = (int) $product['duration_days'];
                             ?>
                             <a href="/shop/<?= $product['id'] ?>" class="product-card">
+                                <?php if (!empty($product['image_url'])): ?>
+                                    <div class="product-card-image">
+                                        <img src="<?= esc($product['image_url']) ?>" alt="<?= esc($name) ?>">
+                                    </div>
+                                <?php endif ?>
+
                                 <div class="product-card-badge product-card-badge--<?= esc($catKey) ?>">
                                     <?= $cat['icon'] ?> <?= esc(mb_strtoupper($catKey)) ?>
                                 </div>

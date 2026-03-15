@@ -61,18 +61,11 @@ $routes->group('admin', ['filter' => 'admin'], function ($routes) {
 
     $routes->get('orders', 'Admin\Orders::index');
     $routes->get('orders/(:num)', 'Admin\Orders::show/$1');
+    $routes->post('orders/(:num)/status', 'Admin\Orders::updateStatus/$1');
+    $routes->post('orders/(:num)/update', 'Admin\Orders::update/$1');
 
     $routes->get('users', 'Admin\Users::index');
 
     $routes->get('settings', 'Admin\Settings::index');
     $routes->post('settings', 'Admin\Settings::update');
 });
-
-// Buy
-    $routes->get('buy/(:num)',          'Buy::index/$1',   ['filter' => 'auth']);
-    $routes->post('buy/(:num)/process', 'Buy::process/$1', ['filter' => 'auth']);
-    $routes->get('buy/success',         'Buy::success');
-    $routes->get('buy/failed',          'Buy::failed');
-
-    // Payment webhook
-    $routes->post('payment/callback',   'Payment::callback');
