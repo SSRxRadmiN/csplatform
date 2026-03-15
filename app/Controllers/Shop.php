@@ -4,22 +4,26 @@ namespace App\Controllers;
 
 use App\Models\ServerModel;
 use App\Models\ProductModel;
+use App\Models\CategoryModel;
 
 class Shop extends BaseController
 {
     public function index()
     {
-        $serverModel  = new ServerModel();
-        $productModel = new ProductModel();
+        $serverModel   = new ServerModel();
+        $productModel  = new ProductModel();
+        $categoryModel = new CategoryModel();
 
-        $server   = $serverModel->getWithStats(1);
-        $products = $productModel->getByServer(1);
+        $server     = $serverModel->getWithStats(1);
+        $products   = $productModel->getByServerWithCategory(1);
+        $categories = $categoryModel->getActive();
 
         return view('layouts/main', [
-            'page'     => 'shop/index',
-            'title'    => 'Магазин — CS Headshot',
-            'server'   => $server,
-            'products' => $products,
+            'page'       => 'shop/index',
+            'title'      => 'Магазин — CS Headshot',
+            'server'     => $server,
+            'products'   => $products,
+            'categories' => $categories,
         ]);
     }
 
@@ -28,7 +32,11 @@ class Shop extends BaseController
         $productModel = new ProductModel();
         $serverModel  = new ServerModel();
 
-        $product = $productModel->find($id);
+        $product = $productModel
+            ->select('products.*, categories.slug as cat_slug, categories.name_ua as cat_name_ua, categories.name_en as cat_name_en, categories.icon as cat_icon, categories.color as cat_color')
+            ->join('categories', 'categories.id = products.category_id COLLATE utf8mb4_unicode_ci', 'left')
+            ->where('products.id', $id)
+            ->first();
 
         if (! $product || ! $product['is_active']) {
             throw \CodeIgniter\Exceptions\PageNotFoundException::forPageNotFound();

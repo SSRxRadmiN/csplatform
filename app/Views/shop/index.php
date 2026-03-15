@@ -1,21 +1,20 @@
 <?php
 $lang = session()->get('lang') ?? 'ua';
 
-// Групуємо товари по категоріях
-$categories = [
-    'vip'   => ['label' => 'VIP статус', 'icon' => '⭐', 'items' => []],
-    'admin' => ['label' => 'Адмін-права', 'icon' => '🛡️', 'items' => []],
-    'unban' => ['label' => 'Розбан', 'icon' => '🔓', 'items' => []],
-    'other' => ['label' => 'Інше', 'icon' => '📦', 'items' => []],
-];
-
+// Групуємо товари по категоріях з БД
+$grouped = [];
 foreach ($products as $p) {
-    $cat = $p['category'] ?? 'other';
-    if (isset($categories[$cat])) {
-        $categories[$cat]['items'][] = $p;
-    } else {
-        $categories['other']['items'][] = $p;
+    $catId = $p['category_id'] ?? 0;
+    if (! isset($grouped[$catId])) {
+        $grouped[$catId] = [];
     }
+    $grouped[$catId][] = $p;
+}
+
+// Індексуємо категорії по id
+$catMap = [];
+foreach ($categories as $c) {
+    $catMap[$c['id']] = $c;
 }
 ?>
 
@@ -33,15 +32,20 @@ foreach ($products as $p) {
     </div>
 <?php else: ?>
     <section class="shop-catalog">
-        <?php foreach ($categories as $catKey => $cat): ?>
-            <?php if (! empty($cat['items'])): ?>
+        <?php foreach ($categories as $cat): ?>
+            <?php if (! empty($grouped[$cat['id']])): ?>
+                <?php
+                    $catName = ($lang === 'en' && !empty($cat['name_en'])) ? $cat['name_en'] : $cat['name_ua'];
+                    $catSlug = $cat['slug'] ?? 'other';
+                    $catIcon = $cat['icon'] ?? '📦';
+                ?>
                 <div class="shop-category">
                     <h2 class="shop-category-title">
-                        <span class="shop-category-icon"><?= $cat['icon'] ?></span>
-                        <?= $cat['label'] ?>
+                        <span class="shop-category-icon"><?= $catIcon ?></span>
+                        <?= esc($catName) ?>
                     </h2>
                     <div class="shop-grid">
-                        <?php foreach ($cat['items'] as $product): ?>
+                        <?php foreach ($grouped[$cat['id']] as $product): ?>
                             <?php
                                 $name = ($lang === 'en' && !empty($product['name_en'])) ? $product['name_en'] : $product['name_ua'];
                                 $desc = ($lang === 'en' && !empty($product['description_en'])) ? $product['description_en'] : ($product['description_ua'] ?? '');
@@ -54,8 +58,8 @@ foreach ($products as $p) {
                                     </div>
                                 <?php endif ?>
 
-                                <div class="product-card-badge product-card-badge--<?= esc($catKey) ?>">
-                                    <?= $cat['icon'] ?> <?= esc(mb_strtoupper($catKey)) ?>
+                                <div class="product-card-badge product-card-badge--<?= esc($catSlug) ?>">
+                                    <?= $catIcon ?> <?= esc(mb_strtoupper($catSlug)) ?>
                                 </div>
 
                                 <h3 class="product-card-name"><?= esc($name) ?></h3>
@@ -88,5 +92,31 @@ foreach ($products as $p) {
                 </div>
             <?php endif ?>
         <?php endforeach ?>
+
+        <?php // Товари без категорії ?>
+        <?php if (! empty($grouped[0])): ?>
+            <div class="shop-category">
+                <h2 class="shop-category-title">
+                    <span class="shop-category-icon">📦</span>
+                    Інше
+                </h2>
+                <div class="shop-grid">
+                    <?php foreach ($grouped[0] as $product): ?>
+                        <?php
+                            $name = ($lang === 'en' && !empty($product['name_en'])) ? $product['name_en'] : $product['name_ua'];
+                            $duration = (int) $product['duration_days'];
+                        ?>
+                        <a href="/shop/<?= $product['id'] ?>" class="product-card">
+                            <div class="product-card-badge product-card-badge--other">📦 OTHER</div>
+                            <h3 class="product-card-name"><?= esc($name) ?></h3>
+                            <div class="product-card-footer">
+                                <span class="product-card-price"><?= (int) $product['price'] ?> ₴</span>
+                                <span class="product-card-btn">Детальніше →</span>
+                            </div>
+                        </a>
+                    <?php endforeach ?>
+                </div>
+            </div>
+        <?php endif ?>
     </section>
 <?php endif ?>

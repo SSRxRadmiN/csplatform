@@ -24,13 +24,27 @@ class ProductModel extends Model
     protected $returnType = 'array';
 
     /**
-     * Отримати активні товари сервера
+     * Отримати активні товари сервера з категорією
      */
     public function getByServer(int $serverId): array
     {
         return $this->where('server_id', $serverId)
                     ->where('is_active', 1)
                     ->orderBy('sort_order', 'ASC')
+                    ->findAll();
+    }
+
+    /**
+     * Отримати активні товари з JOIN categories
+     */
+    public function getByServerWithCategory(int $serverId): array
+    {
+        return $this->select('products.*, categories.slug as cat_slug, categories.name_ua as cat_name_ua, categories.name_en as cat_name_en, categories.icon as cat_icon, categories.color as cat_color, categories.sort_order as cat_sort')
+                    ->join('categories', 'categories.id = products.category_id COLLATE utf8mb4_unicode_ci', 'left')
+                    ->where('products.server_id', $serverId)
+                    ->where('products.is_active', 1)
+                    ->orderBy('categories.sort_order', 'ASC')
+                    ->orderBy('products.sort_order', 'ASC')
                     ->findAll();
     }
 

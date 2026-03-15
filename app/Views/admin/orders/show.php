@@ -14,6 +14,7 @@ $statusLabels = [
         <div class="admin-nav">
             <a href="/admin" class="admin-nav-link">Dashboard</a>
             <a href="/admin/products" class="admin-nav-link">Товари</a>
+            <a href="/admin/categories" class="admin-nav-link">Категорії</a>
             <a href="/admin/orders" class="admin-nav-link active">Замовлення</a>
             <a href="/admin/users" class="admin-nav-link">Користувачі</a>
             <a href="/admin/settings" class="admin-nav-link">Налаштування</a>

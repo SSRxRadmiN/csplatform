@@ -3,15 +3,11 @@ $lang = session()->get('lang') ?? 'ua';
 $name = ($lang === 'en' && !empty($product['name_en'])) ? $product['name_en'] : $product['name_ua'];
 $desc = ($lang === 'en' && !empty($product['description_en'])) ? $product['description_en'] : ($product['description_ua'] ?? '');
 $duration = (int) $product['duration_days'];
-$cat = $product['category'] ?? 'other';
 
-$catLabels = [
-    'vip'   => ['label' => 'VIP статус', 'icon' => '⭐'],
-    'admin' => ['label' => 'Адмін-права', 'icon' => '🛡️'],
-    'unban' => ['label' => 'Розбан', 'icon' => '🔓'],
-    'other' => ['label' => 'Інше', 'icon' => '📦'],
-];
-$catInfo = $catLabels[$cat] ?? $catLabels['other'];
+$catSlug  = $product['cat_slug'] ?? 'other';
+$catName  = ($lang === 'en' && !empty($product['cat_name_en'])) ? $product['cat_name_en'] : ($product['cat_name_ua'] ?? 'Інше');
+$catIcon  = $product['cat_icon'] ?? '📦';
+$catColor = $product['cat_color'] ?? '#9ca3af';
 ?>
 
 <section class="product-page">
@@ -29,8 +25,8 @@ $catInfo = $catLabels[$cat] ?? $catLabels['other'];
                 </div>
             <?php endif ?>
 
-            <div class="product-badge product-badge--<?= esc($cat) ?>">
-                <?= $catInfo['icon'] ?> <?= esc($catInfo['label']) ?>
+            <div class="product-badge product-badge--<?= esc($catSlug) ?>">
+                <?= $catIcon ?> <?= esc($catName) ?>
             </div>
 
             <h1 class="product-name"><?= esc($name) ?></h1>

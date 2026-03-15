@@ -64,6 +64,13 @@ $routes->group('admin', ['filter' => 'admin'], function ($routes) {
     $routes->post('orders/(:num)/status', 'Admin\Orders::updateStatus/$1');
     $routes->post('orders/(:num)/update', 'Admin\Orders::update/$1');
 
+    $routes->get('categories', 'Admin\Categories::index');
+    $routes->get('categories/create', 'Admin\Categories::create');
+    $routes->post('categories/create', 'Admin\Categories::store');
+    $routes->get('categories/edit/(:num)', 'Admin\Categories::edit/$1');
+    $routes->post('categories/edit/(:num)', 'Admin\Categories::update/$1');
+    $routes->post('categories/delete/(:num)', 'Admin\Categories::delete/$1');
+
     $routes->get('users', 'Admin\Users::index');
 
     $routes->get('settings', 'Admin\Settings::index');
