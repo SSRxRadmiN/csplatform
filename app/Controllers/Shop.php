@@ -34,7 +34,7 @@ class Shop extends BaseController
 
         $product = $productModel
             ->select('products.*, categories.slug as cat_slug, categories.name_ua as cat_name_ua, categories.name_en as cat_name_en, categories.icon as cat_icon, categories.color as cat_color')
-            ->join('categories', 'categories.id = products.category_id COLLATE utf8mb4_unicode_ci', 'left')
+            ->join('categories', 'categories.id = products.category_id', 'left')
             ->where('products.id', $id)
             ->first();
 
