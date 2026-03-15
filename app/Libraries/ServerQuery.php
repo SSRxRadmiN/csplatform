@@ -40,11 +40,9 @@ class ServerQuery
         curl_close($ch);
 
         if ($response === false || $httpCode !== 200) {
-            // Сервер недоступний — позначаємо offline
             $db = \Config\Database::connect();
             $db->table('server_stats')->where('server_id', $serverId)->update([
-                'is_online'  => 0,
-                'updated_at' => date('Y-m-d H:i:s'),
+                'is_online' => 0,
             ]);
             return ['success' => false, 'message' => 'VPS API request failed'];
         }
@@ -63,7 +61,6 @@ class ServerQuery
                 'max_players'     => $data['max_players'] ?? 32,
                 'current_map'     => $data['map'] ?? '',
                 'is_online'       => 1,
-                'updated_at'      => date('Y-m-d H:i:s'),
             ]);
 
             return [
@@ -75,8 +72,7 @@ class ServerQuery
             ];
         } else {
             $db->table('server_stats')->where('server_id', $serverId)->update([
-                'is_online'  => 0,
-                'updated_at' => date('Y-m-d H:i:s'),
+                'is_online' => 0,
             ]);
 
             return ['success' => true, 'is_online' => false, 'message' => $data['message'] ?? 'Server offline'];
