@@ -67,14 +67,38 @@ function getSkillBadge(int $skill): array {
 
         <!-- Per Page Selector -->
         <div class="stats-controls">
+            <form class="stats-search-form" method="get" action="/stats">
+                <div class="stats-search-wrap">
+                    <svg class="stats-search-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/>
+                    </svg>
+                    <input type="text"
+                           name="search"
+                           class="stats-search-input"
+                           placeholder="Пошук по ніку..."
+                           value="<?= esc($search ?? '') ?>"
+                           autocomplete="off">
+                    <?php if (!empty($search)): ?>
+                        <a href="/stats?per_page=<?= $perPage ?>" class="stats-search-clear" title="Очистити">✕</a>
+                    <?php endif; ?>
+                </div>
+                <input type="hidden" name="per_page" value="<?= $perPage ?>">
+                <button type="submit" class="stats-search-btn">Знайти</button>
+            </form>
             <div class="stats-per-page">
                 Показати:
                 <?php foreach ([15, 30, 50, 100] as $pp): ?>
-                    <a href="/stats?per_page=<?= $pp ?>"
+                    <a href="/stats?per_page=<?= $pp ?><?= !empty($search) ? '&search=' . urlencode($search) : '' ?>"
                        class="stats-pp-btn <?= $perPage == $pp ? 'active' : '' ?>"><?= $pp ?></a>
                 <?php endforeach; ?>
             </div>
         </div>
+
+        <?php if (!empty($search)): ?>
+            <div class="stats-search-result">
+                Результати пошуку «<strong><?= esc($search) ?></strong>» — знайдено <?= number_format($stats['total']) ?> гравців
+            </div>
+        <?php endif; ?>
 
         <!-- Stats Table -->
         <div class="stats-table-wrap">
@@ -176,10 +200,13 @@ function getSkillBadge(int $skill): array {
         </div>
 
         <!-- Pagination -->
+        <?php
+            $paginationExtra = !empty($search) ? '&search=' . urlencode($search) : '';
+        ?>
         <?php if ($stats['pages'] > 1): ?>
             <div class="stats-pagination">
                 <?php if ($curPage > 1): ?>
-                    <a href="/stats?page=<?= $curPage - 1 ?>&per_page=<?= $perPage ?>" class="stats-page-btn">← Назад</a>
+                    <a href="/stats?page=<?= $curPage - 1 ?>&per_page=<?= $perPage ?><?= $paginationExtra ?>" class="stats-page-btn">← Назад</a>
                 <?php endif; ?>
 
                 <?php
@@ -187,19 +214,24 @@ function getSkillBadge(int $skill): array {
                     $endP = min($stats['pages'], $curPage + 3);
                 ?>
                 <?php for ($i = $startP; $i <= $endP; $i++): ?>
-                    <a href="/stats?page=<?= $i ?>&per_page=<?= $perPage ?>"
+                    <a href="/stats?page=<?= $i ?>&per_page=<?= $perPage ?><?= $paginationExtra ?>"
                        class="stats-page-btn <?= $i === $curPage ? 'active' : '' ?>"><?= $i ?></a>
                 <?php endfor; ?>
 
                 <?php if ($curPage < $stats['pages']): ?>
-                    <a href="/stats?page=<?= $curPage + 1 ?>&per_page=<?= $perPage ?>" class="stats-page-btn">Далі →</a>
+                    <a href="/stats?page=<?= $curPage + 1 ?>&per_page=<?= $perPage ?><?= $paginationExtra ?>" class="stats-page-btn">Далі →</a>
                 <?php endif; ?>
             </div>
         <?php endif; ?>
 
     <?php else: ?>
         <div class="stats-empty">
-            <p>Статистика поки що порожня. Заходьте на сервер і грайте!</p>
+            <?php if (!empty($search)): ?>
+                <p>За запитом «<?= esc($search) ?>» гравців не знайдено.</p>
+                <a href="/stats" class="stats-reset-link">Скинути пошук</a>
+            <?php else: ?>
+                <p>Статистика поки що порожня. Заходьте на сервер і грайте!</p>
+            <?php endif; ?>
         </div>
     <?php endif; ?>
 </section>

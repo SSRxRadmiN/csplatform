@@ -14,6 +14,7 @@ class Stats extends BaseController
 
         $page    = (int) ($this->request->getGet('page') ?? 1);
         $perPage = (int) ($this->request->getGet('per_page') ?? 30);
+        $search  = trim($this->request->getGet('search') ?? '');
         if ($page < 1) $page = 1;
         if ($perPage < 10) $perPage = 10;
         if ($perPage > 100) $perPage = 100;
@@ -22,8 +23,14 @@ class Stats extends BaseController
         $error = null;
 
         if ($vpsUrl && $vpsToken) {
-            $url = rtrim($vpsUrl, '/') . "?action=stats&token=" . urlencode($vpsToken)
-                 . "&page={$page}&per_page={$perPage}";
+            $queryParams = http_build_query([
+                'action'   => 'stats',
+                'token'    => $vpsToken,
+                'page'     => $page,
+                'per_page' => $perPage,
+                'search'   => $search,
+            ]);
+            $url = rtrim($vpsUrl, '/') . '?' . $queryParams;
 
             $ch = curl_init($url);
             curl_setopt_array($ch, [
@@ -56,6 +63,7 @@ class Stats extends BaseController
             'error'    => $error,
             'curPage'  => $page,
             'perPage'  => $perPage,
+            'search'   => $search,
         ]);
     }
 
