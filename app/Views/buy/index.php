@@ -31,7 +31,7 @@ $duration = (int) $product['duration_days'];
             </div>
 
             <!-- Вибір способу оплати -->
-            <form method="post" action="/buy/<?= $product['id'] ?>/process" class="buy-form">
+            <form method="post" action="/buy/<?= $product['id'] ?>" class="buy-form">
                 <?= csrf_field() ?>
 
                 <h3 class="buy-section-title">Спосіб оплати</h3>
