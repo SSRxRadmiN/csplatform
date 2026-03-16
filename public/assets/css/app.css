@@ -2243,3 +2243,309 @@ footer {
     font-size: 0.78rem;
     color: rgba(148, 163, 184, 0.4);
 }
+
+/* ============================================
+   Stats Page Styles
+   ============================================ */
+
+.stats-page {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 3rem 1.5rem 4rem;
+}
+
+.stats-header {
+    text-align: center;
+    margin-bottom: 2.5rem;
+}
+
+.stats-title {
+    font-size: 2.5rem;
+    font-weight: 800;
+    color: var(--text-primary);
+    margin: 0.5rem 0;
+}
+
+.stats-subtitle {
+    color: var(--text-dim);
+    font-size: 1rem;
+    max-width: 500px;
+    margin: 0 auto;
+}
+
+.stats-back-link {
+    display: inline-block;
+    color: var(--accent-1);
+    text-decoration: none;
+    font-size: 0.9rem;
+    margin-bottom: 1rem;
+    transition: opacity 0.2s;
+}
+
+.stats-back-link:hover { opacity: 0.7; }
+
+.stats-error {
+    text-align: center;
+    padding: 2rem;
+    background: rgba(239, 68, 68, 0.08);
+    border: 1px solid rgba(239, 68, 68, 0.2);
+    border-radius: 12px;
+    color: #fca5a5;
+    font-size: 0.95rem;
+}
+
+.stats-empty {
+    text-align: center;
+    padding: 4rem 2rem;
+    color: var(--text-dim);
+}
+
+/* Summary Bar */
+.stats-summary {
+    display: flex;
+    justify-content: center;
+    gap: 3rem;
+    margin-bottom: 1.5rem;
+}
+
+.stats-summary-item { text-align: center; }
+
+.stats-summary-value {
+    display: block;
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: var(--accent-1);
+    font-family: 'JetBrains Mono', monospace;
+}
+
+.stats-summary-label {
+    font-size: 0.75rem;
+    color: var(--text-dim);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+}
+
+/* Controls */
+.stats-controls {
+    display: flex;
+    justify-content: flex-end;
+    margin-bottom: 1rem;
+}
+
+.stats-per-page {
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+    font-size: 0.8rem;
+    color: var(--text-dim);
+}
+
+.stats-pp-btn {
+    padding: 0.25rem 0.6rem;
+    border-radius: 4px;
+    text-decoration: none;
+    font-size: 0.8rem;
+    font-family: 'JetBrains Mono', monospace;
+    color: var(--text-dim);
+    background: transparent;
+    border: 1px solid var(--border);
+    transition: all 0.2s;
+}
+
+.stats-pp-btn:hover {
+    border-color: var(--border-hover);
+    color: var(--text-primary);
+}
+
+.stats-pp-btn.active {
+    background: rgba(74, 222, 128, 0.1);
+    border-color: var(--accent-1);
+    color: var(--accent-1);
+}
+
+/* Table */
+.stats-table-wrap {
+    overflow-x: auto;
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    background: var(--bg-card);
+}
+
+.stats-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.85rem;
+}
+
+.stats-table thead {
+    background: rgba(74, 222, 128, 0.04);
+    border-bottom: 1px solid var(--border);
+}
+
+.stats-table th {
+    padding: 0.7rem 0.6rem;
+    text-align: center;
+    font-weight: 600;
+    color: var(--text-muted);
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    white-space: nowrap;
+}
+
+.stats-th-nick { text-align: left !important; min-width: 140px; }
+.stats-th-rank { text-align: left !important; min-width: 110px; }
+.stats-th-place { width: 50px; }
+
+.stats-table td {
+    padding: 0.55rem 0.6rem;
+    text-align: center;
+    border-bottom: 1px solid rgba(74, 222, 128, 0.04);
+    color: var(--text-primary);
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.82rem;
+}
+
+.stats-table tbody tr { transition: background 0.15s; }
+.stats-table tbody tr:hover { background: rgba(74, 222, 128, 0.04); }
+.stats-row-top { background: rgba(74, 222, 128, 0.02); }
+
+.stats-td-nick { text-align: left !important; font-family: 'Outfit', sans-serif; }
+.stats-td-rank { text-align: left !important; font-family: 'Outfit', sans-serif; }
+.stats-td-time { font-size: 0.78rem; font-family: 'Outfit', sans-serif; color: var(--text-dim); }
+
+/* Nick Link */
+.stats-nick-link {
+    color: var(--text-primary);
+    text-decoration: none;
+    font-weight: 500;
+    transition: color 0.2s;
+}
+.stats-nick-link:hover { color: var(--accent-1); }
+
+/* Place Badges */
+.stats-place { font-weight: 700; }
+.stats-place-gold { color: #facc15; }
+.stats-place-silver { color: #94a3b8; }
+.stats-place-bronze { color: #d97706; }
+
+/* Rank Badge */
+.stats-rank-badge {
+    font-family: 'Outfit', sans-serif;
+    font-size: 0.78rem;
+    font-weight: 500;
+    color: #93c5fd;
+    white-space: nowrap;
+}
+
+/* Skill Badges */
+.stats-skill {
+    padding: 0.15rem 0.4rem;
+    border-radius: 4px;
+    font-size: 0.78rem;
+    font-weight: 600;
+}
+.stats-skill-god { color: #facc15; background: rgba(250, 204, 21, 0.12); }
+.stats-skill-pro { color: #a78bfa; background: rgba(167, 139, 250, 0.12); }
+.stats-skill-high { color: #4ade80; background: rgba(74, 222, 128, 0.1); }
+.stats-skill-med { color: #93c5fd; background: rgba(147, 197, 253, 0.1); }
+.stats-skill-low { color: #fdba74; background: rgba(253, 186, 116, 0.1); }
+.stats-skill-newbie { color: var(--text-dim); }
+
+/* Stat Colors */
+.stats-frags { color: #4ade80; font-weight: 600; }
+.stats-deaths { color: #f87171; }
+.stats-hs { color: #facc15; }
+.stats-xp { color: #93c5fd; }
+
+.stats-kd-great { color: #4ade80; font-weight: 700; }
+.stats-kd-good { color: #a3e635; }
+.stats-kd-bad { color: #f87171; }
+
+/* Pagination */
+.stats-pagination {
+    display: flex;
+    justify-content: center;
+    gap: 0.4rem;
+    margin-top: 1.5rem;
+    flex-wrap: wrap;
+}
+
+.stats-page-btn {
+    display: inline-flex;
+    align-items: center;
+    padding: 0.4rem 0.8rem;
+    border-radius: 6px;
+    text-decoration: none;
+    font-size: 0.85rem;
+    font-family: 'JetBrains Mono', monospace;
+    color: var(--text-dim);
+    border: 1px solid var(--border);
+    transition: all 0.2s;
+}
+
+.stats-page-btn:hover {
+    border-color: var(--border-hover);
+    color: var(--text-primary);
+    background: rgba(74, 222, 128, 0.04);
+}
+
+.stats-page-btn.active {
+    background: rgba(74, 222, 128, 0.12);
+    border-color: var(--accent-1);
+    color: var(--accent-1);
+    font-weight: 600;
+}
+
+/* Player Detail Page */
+.stats-player-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1.5rem;
+}
+
+.stats-player-card {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 1.5rem;
+}
+
+.stats-card-title {
+    font-size: 0.85rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: var(--text-muted);
+    margin-bottom: 1rem;
+    padding-bottom: 0.5rem;
+    border-bottom: 1px solid var(--border);
+}
+
+.stats-player-rows { display: flex; flex-direction: column; gap: 0.5rem; }
+
+.stats-player-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0.3rem 0;
+}
+
+.stats-row-label { color: var(--text-dim); font-size: 0.85rem; }
+
+.stats-row-value {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: var(--text-primary);
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .stats-hide-mobile { display: none; }
+    .stats-title { font-size: 1.8rem; }
+    .stats-summary { gap: 1.5rem; }
+    .stats-player-grid { grid-template-columns: 1fr; }
+    .stats-table { font-size: 0.78rem; }
+    .stats-table th, .stats-table td { padding: 0.45rem 0.4rem; }
+}

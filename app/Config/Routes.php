@@ -12,6 +12,8 @@ use CodeIgniter\Router\RouteCollection;
 $routes->get('/', 'Home::index');
 $routes->get('shop', 'Shop::index');
 $routes->get('shop/(:num)', 'Shop::show/$1');
+$routes->get('stats', 'Stats::index', ['filter' => 'auth']);
+$routes->get('stats/player/(:num)', 'Stats::player/$1', ['filter' => 'auth']);
 $routes->get('lang/(:segment)', 'Home::lang/$1');
 
 // ============================================
