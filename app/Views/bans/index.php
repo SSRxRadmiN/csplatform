@@ -203,22 +203,22 @@ function banStatusBadge(string $status): array {
             <?php endforeach; ?>
         </div>
 
-        <!-- Pagination -->
+        <!-- Pagination & Per Page -->
+        <?php
+            // Базовий URL для пагінації та per-page (визначаємо до блоків)
+            $baseParams = [];
+            if (!empty($search)) $baseParams['search'] = $search;
+            if ($showExpired === '1') $baseParams['show_expired'] = '1';
+            $baseParams['per_page'] = $perPage;
+
+            function bansPageUrl(int $p, array $base): string {
+                $base['page'] = $p;
+                return '/bans?' . http_build_query($base);
+            }
+        ?>
+
         <?php if ($bans['pages'] > 1): ?>
             <div class="bans-pagination">
-                <?php
-                    // Базовий URL для пагінації
-                    $baseParams = [];
-                    if (!empty($search)) $baseParams['search'] = $search;
-                    if ($showExpired === '1') $baseParams['show_expired'] = '1';
-                    $baseParams['per_page'] = $perPage;
-
-                    function bansPageUrl(int $p, array $base): string {
-                        $base['page'] = $p;
-                        return '/bans?' . http_build_query($base);
-                    }
-                ?>
-
                 <?php if ($curPage > 1): ?>
                     <a href="<?= bansPageUrl($curPage - 1, $baseParams) ?>" class="bans-page-btn">← Назад</a>
                 <?php endif; ?>
