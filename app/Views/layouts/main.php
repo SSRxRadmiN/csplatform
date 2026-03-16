@@ -32,6 +32,7 @@
             <li><a href="/" class="<?= current_url() === base_url('/') ? 'active' : '' ?>">Головна</a></li>
             <li><a href="/shop" class="<?= str_contains(current_url(), '/shop') ? 'active' : '' ?>">Магазин</a></li>
             <li><a href="/stats" class="<?= str_contains(current_url(), '/stats') ? 'active' : '' ?>">Статистика</a></li>
+            <li><a href="/bans" class="<?= str_contains(current_url(), '/bans') ? 'active' : '' ?>">Банлист</a></li>
         </ul>
 
         <div class="nav-right">

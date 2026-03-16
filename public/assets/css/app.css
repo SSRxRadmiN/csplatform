@@ -2549,3 +2549,512 @@ footer {
     .stats-table { font-size: 0.78rem; }
     .stats-table th, .stats-table td { padding: 0.45rem 0.4rem; }
 }
+
+/* ============================================
+   Bans Page Styles
+   ============================================ */
+
+.bans-page {
+    max-width: 1000px;
+    margin: 0 auto;
+    padding: 3rem 1.5rem 4rem;
+}
+
+.bans-header {
+    text-align: center;
+    margin-bottom: 2.5rem;
+}
+
+.bans-title {
+    font-size: 2.5rem;
+    font-weight: 800;
+    background: var(--gradient-main);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    margin-bottom: 0.5rem;
+}
+
+.bans-subtitle {
+    color: var(--text-dim);
+    font-size: 1rem;
+    max-width: 500px;
+    margin: 0 auto;
+}
+
+/* Error */
+.bans-error {
+    background: rgba(239, 68, 68, 0.1);
+    border: 1px solid rgba(239, 68, 68, 0.3);
+    border-radius: 12px;
+    padding: 1rem 1.5rem;
+    color: #fca5a5;
+    text-align: center;
+}
+
+/* Summary Stats */
+.bans-summary {
+    display: flex;
+    justify-content: center;
+    gap: 2rem;
+    margin-bottom: 2rem;
+    flex-wrap: wrap;
+}
+
+.bans-summary-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.15rem;
+}
+
+.bans-summary-value {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 1.6rem;
+    font-weight: 700;
+    color: var(--text-primary);
+}
+
+.bans-summary-active .bans-summary-value { color: #f87171; }
+.bans-summary-perm .bans-summary-value { color: #fb923c; }
+
+.bans-summary-label {
+    font-size: 0.78rem;
+    color: var(--text-dim);
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+}
+
+/* Controls */
+.bans-controls {
+    margin-bottom: 1.5rem;
+}
+
+.bans-search-form {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    flex-wrap: wrap;
+}
+
+.bans-search-wrap {
+    position: relative;
+    flex: 1;
+    min-width: 220px;
+}
+
+.bans-search-icon {
+    position: absolute;
+    left: 12px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: var(--text-dim);
+    pointer-events: none;
+}
+
+.bans-search-input {
+    width: 100%;
+    padding: 0.6rem 2.5rem 0.6rem 2.5rem;
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    color: var(--text-primary);
+    font-family: 'Outfit', sans-serif;
+    font-size: 0.9rem;
+    transition: border-color 0.2s;
+}
+
+.bans-search-input::placeholder { color: var(--text-dim); }
+.bans-search-input:focus {
+    outline: none;
+    border-color: var(--accent-1);
+}
+
+.bans-search-clear {
+    position: absolute;
+    right: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: var(--text-dim);
+    font-size: 0.85rem;
+    cursor: pointer;
+    transition: color 0.2s;
+}
+.bans-search-clear:hover { color: var(--text-primary); }
+
+.bans-filter-toggle {
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+    cursor: pointer;
+    white-space: nowrap;
+}
+
+.bans-filter-toggle input[type="checkbox"] {
+    width: 16px;
+    height: 16px;
+    accent-color: var(--accent-1);
+    cursor: pointer;
+}
+
+.bans-filter-label {
+    font-size: 0.85rem;
+    color: var(--text-dim);
+    user-select: none;
+}
+
+.bans-search-btn {
+    padding: 0.6rem 1.2rem;
+    background: var(--accent-1);
+    color: var(--bg-deep);
+    border: none;
+    border-radius: 8px;
+    font-family: 'Outfit', sans-serif;
+    font-weight: 600;
+    font-size: 0.85rem;
+    cursor: pointer;
+    transition: opacity 0.2s;
+}
+.bans-search-btn:hover { opacity: 0.85; }
+
+/* Bans List — card-based */
+.bans-list {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+}
+
+/* Individual ban card */
+.bans-card {
+    border: 1px solid var(--border);
+    border-bottom: none;
+    background: var(--bg-card);
+    transition: background 0.2s;
+}
+
+.bans-card:first-child {
+    border-radius: 12px 12px 0 0;
+}
+.bans-card:last-child {
+    border-bottom: 1px solid var(--border);
+    border-radius: 0 0 12px 12px;
+}
+.bans-card:only-child {
+    border-radius: 12px;
+    border-bottom: 1px solid var(--border);
+}
+
+.bans-card:hover {
+    background: var(--bg-card-hover);
+}
+
+.bans-card-active {
+    border-left: 3px solid #f87171;
+}
+
+.bans-card-permanent {
+    border-left: 3px solid #fb923c;
+}
+
+/* Main row */
+.bans-card-main {
+    display: grid;
+    grid-template-columns: 1.5fr 2fr 1fr 1fr 0.8fr 32px;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.75rem 1rem;
+    cursor: pointer;
+    user-select: none;
+}
+
+.bans-card-player {
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+    min-width: 0;
+}
+
+.bans-player-nick {
+    font-weight: 600;
+    font-size: 0.9rem;
+    color: var(--text-primary);
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.bans-card-indicator {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: #f87171;
+    flex-shrink: 0;
+    animation: bans-pulse 2s ease-in-out infinite;
+}
+
+@keyframes bans-pulse {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.3; }
+}
+
+.bans-card-reason {
+    font-size: 0.82rem;
+    color: var(--text-dim);
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.bans-card-duration {
+    display: flex;
+    flex-direction: column;
+    gap: 0.1rem;
+}
+
+.bans-duration-text {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.82rem;
+    font-weight: 600;
+    color: var(--text-secondary);
+}
+
+.bans-duration-perm {
+    color: #fb923c;
+}
+
+.bans-remaining {
+    font-size: 0.7rem;
+    color: var(--text-dim);
+}
+
+/* Status badges */
+.bans-status {
+    font-size: 0.75rem;
+    font-weight: 600;
+    padding: 0.2rem 0.5rem;
+    border-radius: 6px;
+    white-space: nowrap;
+    text-align: center;
+}
+
+.bans-status-active {
+    background: rgba(248, 113, 113, 0.15);
+    color: #f87171;
+}
+
+.bans-status-permanent {
+    background: rgba(251, 146, 60, 0.15);
+    color: #fb923c;
+}
+
+.bans-status-expired {
+    background: rgba(148, 163, 184, 0.1);
+    color: #94a3b8;
+}
+
+.bans-status-unbanned {
+    background: rgba(74, 222, 128, 0.1);
+    color: #4ade80;
+}
+
+.bans-card-date {
+    font-size: 0.78rem;
+    color: var(--text-dim);
+    text-align: right;
+}
+
+.bans-card-toggle {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--text-dim);
+    transition: transform 0.3s;
+}
+
+.bans-card.expanded .bans-card-toggle {
+    transform: rotate(180deg);
+}
+
+/* Expandable details */
+.bans-card-details {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.35s ease, padding 0.35s ease;
+    padding: 0 1rem;
+}
+
+.bans-card.expanded .bans-card-details {
+    max-height: 500px;
+    padding: 0 1rem 1rem;
+}
+
+.bans-details-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 0.6rem;
+    padding: 0.75rem;
+    background: rgba(0, 0, 0, 0.25);
+    border-radius: 8px;
+    border: 1px solid rgba(74, 222, 128, 0.05);
+}
+
+.bans-detail-item {
+    display: flex;
+    flex-direction: column;
+    gap: 0.15rem;
+}
+
+.bans-detail-label {
+    font-size: 0.7rem;
+    color: var(--text-dim);
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+}
+
+.bans-detail-value {
+    font-size: 0.85rem;
+    color: var(--text-primary);
+    font-weight: 500;
+    word-break: break-all;
+}
+
+.bans-detail-mono {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.8rem;
+}
+
+.bans-detail-remaining {
+    color: #f87171;
+    font-weight: 700;
+}
+
+/* CTA — buy unban */
+.bans-detail-cta {
+    margin-top: 0.75rem;
+    text-align: center;
+}
+
+.bans-unban-link {
+    display: inline-block;
+    padding: 0.5rem 1.2rem;
+    background: linear-gradient(135deg, rgba(74, 222, 128, 0.15), rgba(163, 230, 53, 0.1));
+    border: 1px solid rgba(74, 222, 128, 0.3);
+    border-radius: 8px;
+    color: var(--accent-1);
+    font-size: 0.85rem;
+    font-weight: 600;
+    transition: all 0.2s;
+}
+
+.bans-unban-link:hover {
+    background: linear-gradient(135deg, rgba(74, 222, 128, 0.25), rgba(163, 230, 53, 0.15));
+    border-color: var(--accent-1);
+}
+
+/* Pagination */
+.bans-pagination {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 0.4rem;
+    margin-top: 2rem;
+    flex-wrap: wrap;
+}
+
+.bans-page-btn {
+    padding: 0.4rem 0.75rem;
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    color: var(--text-dim);
+    font-size: 0.82rem;
+    font-family: 'JetBrains Mono', monospace;
+    transition: all 0.2s;
+}
+
+.bans-page-btn:hover {
+    border-color: var(--accent-1);
+    color: var(--text-primary);
+}
+
+.bans-page-btn.active {
+    background: var(--accent-1);
+    color: var(--bg-deep);
+    border-color: var(--accent-1);
+    font-weight: 700;
+}
+
+.bans-page-dots {
+    color: var(--text-dim);
+    padding: 0 0.3rem;
+}
+
+/* Per Page */
+.bans-per-page {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 0.5rem;
+    margin-top: 1rem;
+    font-size: 0.82rem;
+    color: var(--text-dim);
+}
+
+.bans-pp-btn {
+    padding: 0.25rem 0.6rem;
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    color: var(--text-dim);
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.8rem;
+    transition: all 0.2s;
+}
+
+.bans-pp-btn:hover { border-color: var(--accent-1); color: var(--text-primary); }
+.bans-pp-btn.active { background: var(--accent-1); color: var(--bg-deep); border-color: var(--accent-1); }
+
+/* Empty */
+.bans-empty {
+    text-align: center;
+    padding: 4rem 2rem;
+    color: var(--text-dim);
+    font-size: 1.1rem;
+}
+
+.bans-reset-link {
+    display: inline-block;
+    margin-top: 0.75rem;
+    color: var(--accent-1);
+    font-weight: 600;
+    font-size: 0.9rem;
+}
+
+/* ═══ Responsive ═══ */
+@media (max-width: 900px) {
+    .bans-card-main {
+        grid-template-columns: 1.5fr 1.5fr 1fr 32px;
+    }
+    .bans-card-date,
+    .bans-card-status { display: none; }
+    .bans-details-grid { grid-template-columns: repeat(2, 1fr); }
+}
+
+@media (max-width: 600px) {
+    .bans-title { font-size: 1.8rem; }
+    .bans-summary { gap: 1.2rem; }
+    .bans-summary-value { font-size: 1.3rem; }
+
+    .bans-card-main {
+        grid-template-columns: 1fr 1fr 32px;
+        padding: 0.6rem 0.75rem;
+    }
+    .bans-card-reason { display: none; }
+    .bans-card-date,
+    .bans-card-status { display: none; }
+
+    .bans-details-grid { grid-template-columns: 1fr; }
+
+    .bans-search-form { flex-direction: column; }
+    .bans-search-wrap { min-width: 100%; }
+}
