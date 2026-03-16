@@ -57,18 +57,18 @@ class ServerQuery
 
         if (! empty($data['is_online'])) {
             $db->table('server_stats')->where('server_id', $serverId)->update([
-                'current_players' => $data['players'] ?? 0,
+                'current_players' => $data['current_players'] ?? $data['players'] ?? 0,
                 'max_players'     => $data['max_players'] ?? 32,
-                'current_map'     => $data['map'] ?? '',
+                'current_map'     => $data['current_map'] ?? $data['map'] ?? '',
                 'is_online'       => 1,
             ]);
 
             return [
                 'success'  => true,
-                'players'  => $data['players'] ?? 0,
+                'players'  => $data['current_players'] ?? $data['players'] ?? 0,
                 'max'      => $data['max_players'] ?? 32,
-                'map'      => $data['map'] ?? '',
-                'hostname' => $data['hostname'] ?? '',
+                'map'      => $data['current_map'] ?? $data['map'] ?? '',
+                'hostname' => $data['name'] ?? $data['hostname'] ?? '',
             ];
         } else {
             $db->table('server_stats')->where('server_id', $serverId)->update([
