@@ -41,17 +41,69 @@
             </a>
 
             <?php if (session()->get('user_id')): ?>
-                <a href="/account" class="btn-ghost"><?= esc(session()->get('user_name') ?? session()->get('user_email')) ?></a>
+                <a href="/account" class="btn-ghost nav-hide-mobile"><?= esc(session()->get('user_name') ?? session()->get('user_email')) ?></a>
                 <?php if (session()->get('user_role') === 'admin'): ?>
-                    <a href="/admin" class="btn-ghost">Admin</a>
+                    <a href="/admin" class="btn-ghost nav-hide-mobile">Admin</a>
                 <?php endif; ?>
-                <a href="/logout" class="btn-primary">Вийти</a>
+                <a href="/logout" class="btn-primary nav-hide-mobile">Вийти</a>
             <?php else: ?>
-                <a href="/login" class="btn-ghost">Увійти</a>
-                <a href="/register" class="btn-primary">Реєстрація</a>
+                <a href="/login" class="btn-ghost nav-hide-mobile">Увійти</a>
+                <a href="/register" class="btn-primary nav-hide-mobile">Реєстрація</a>
             <?php endif; ?>
+
+            <!-- Burger button (mobile only) -->
+            <button class="burger-btn" id="burgerBtn" aria-label="Меню">
+                <span></span><span></span><span></span>
+            </button>
         </div>
     </nav>
+
+    <!-- Mobile Drawer -->
+    <div class="mobile-overlay" id="mobileOverlay"></div>
+    <div class="mobile-drawer" id="mobileDrawer">
+        <div class="drawer-links">
+            <a href="/" class="drawer-link <?= current_url() === base_url('/') ? 'active' : '' ?>">
+                <span class="drawer-icon">🏠</span> Головна
+            </a>
+            <a href="/shop" class="drawer-link <?= str_contains(current_url(), '/shop') ? 'active' : '' ?>">
+                <span class="drawer-icon">🛒</span> Магазин
+            </a>
+            <a href="/stats" class="drawer-link <?= str_contains(current_url(), '/stats') ? 'active' : '' ?>">
+                <span class="drawer-icon">📊</span> Статистика
+            </a>
+            <a href="/bans" class="drawer-link <?= str_contains(current_url(), '/bans') ? 'active' : '' ?>">
+                <span class="drawer-icon">🚫</span> Банлист
+            </a>
+        </div>
+        <div class="drawer-divider"></div>
+        <div class="drawer-auth">
+            <?php if (session()->get('user_id')): ?>
+                <div class="drawer-user">
+                    <div class="drawer-user-avatar"><?= strtoupper(substr(session()->get('user_name') ?? session()->get('user_email'), 0, 1)) ?></div>
+                    <div class="drawer-user-info">
+                        <div class="drawer-user-name"><?= esc(session()->get('user_name') ?? session()->get('user_email')) ?></div>
+                        <?php if (session()->get('user_role') === 'admin'): ?>
+                            <div class="drawer-user-role">Адміністратор</div>
+                        <?php endif; ?>
+                    </div>
+                </div>
+                <a href="/account" class="drawer-link">
+                    <span class="drawer-icon">👤</span> Мій кабінет
+                </a>
+                <?php if (session()->get('user_role') === 'admin'): ?>
+                    <a href="/admin" class="drawer-link">
+                        <span class="drawer-icon">⚙️</span> Адмін-панель
+                    </a>
+                <?php endif; ?>
+                <a href="/logout" class="drawer-link drawer-link-logout">
+                    <span class="drawer-icon">🚪</span> Вийти
+                </a>
+            <?php else: ?>
+                <a href="/login" class="drawer-btn-login">Увійти</a>
+                <a href="/register" class="drawer-btn-register">Реєстрація</a>
+            <?php endif; ?>
+        </div>
+    </div>
 
     <!-- Flash Messages -->
     <?php if (session()->getFlashdata('success')): ?>
