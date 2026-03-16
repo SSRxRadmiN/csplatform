@@ -2,21 +2,33 @@
 $groups = [
     'Загальні' => ['site_name', 'site_url', 'admin_email', 'default_language', 'maintenance_mode'],
     'CASSA оплата' => ['cassa_id', 'cassa_secret', 'cassa_url', 'cassa_merchant_id'],
+    'VPS API (доставка привілегів)' => ['vps_api_url', 'vps_api_token'],
+    'Cron' => ['cron_secret'],
+    'Telegram сповіщення' => ['telegram_bot_token', 'telegram_admin_chat'],
+    'Email сповіщення' => ['email_enabled', 'email_from', 'email_from_name'],
 ];
 
 $labels = [
-    'site_name'          => 'Назва сайту',
-    'site_url'           => 'URL сайту',
-    'admin_email'        => 'Email адміна',
-    'default_language'   => 'Мова за замовчуванням',
-    'maintenance_mode'   => 'Режим обслуговування',
-    'cassa_id'           => 'CASSA ID',
-    'cassa_secret'       => 'Секретний ключ CASSA',
-    'cassa_url'          => 'URL CASSA',
-    'cassa_merchant_id'  => 'Merchant ID',
+    'site_name'           => 'Назва сайту',
+    'site_url'            => 'URL сайту',
+    'admin_email'         => 'Email адміна',
+    'default_language'    => 'Мова за замовчуванням',
+    'maintenance_mode'    => 'Режим обслуговування',
+    'cassa_id'            => 'CASSA ID',
+    'cassa_secret'        => 'Секретний ключ CASSA',
+    'cassa_url'           => 'URL CASSA',
+    'cassa_merchant_id'   => 'Merchant ID',
+    'vps_api_url'         => 'URL API',
+    'vps_api_token'       => 'API Token',
+    'cron_secret'         => 'Секретний ключ Cron',
+    'telegram_bot_token'  => 'Bot Token',
+    'telegram_admin_chat' => 'Admin Chat ID',
+    'email_enabled'       => 'Email увімкнений',
+    'email_from'          => 'Email відправника',
+    'email_from_name'     => 'Ім\'я відправника',
 ];
 
-$passwordFields = ['cassa_secret', 'cassa_secret_key'];
+$passwordFields = ['cassa_secret', 'vps_api_token', 'cron_secret', 'telegram_bot_token'];
 ?>
 
 <section class="admin-page">
@@ -43,6 +55,11 @@ $passwordFields = ['cassa_secret', 'cassa_secret_key'];
                         <div class="admin-form-group">
                             <label class="admin-label"><?= $labels[$key] ?? $key ?></label>
                             <?php if ($key === 'maintenance_mode'): ?>
+                                <select name="<?= esc($key) ?>" class="admin-input">
+                                    <option value="0" <?= ($settings[$key] ?? '0') === '0' ? 'selected' : '' ?>>Вимкнено</option>
+                                    <option value="1" <?= ($settings[$key] ?? '0') === '1' ? 'selected' : '' ?>>Увімкнено</option>
+                                </select>
+                            <?php elseif ($key === 'email_enabled'): ?>
                                 <select name="<?= esc($key) ?>" class="admin-input">
                                     <option value="0" <?= ($settings[$key] ?? '0') === '0' ? 'selected' : '' ?>>Вимкнено</option>
                                     <option value="1" <?= ($settings[$key] ?? '0') === '1' ? 'selected' : '' ?>>Увімкнено</option>

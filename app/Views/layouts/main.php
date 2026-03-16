@@ -9,9 +9,6 @@
     <?php if (str_contains($page ?? '', 'admin/')): ?>
         <link rel="stylesheet" href="/assets/css/admin.css">
     <?php endif ?>
-    <?php if (str_contains($page ?? '', 'admin/')): ?>
-        <link rel="stylesheet" href="/assets/css/admin.css">
-    <?php endif ?>
     <link rel="icon" type="image/png" sizes="32x32" href="/favicon/favicon-32x32.png">
     <link rel="icon" type="image/png" sizes="16x16" href="/favicon/favicon-16x16.png">
     <link rel="manifest" href="/favicon/favicon/site.webmanifest">

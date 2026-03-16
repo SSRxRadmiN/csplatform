@@ -31,6 +31,7 @@
                             <th>Статус</th>
                             <th>Останній вхід</th>
                             <th>Реєстрація</th>
+                            <th>Дії</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -52,6 +53,9 @@
                                 </td>
                                 <td><?= !empty($u['last_login']) ? date('d.m.Y H:i', strtotime($u['last_login'])) : '—' ?></td>
                                 <td><?= date('d.m.Y', strtotime($u['created_at'])) ?></td>
+                                <td>
+                                    <a href="/admin/users/edit/<?= $u['id'] ?>" class="admin-link">Ред.</a>
+                                </td>
                             </tr>
                         <?php endforeach ?>
                     </tbody>

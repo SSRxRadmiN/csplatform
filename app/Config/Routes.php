@@ -72,6 +72,8 @@ $routes->group('admin', ['filter' => 'admin'], function ($routes) {
     $routes->post('categories/delete/(:num)', 'Admin\Categories::delete/$1');
 
     $routes->get('users', 'Admin\Users::index');
+    $routes->get('users/edit/(:num)', 'Admin\Users::edit/$1');
+    $routes->post('users/edit/(:num)', 'Admin\Users::update/$1');
 
     $routes->get('settings', 'Admin\Settings::index');
     $routes->post('settings', 'Admin\Settings::update');

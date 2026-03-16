@@ -17,7 +17,7 @@ class ProductModel extends Model
         'description_ua', 'description_en',
         'price', 'duration_days',
         'amx_access', 'amx_flags',
-        'category', 'category_id', 'image_url',
+        'category_id', 'image_url',
         'sort_order', 'is_active',
     ];
 
