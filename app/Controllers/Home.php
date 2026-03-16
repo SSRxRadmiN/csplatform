@@ -15,8 +15,8 @@ class Home extends BaseController
         // Отримуємо наш сервер (id=1) з статистикою
         $server = $serverModel->getWithStats(1);
 
-        // Отримуємо активні товари
-        $products = $productModel->getByServer(1);
+        // Отримуємо активні товари з категоріями
+        $products = $productModel->getByServerWithCategory(1);
 
         return view('layouts/main', [
             'page'     => 'home/index',

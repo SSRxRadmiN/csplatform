@@ -63,14 +63,11 @@
     <div class="products-grid">
         <?php foreach ($products as $i => $product): ?>
         <div class="product-card <?= $i === 0 ? 'featured' : '' ?> fade-in">
-            <div class="product-badge badge-<?= esc($product['category']) ?>">
-                <?= esc(strtoupper($product['category'])) ?>
+            <div class="product-badge" style="background: <?= esc($product['cat_color'] ?? '#4ade80') ?>20; color: <?= esc($product['cat_color'] ?? '#4ade80') ?>;">
+                <?= esc($product['cat_icon'] ?? '') ?> <?= esc(strtoupper($product['cat_name_ua'] ?? 'Інше')) ?>
             </div>
             <div class="product-icon">
-                <?php
-                $icons = ['vip' => '⭐', 'admin' => '🛡️', 'unban' => '🔓', 'other' => '🎯'];
-                echo $icons[$product['category']] ?? '🎯';
-                ?>
+                <?= esc($product['cat_icon'] ?? '🎯') ?>
             </div>
             <div class="product-name"><?= esc($product['name_ua']) ?></div>
             <p class="product-desc"><?= esc($product['description_ua']) ?></p>
