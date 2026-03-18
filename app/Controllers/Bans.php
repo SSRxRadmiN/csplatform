@@ -61,6 +61,7 @@ class Bans extends BaseController
         return view('layouts/main', [
             'page'        => 'bans/index',
             'title'       => 'Банлист — CS Headshot',
+            'pageClass'   => 'page-bans',
             'bans'        => $bans,
             'error'       => $error,
             'curPage'     => $page,

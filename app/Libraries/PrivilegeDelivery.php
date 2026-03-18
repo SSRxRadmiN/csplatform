@@ -137,7 +137,17 @@ class PrivilegeDelivery
             return ['success' => false, 'message' => $msg];
         }
 
-        $url = rtrim($this->apiUrl, '/') . '?action=' . urlencode($action);
+        // Token передаємо як параметр (API очікує в params, не в хедерах)
+        $params['token'] = $this->apiToken;
+        $params['action'] = $action;
+
+        // Перетворюємо duration_days → duration (API очікує 'duration')
+        if (isset($params['duration_days'])) {
+            $params['duration'] = $params['duration_days'];
+            unset($params['duration_days']);
+        }
+
+        $url = rtrim($this->apiUrl, '/');
 
         $ch = curl_init($url);
         curl_setopt_array($ch, [
@@ -148,7 +158,6 @@ class PrivilegeDelivery
             CURLOPT_CONNECTTIMEOUT => 5,
             CURLOPT_HTTPHEADER     => [
                 'Content-Type: application/json',
-                'X-API-Token: ' . $this->apiToken,
             ],
         ]);
 

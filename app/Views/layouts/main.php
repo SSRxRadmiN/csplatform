@@ -13,7 +13,7 @@
     <link rel="icon" type="image/png" sizes="16x16" href="/favicon/favicon-16x16.png">
     <link rel="manifest" href="/favicon/favicon/site.webmanifest">
 </head>
-<body>
+<body class="<?= $pageClass ?? '' ?>">
 
     <!-- Ambient Glow -->
     <div class="ambient-glow g1"></div>
@@ -129,9 +129,9 @@
     <footer>
         <div class="footer-left">© <?= date('Y') ?> CS Headshot — Реальні Кабани CS 1.6</div>
         <ul class="footer-links">
-            <li><a href="#">Правила</a></li>
-            <li><a href="#">Telegram</a></li>
-            <li><a href="#">Discord</a></li>
+            <li><a href="/privacy">Послуги</a></li>
+            <li><a href="/faq">FAQ</a></li>
+            <li><a href="#" target="_blank">Telegram</a></li>
         </ul>
     </footer>
 
