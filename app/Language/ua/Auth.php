@@ -9,6 +9,8 @@ return [
     'login_no_account'  => 'Немає акаунту?',
     'login_link'        => 'Зареєструватись',
     'show_password'     => 'Показати пароль',
+    'error_credentials' => 'Невірний email або пароль',
+    'error_inactive'    => 'Акаунт деактивовано',
 
     // Register
     'reg_title'         => 'Створити акаунт',

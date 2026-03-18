@@ -9,6 +9,8 @@ return [
     'login_no_account'  => 'Don\'t have an account?',
     'login_link'        => 'Sign Up',
     'show_password'     => 'Show password',
+    'error_credentials' => 'Invalid email or password',
+    'error_inactive'    => 'Account is deactivated',
 
     // Register
     'reg_title'         => 'Create Account',
