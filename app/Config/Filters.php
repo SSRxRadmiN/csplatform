@@ -14,6 +14,7 @@ use CodeIgniter\Filters\PerformanceMetrics;
 use CodeIgniter\Filters\SecureHeaders;
 use App\Filters\AuthFilter;
 use App\Filters\AdminFilter;
+use App\Filters\LoginThrottleFilter;
 
 class Filters extends BaseFilters
 {
@@ -32,7 +33,8 @@ class Filters extends BaseFilters
         'performance'   => PerformanceMetrics::class,
         'auth'          => AuthFilter::class,
         'admin'         => AdminFilter::class,
-        'antispam' => \App\Filters\SpamFilter::class,   // ← ДОДАТИ
+        'antispam'      => \App\Filters\SpamFilter::class,
+        'loginthrottle' => LoginThrottleFilter::class,
     ];
 
     /**
@@ -51,11 +53,16 @@ class Filters extends BaseFilters
     public array $methods = [];
 
     public array $filters = [
-    'antispam' => [
-        'before' => [
-            'login',         // POST /login
-            'register',      // POST /register
+        'antispam' => [
+            'before' => [
+                'login',
+                'register',
+            ],
         ],
-    ],
+        'loginthrottle' => [
+            'before' => [
+                'login',
+            ],
+        ],
     ];
 }

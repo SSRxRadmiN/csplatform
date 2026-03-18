@@ -3,6 +3,7 @@
 namespace App\Controllers;
 
 use App\Models\UserModel;
+use App\Filters\LoginThrottleFilter;
 
 class Auth extends BaseController
 {
@@ -29,16 +30,27 @@ class Auth extends BaseController
             return redirect()->back()->withInput()->with('errors', $this->validator->getErrors());
         }
 
+        $email = $this->request->getPost('email');
+        $ip    = $this->request->getIPAddress();
+
         $userModel = new UserModel();
-        $user = $userModel->findByEmail($this->request->getPost('email'));
+        $user = $userModel->findByEmail($email);
 
         if (! $user || ! password_verify($this->request->getPost('password'), $user['password'])) {
-            return redirect()->back()->withInput()->with('error', 'Невірний email або пароль');
+            // Логуємо невдалу спробу
+            LoginThrottleFilter::logAttempt($ip, $email, false);
+            return redirect()->back()->withInput()->with('error', lang('Auth.error_credentials') ?: 'Невірний email або пароль');
         }
 
         if (! $user['is_active']) {
-            return redirect()->back()->with('error', 'Акаунт деактивовано');
+            return redirect()->back()->with('error', lang('Auth.error_inactive') ?: 'Акаунт деактивовано');
         }
+
+        // Логуємо успішну спробу
+        LoginThrottleFilter::logAttempt($ip, $email, true);
+
+        // Регенерація session ID (захист від session fixation)
+        session()->regenerate();
 
         // Зберігаємо в сесію
         session()->set([
@@ -75,7 +87,7 @@ class Auth extends BaseController
             'email'            => 'required|valid_email|is_unique[users.email]',
             'password'         => 'required|min_length[6]',
             'password_confirm' => 'required|matches[password]',
-            'steam_id'         => 'required|regex_match[/^STEAM_[0-5]:[01]:\d+$/]',
+            'steam_id'         => 'required|regex_match[/^STEAM_[0-5]:[01]:\d+$/]|is_unique[users.steam_id]',
         ];
 
         $messages = [
@@ -87,6 +99,7 @@ class Auth extends BaseController
             ],
             'steam_id' => [
                 'regex_match' => 'Невірний формат Steam ID (напр. STEAM_0:1:12345)',
+                'is_unique'   => 'Цей Steam ID вже зареєстрований',
             ],
         ];
 
@@ -110,6 +123,9 @@ class Auth extends BaseController
         }
 
         $user = $userModel->find($userId);
+
+        // Регенерація session ID
+        session()->regenerate();
 
         // Автоматичний логін після реєстрації
         session()->set([
