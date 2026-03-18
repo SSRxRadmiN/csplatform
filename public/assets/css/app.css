@@ -2458,7 +2458,7 @@ footer {
 .stats-page {
     max-width: 1200px;
     margin: 0 auto;
-    padding: 3rem 1.5rem 4rem;
+    padding: 7rem 1.5rem 4rem;
 }
 
 .stats-header {
@@ -2847,7 +2847,7 @@ footer {
 .bans-page {
     max-width: 1000px;
     margin: 0 auto;
-    padding: 3rem 1.5rem 4rem;
+    padding: 7.5rem 1.5rem 4rem;
 }
 
 .bans-header {
@@ -3347,15 +3347,6 @@ footer {
 
     .bans-search-form { flex-direction: column; }
     .bans-search-wrap { min-width: 100%; }
-}
-
-
-/* ============================================
-   Bans Page — top padding fix
-   ============================================ */
-
-.page-bans .bans-page {
-    padding-top: 5rem;
 }
 
 /* ============================================
