@@ -131,7 +131,7 @@
         <ul class="footer-links">
             <li><a href="/privacy">Послуги</a></li>
             <li><a href="/faq">FAQ</a></li>
-            <li><a href="#" target="_blank">Telegram</a></li>
+            <li><a href="https://t.me/csheadshot" target="_blank">Telegram</a></li>
         </ul>
     </footer>
 

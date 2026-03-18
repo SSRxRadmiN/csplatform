@@ -1,0 +1,63 @@
+<?php
+return [
+    'edit_profile'     => 'Edit Profile',
+    'logout'           => 'Log Out',
+    'active_privs'     => 'Active Privileges',
+    'no_privs'         => 'You don\'t have any active privileges yet',
+    'go_shop'          => 'Go to Shop →',
+    'status_active'    => 'Active',
+    'days_left'        => 'Remaining',
+    'until'            => 'until',
+    'unlimited'        => 'Unlimited',
+    'flags'            => 'Flags',
+    'recent_orders'    => 'Recent Orders',
+    'all_purchases'    => 'All Purchases →',
+    'no_orders'        => 'No orders yet',
+    'col_product'      => 'Product',
+    'col_amount'       => 'Amount',
+    'col_status'       => 'Status',
+    'col_date'         => 'Date',
+
+    // Edit
+    'back_to_account'  => '← Back to Account',
+    'edit_title'       => 'Edit Profile',
+    'username'         => 'Username',
+    'email'            => 'Email',
+    'email_readonly'   => 'Email cannot be changed',
+    'steam_id'         => 'Steam ID',
+    'steam_format'     => 'format: STEAM_0:X:XXXXXXX',
+    'change_password'  => 'Change Password (optional)',
+    'new_password'     => 'New Password',
+    'new_password_hint'=> 'Leave empty if you don\'t want to change it',
+    'save'             => 'Save Changes',
+
+    // Purchases
+    'purchases_title'  => 'Purchase History',
+    'no_purchases'     => 'You don\'t have any purchases yet',
+    'col_id'           => '#',
+    'col_steam'        => 'Steam ID',
+    'col_created'      => 'Created',
+    'col_expires'      => 'Expires',
+    'total_orders'     => 'Total orders',
+
+    // Buy
+    'back_to_product'  => '← Back to Product',
+    'checkout_title'   => 'Checkout',
+    'buy_server'       => 'Server',
+    'buy_duration'     => 'Duration',
+    'buy_type'         => 'Type',
+    'buy_one_time'     => 'One-time',
+    'payment_method'   => 'Payment Method',
+    'bank_card'        => 'Bank Card',
+    'bank_card_desc'   => 'Privatbank / Monobank',
+    'pay_btn'          => 'Pay',
+
+    // Success / Failed
+    'payment_success'  => 'Payment Successful!',
+    'payment_success_desc' => 'Your privilege will be activated within a few minutes',
+    'go_to_account'    => 'Go to Account',
+    'back_to_shop'     => 'Back to Shop',
+    'payment_failed'   => 'Payment Failed',
+    'payment_failed_desc'  => 'Something went wrong. Please try again or choose a different payment method.',
+    'go_to_shop'       => 'Back to Shop',
+];

@@ -1,0 +1,21 @@
+<?php
+return [
+    'hero_title'       => 'Privileges for',
+    'hero_subtitle'    => 'VIP status, admin rights and other privileges for Реальні Кабани server. Instant activation after payment.',
+    'hero_btn_shop'    => 'Go to Shop',
+    'hero_btn_connect' => 'Connect to Server',
+    'shop_label'       => 'Privilege Shop',
+    'shop_title'       => 'Choose your access level',
+    'shop_subtitle'    => 'All privileges are activated automatically. We support Visa, Mono, Privat24, crypto & GPay.',
+    'buy_btn'          => 'Buy',
+    'steps_label'      => 'How it works',
+    'steps_title'      => 'Four simple steps',
+    'step1_title'      => 'Register',
+    'step1_desc'       => 'Create an account and link your Steam ID',
+    'step2_title'      => 'Choose',
+    'step2_desc'       => 'Select a privilege and its duration',
+    'step3_title'      => 'Pay',
+    'step3_desc'       => 'Pay conveniently via CASSA',
+    'step4_title'      => 'Play!',
+    'step4_desc'       => 'Privileges activate on map change',
+];

@@ -1,0 +1,63 @@
+<?php
+return [
+    'edit_profile'     => 'Редагувати профіль',
+    'logout'           => 'Вийти',
+    'active_privs'     => 'Активні привілеї',
+    'no_privs'         => 'У вас поки немає активних привілегій',
+    'go_shop'          => 'Перейти до магазину →',
+    'status_active'    => 'Активна',
+    'days_left'        => 'Залишилось',
+    'until'            => 'до',
+    'unlimited'        => 'Безстроково',
+    'flags'            => 'Флаги',
+    'recent_orders'    => 'Останні замовлення',
+    'all_purchases'    => 'Всі покупки →',
+    'no_orders'        => 'Замовлень поки немає',
+    'col_product'      => 'Товар',
+    'col_amount'       => 'Сума',
+    'col_status'       => 'Статус',
+    'col_date'         => 'Дата',
+
+    // Edit
+    'back_to_account'  => '← Назад до кабінету',
+    'edit_title'       => 'Редагування профілю',
+    'username'         => 'Нікнейм',
+    'email'            => 'Email',
+    'email_readonly'   => 'Email змінити неможливо',
+    'steam_id'         => 'Steam ID',
+    'steam_format'     => 'формат: STEAM_0:X:XXXXXXX',
+    'change_password'  => 'Зміна пароля (опціонально)',
+    'new_password'     => 'Новий пароль',
+    'new_password_hint'=> 'Залиште порожнім, якщо не змінювати',
+    'save'             => 'Зберегти зміни',
+
+    // Purchases
+    'purchases_title'  => 'Історія покупок',
+    'no_purchases'     => 'У вас ще немає покупок',
+    'col_id'           => '#',
+    'col_steam'        => 'Steam ID',
+    'col_created'      => 'Створено',
+    'col_expires'      => 'Діє до',
+    'total_orders'     => 'Всього замовлень',
+
+    // Buy
+    'back_to_product'  => '← Назад до товару',
+    'checkout_title'   => 'Оформлення замовлення',
+    'buy_server'       => 'Сервер',
+    'buy_duration'     => 'Термін',
+    'buy_type'         => 'Тип',
+    'buy_one_time'     => 'Одноразово',
+    'payment_method'   => 'Спосіб оплати',
+    'bank_card'        => 'Банківська картка',
+    'bank_card_desc'   => 'Приватбанк / Монобанк',
+    'pay_btn'          => 'Оплатити',
+
+    // Success / Failed
+    'payment_success'  => 'Оплата успішна!',
+    'payment_success_desc' => 'Ваша привілегія буде активована протягом кількох хвилин',
+    'go_to_account'    => 'Перейти до кабінету',
+    'back_to_shop'     => 'Повернутись до магазину',
+    'payment_failed'   => 'Помилка оплати',
+    'payment_failed_desc'  => 'Щось пішло не так. Спробуйте ще раз або оберіть інший спосіб оплати.',
+    'go_to_shop'       => 'Повернутись до магазину',
+];

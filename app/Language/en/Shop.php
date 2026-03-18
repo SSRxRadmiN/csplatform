@@ -1,0 +1,21 @@
+<?php
+return [
+    'title'          => 'Privilege Shop',
+    'server'         => 'Server',
+    'empty'          => 'No products available yet. Check back later!',
+    'other'          => 'Other',
+    'once'           => 'One-time',
+    'details'        => 'Details →',
+    'back_to_shop'   => '← Back to Shop',
+    'spec_server'    => 'Server',
+    'spec_duration'  => 'Duration',
+    'spec_flags'     => 'AMX Flags',
+    'spec_access'    => 'Access',
+    'one_time'       => 'One-time',
+    'one_time_service' => 'one-time service',
+    'buy_now'        => 'Buy Now',
+    'login_to_buy'   => 'Log in to Buy',
+    'instant'        => 'Instant activation',
+    'secure'         => 'Secure payment',
+    'per'            => 'for',
+];
