@@ -3,28 +3,28 @@
     <div class="hero-badge">
         <div class="hero-badge-dot"></div>
         <?php if (!empty($server) && $server['is_online']): ?>
-            Сервер онлайн — <?= $server['current_players'] ?>/<?= $server['max_players'] ?> гравців
+            <?= lang('App.server_online') ?> — <?= $server['current_players'] ?>/<?= $server['max_players'] ?> <?= lang('App.server_players') ?>
         <?php else: ?>
-            Сервер оффлайн
+            <?= lang('App.server_offline') ?>
         <?php endif; ?>
     </div>
 
     <h1>
-        Привілеї для<br>
+        <?= lang('Home.hero_title') ?><br>
         <span class="gradient-text">Counter-Strike 1.6</span>
     </h1>
 
     <p class="hero-subtitle">
-        VIP статус, адмін-права та інші привілеї для сервера Реальні Кабани. Миттєва активація після оплати.
+        <?= lang('Home.hero_subtitle') ?>
     </p>
 
     <div class="hero-actions">
         <a href="/shop" class="btn-hero btn-hero-primary">
-            Перейти до магазину
+            <?= lang('Home.hero_btn_shop') ?>
             <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
         </a>
         <a href="steam://connect/<?= esc($server['ip'] ?? '31.42.190.78') ?>:<?= esc($server['port'] ?? '27015') ?>" class="btn-hero btn-hero-secondary">
-            Підключитись до сервера
+            <?= lang('Home.hero_btn_connect') ?>
         </a>
     </div>
 
@@ -41,11 +41,11 @@
         </div>
         <div class="status-divider"></div>
         <div class="status-item">
-            Карта: <span class="value"><?= esc($server['current_map'] ?? '—') ?></span>
+            <?= lang('App.server_map') ?>: <span class="value"><?= esc($server['current_map'] ?? '—') ?></span>
         </div>
         <div class="status-divider"></div>
         <div class="status-item">
-            Гравці: <span class="value"><?= $server['current_players'] ?? 0 ?> / <?= $server['max_players'] ?? 32 ?></span>
+            <?= lang('App.server_players') ?>: <span class="value"><?= $server['current_players'] ?? 0 ?> / <?= $server['max_players'] ?? 32 ?></span>
         </div>
     </div>
     <?php endif; ?>
@@ -55,33 +55,33 @@
 <?php if (!empty($products)): ?>
 <section id="shop-preview">
     <div class="section-header fade-in">
-        <div class="section-label">// Магазин привілегій</div>
-        <h2 class="section-title">Обери свій рівень доступу</h2>
-        <p class="section-subtitle">Всі привілеї активуються автоматично. Підтримуємо Visa, Mono, Privat24, крипту та GPay.</p>
+        <div class="section-label">// <?= lang('Home.shop_label') ?></div>
+        <h2 class="section-title"><?= lang('Home.shop_title') ?></h2>
+        <p class="section-subtitle"><?= lang('Home.shop_subtitle') ?></p>
     </div>
 
     <div class="products-grid">
         <?php foreach ($products as $i => $product): ?>
         <div class="product-card <?= $i === 0 ? 'featured' : '' ?> fade-in">
             <div class="product-badge" style="background: <?= esc($product['cat_color'] ?? '#4ade80') ?>20; color: <?= esc($product['cat_color'] ?? '#4ade80') ?>;">
-                <?= esc($product['cat_icon'] ?? '') ?> <?= esc(strtoupper($product['cat_name_ua'] ?? 'Інше')) ?>
+                <?= esc($product['cat_icon'] ?? '') ?> <?= esc(strtoupper(cat_name($product) ?: ($product['cat_name_ua'] ?? ''))) ?>
             </div>
             <div class="product-icon">
                 <?= esc($product['cat_icon'] ?? '🎯') ?>
             </div>
-            <div class="product-name"><?= esc($product['name_ua']) ?></div>
-            <p class="product-desc"><?= esc($product['description_ua']) ?></p>
+            <div class="product-name"><?= esc(product_name($product)) ?></div>
+            <p class="product-desc"><?= esc(product_desc($product)) ?></p>
 
             <div class="product-pricing">
                 <span class="product-price"><?= number_format($product['price'], 0) ?></span>
-                <span class="product-price-currency">грн</span>
+                <span class="product-price-currency"><?= lang('App.currency') ?></span>
                 <span class="product-price-period">
-                    / <?= $product['duration_days'] > 0 ? $product['duration_days'] . ' днів' : 'одноразово' ?>
+                    / <?= duration_text((int)$product['duration_days']) ?>
                 </span>
             </div>
 
             <a href="/buy/<?= $product['id'] ?>" class="btn-buy">
-                Придбати <?= esc($product['name_ua']) ?>
+                <?= lang('Home.buy_btn') ?> <?= esc(product_name($product)) ?>
             </a>
         </div>
         <?php endforeach; ?>
@@ -92,34 +92,34 @@
 <!-- How It Works -->
 <section>
     <div class="section-header fade-in">
-        <div class="section-label">// Як це працює</div>
-        <h2 class="section-title">Чотири простих кроки</h2>
+        <div class="section-label">// <?= lang('Home.steps_label') ?></div>
+        <h2 class="section-title"><?= lang('Home.steps_title') ?></h2>
     </div>
 
     <div class="steps-grid fade-in">
         <div class="step-card">
             <div class="step-number">01</div>
             <div class="step-icon">👤</div>
-            <div class="step-title">Реєстрація</div>
-            <div class="step-desc">Створи акаунт та прив'яжи свій Steam ID</div>
+            <div class="step-title"><?= lang('Home.step1_title') ?></div>
+            <div class="step-desc"><?= lang('Home.step1_desc') ?></div>
         </div>
         <div class="step-card">
             <div class="step-number">02</div>
             <div class="step-icon">🛒</div>
-            <div class="step-title">Вибір</div>
-            <div class="step-desc">Обери привілегію та термін дії</div>
+            <div class="step-title"><?= lang('Home.step2_title') ?></div>
+            <div class="step-desc"><?= lang('Home.step2_desc') ?></div>
         </div>
         <div class="step-card">
             <div class="step-number">03</div>
             <div class="step-icon">💳</div>
-            <div class="step-title">Оплата</div>
-            <div class="step-desc">Оплати зручним способом через CASSA</div>
+            <div class="step-title"><?= lang('Home.step3_title') ?></div>
+            <div class="step-desc"><?= lang('Home.step3_desc') ?></div>
         </div>
         <div class="step-card">
             <div class="step-number">04</div>
             <div class="step-icon">🎮</div>
-            <div class="step-title">Грай!</div>
-            <div class="step-desc">Привілеї активні при зміні карти</div>
+            <div class="step-title"><?= lang('Home.step4_title') ?></div>
+            <div class="step-desc"><?= lang('Home.step4_desc') ?></div>
         </div>
     </div>
 </section>

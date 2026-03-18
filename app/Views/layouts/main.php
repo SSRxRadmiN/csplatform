@@ -29,10 +29,10 @@
         </a>
 
         <ul class="nav-links">
-            <li><a href="/" class="<?= current_url() === base_url('/') ? 'active' : '' ?>">Головна</a></li>
-            <li><a href="/shop" class="<?= str_contains(current_url(), '/shop') ? 'active' : '' ?>">Магазин</a></li>
-            <li><a href="/stats" class="<?= str_contains(current_url(), '/stats') ? 'active' : '' ?>">Статистика</a></li>
-            <li><a href="/bans" class="<?= str_contains(current_url(), '/bans') ? 'active' : '' ?>">Банлист</a></li>
+            <li><a href="/" class="<?= current_url() === base_url('/') ? 'active' : '' ?>"><?= lang('App.nav_home') ?></a></li>
+            <li><a href="/shop" class="<?= str_contains(current_url(), '/shop') ? 'active' : '' ?>"><?= lang('App.nav_shop') ?></a></li>
+            <li><a href="/stats" class="<?= str_contains(current_url(), '/stats') ? 'active' : '' ?>"><?= lang('App.nav_stats') ?></a></li>
+            <li><a href="/bans" class="<?= str_contains(current_url(), '/bans') ? 'active' : '' ?>"><?= lang('App.nav_bans') ?></a></li>
         </ul>
 
         <div class="nav-right">
@@ -43,16 +43,16 @@
             <?php if (session()->get('user_id')): ?>
                 <a href="/account" class="btn-ghost nav-hide-mobile"><?= esc(session()->get('user_name') ?? session()->get('user_email')) ?></a>
                 <?php if (session()->get('user_role') === 'admin'): ?>
-                    <a href="/admin" class="btn-ghost nav-hide-mobile">Admin</a>
+                    <a href="/admin" class="btn-ghost nav-hide-mobile"><?= lang('App.nav_admin') ?></a>
                 <?php endif; ?>
-                <a href="/logout" class="btn-primary nav-hide-mobile">Вийти</a>
+                <a href="/logout" class="btn-primary nav-hide-mobile"><?= lang('App.nav_logout') ?></a>
             <?php else: ?>
-                <a href="/login" class="btn-ghost nav-hide-mobile">Увійти</a>
-                <a href="/register" class="btn-primary nav-hide-mobile">Реєстрація</a>
+                <a href="/login" class="btn-ghost nav-hide-mobile"><?= lang('App.nav_login') ?></a>
+                <a href="/register" class="btn-primary nav-hide-mobile"><?= lang('App.nav_register') ?></a>
             <?php endif; ?>
 
             <!-- Burger button (mobile only) -->
-            <button class="burger-btn" id="burgerBtn" aria-label="Меню">
+            <button class="burger-btn" id="burgerBtn" aria-label="<?= lang('App.nav_menu') ?>">
                 <span></span><span></span><span></span>
             </button>
         </div>
@@ -63,16 +63,16 @@
     <div class="mobile-drawer" id="mobileDrawer">
         <div class="drawer-links">
             <a href="/" class="drawer-link <?= current_url() === base_url('/') ? 'active' : '' ?>">
-                <span class="drawer-icon">🏠</span> Головна
+                <span class="drawer-icon">🏠</span> <?= lang('App.nav_home') ?>
             </a>
             <a href="/shop" class="drawer-link <?= str_contains(current_url(), '/shop') ? 'active' : '' ?>">
-                <span class="drawer-icon">🛒</span> Магазин
+                <span class="drawer-icon">🛒</span> <?= lang('App.nav_shop') ?>
             </a>
             <a href="/stats" class="drawer-link <?= str_contains(current_url(), '/stats') ? 'active' : '' ?>">
-                <span class="drawer-icon">📊</span> Статистика
+                <span class="drawer-icon">📊</span> <?= lang('App.nav_stats') ?>
             </a>
             <a href="/bans" class="drawer-link <?= str_contains(current_url(), '/bans') ? 'active' : '' ?>">
-                <span class="drawer-icon">🚫</span> Банлист
+                <span class="drawer-icon">🚫</span> <?= lang('App.nav_bans') ?>
             </a>
         </div>
         <div class="drawer-divider"></div>
@@ -83,24 +83,24 @@
                     <div class="drawer-user-info">
                         <div class="drawer-user-name"><?= esc(session()->get('user_name') ?? session()->get('user_email')) ?></div>
                         <?php if (session()->get('user_role') === 'admin'): ?>
-                            <div class="drawer-user-role">Адміністратор</div>
+                            <div class="drawer-user-role"><?= lang('App.nav_role_admin') ?></div>
                         <?php endif; ?>
                     </div>
                 </div>
                 <a href="/account" class="drawer-link">
-                    <span class="drawer-icon">👤</span> Мій кабінет
+                    <span class="drawer-icon">👤</span> <?= lang('App.nav_account') ?>
                 </a>
                 <?php if (session()->get('user_role') === 'admin'): ?>
                     <a href="/admin" class="drawer-link">
-                        <span class="drawer-icon">⚙️</span> Адмін-панель
+                        <span class="drawer-icon">⚙️</span> <?= lang('App.nav_admin_panel') ?>
                     </a>
                 <?php endif; ?>
                 <a href="/logout" class="drawer-link drawer-link-logout">
-                    <span class="drawer-icon">🚪</span> Вийти
+                    <span class="drawer-icon">🚪</span> <?= lang('App.nav_logout') ?>
                 </a>
             <?php else: ?>
-                <a href="/login" class="drawer-btn-login">Увійти</a>
-                <a href="/register" class="drawer-btn-register">Реєстрація</a>
+                <a href="/login" class="drawer-btn-login"><?= lang('App.nav_login') ?></a>
+                <a href="/register" class="drawer-btn-register"><?= lang('App.nav_register') ?></a>
             <?php endif; ?>
         </div>
     </div>
@@ -127,11 +127,11 @@
 
     <!-- Footer -->
     <footer>
-        <div class="footer-left">© <?= date('Y') ?> CS Headshot — Реальні Кабани CS 1.6</div>
+        <div class="footer-left"><?= lang('App.footer_copy', [date('Y')]) ?></div>
         <ul class="footer-links">
-            <li><a href="/privacy">Послуги</a></li>
-            <li><a href="/faq">FAQ</a></li>
-            <li><a href="https://t.me/csheadshot" target="_blank">Telegram</a></li>
+            <li><a href="/privacy"><?= lang('App.footer_privacy') ?></a></li>
+            <li><a href="/faq"><?= lang('App.footer_faq') ?></a></li>
+            <li><a href="#" target="_blank"><?= lang('App.footer_telegram') ?></a></li>
         </ul>
     </footer>
 

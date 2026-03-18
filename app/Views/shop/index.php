@@ -1,6 +1,4 @@
 <?php
-$lang = session()->get('lang') ?? 'ua';
-
 // Групуємо товари по категоріях з БД
 $grouped = [];
 foreach ($products as $p) {
@@ -19,23 +17,23 @@ foreach ($categories as $c) {
 ?>
 
 <section class="shop-hero">
-    <h1 class="shop-title">Магазин привілегій</h1>
+    <h1 class="shop-title"><?= lang('Shop.title') ?></h1>
     <p class="shop-subtitle">
-        Сервер: <strong><?= esc($server['name'] ?? 'Реальні Кабани') ?></strong>
+        <?= lang('Shop.server') ?>: <strong><?= esc($server['name'] ?? 'Реальні Кабани') ?></strong>
         <span class="shop-ip"><?= esc(($server['ip'] ?? '') . ':' . ($server['port'] ?? '')) ?></span>
     </p>
 </section>
 
 <?php if (empty($products)): ?>
     <div class="shop-empty">
-        <p>Товари поки відсутні. Заходьте пізніше!</p>
+        <p><?= lang('Shop.empty') ?></p>
     </div>
 <?php else: ?>
     <section class="shop-catalog">
         <?php foreach ($categories as $cat): ?>
             <?php if (! empty($grouped[$cat['id']])): ?>
                 <?php
-                    $catName = ($lang === 'en' && !empty($cat['name_en'])) ? $cat['name_en'] : $cat['name_ua'];
+                    $catName = cat_name($cat);
                     $catSlug = $cat['slug'] ?? 'other';
                     $catIcon = $cat['icon'] ?? '📦';
                 ?>
@@ -47,8 +45,8 @@ foreach ($categories as $c) {
                     <div class="shop-grid">
                         <?php foreach ($grouped[$cat['id']] as $product): ?>
                             <?php
-                                $name = ($lang === 'en' && !empty($product['name_en'])) ? $product['name_en'] : $product['name_ua'];
-                                $desc = ($lang === 'en' && !empty($product['description_en'])) ? $product['description_en'] : ($product['description_ua'] ?? '');
+                                $name = product_name($product);
+                                $desc = product_desc($product);
                                 $duration = (int) $product['duration_days'];
                             ?>
                             <a href="/shop/<?= $product['id'] ?>" class="product-card">
@@ -72,19 +70,19 @@ foreach ($categories as $c) {
                                     <?php if ($duration > 0): ?>
                                         <span class="product-card-duration">
                                             <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
-                                            <?= $duration ?> <?= $duration === 1 ? 'день' : ($duration < 5 ? 'дні' : 'днів') ?>
+                                            <?= days_text($duration) ?>
                                         </span>
                                     <?php else: ?>
                                         <span class="product-card-duration">
                                             <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
-                                            Разово
+                                            <?= lang('Shop.once') ?>
                                         </span>
                                     <?php endif ?>
                                 </div>
 
                                 <div class="product-card-footer">
                                     <span class="product-card-price"><?= (int) $product['price'] ?> ₴</span>
-                                    <span class="product-card-btn">Детальніше →</span>
+                                    <span class="product-card-btn"><?= lang('Shop.details') ?></span>
                                 </div>
                             </a>
                         <?php endforeach ?>
@@ -98,20 +96,17 @@ foreach ($categories as $c) {
             <div class="shop-category">
                 <h2 class="shop-category-title">
                     <span class="shop-category-icon">📦</span>
-                    Інше
+                    <?= lang('Shop.other') ?>
                 </h2>
                 <div class="shop-grid">
                     <?php foreach ($grouped[0] as $product): ?>
-                        <?php
-                            $name = ($lang === 'en' && !empty($product['name_en'])) ? $product['name_en'] : $product['name_ua'];
-                            $duration = (int) $product['duration_days'];
-                        ?>
+                        <?php $name = product_name($product); ?>
                         <a href="/shop/<?= $product['id'] ?>" class="product-card">
                             <div class="product-card-badge product-card-badge--other">📦 OTHER</div>
                             <h3 class="product-card-name"><?= esc($name) ?></h3>
                             <div class="product-card-footer">
                                 <span class="product-card-price"><?= (int) $product['price'] ?> ₴</span>
-                                <span class="product-card-btn">Детальніше →</span>
+                                <span class="product-card-btn"><?= lang('Shop.details') ?></span>
                             </div>
                         </a>
                     <?php endforeach ?>

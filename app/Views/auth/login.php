@@ -1,9 +1,7 @@
 <div class="auth-container">
     <div class="auth-card">
-        <!-- Декоративний glow -->
         <div class="auth-glow"></div>
 
-        <!-- Заголовок -->
         <div class="auth-header">
             <div class="auth-icon">
                 <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
@@ -12,53 +10,32 @@
                     <line x1="15" y1="12" x2="3" y2="12"/>
                 </svg>
             </div>
-            <h1 class="auth-title">Вхід в акаунт</h1>
-            <p class="auth-subtitle">Увійдіть щоб керувати привілегіями</p>
+            <h1 class="auth-title"><?= lang('Auth.login_title') ?></h1>
+            <p class="auth-subtitle"><?= lang('Auth.login_subtitle') ?></p>
         </div>
 
-        <!-- Форма -->
         <form method="post" action="/login" class="auth-form" autocomplete="on">
             <?= csrf_field() ?>
             <?= antispam_fields() ?>
 
-            <!-- Email -->
             <div class="form-group">
-                <label for="email" class="form-label">Email</label>
+                <label for="email" class="form-label"><?= lang('Auth.login_email') ?></label>
                 <div class="form-input-wrap">
                     <svg class="form-input-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
                         <rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/>
                     </svg>
-                    <input
-                        type="email"
-                        id="email"
-                        name="email"
-                        class="form-input"
-                        placeholder="your@email.com"
-                        value="<?= old('email') ?>"
-                        required
-                        autofocus
-                        autocomplete="email"
-                    >
+                    <input type="email" id="email" name="email" class="form-input" placeholder="your@email.com" value="<?= old('email') ?>" required autofocus autocomplete="email">
                 </div>
             </div>
 
-            <!-- Пароль -->
             <div class="form-group">
-                <label for="password" class="form-label">Пароль</label>
+                <label for="password" class="form-label"><?= lang('Auth.login_password') ?></label>
                 <div class="form-input-wrap">
                     <svg class="form-input-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
                         <rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/>
                     </svg>
-                    <input
-                        type="password"
-                        id="password"
-                        name="password"
-                        class="form-input"
-                        placeholder="••••••••"
-                        required
-                        autocomplete="current-password"
-                    >
-                    <button type="button" class="form-input-toggle" onclick="togglePassword(this)" aria-label="Показати пароль">
+                    <input type="password" id="password" name="password" class="form-input" placeholder="••••••••" required autocomplete="current-password">
+                    <button type="button" class="form-input-toggle" onclick="togglePassword(this)" aria-label="<?= lang('Auth.show_password') ?>">
                         <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" class="eye-open">
                             <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/>
                         </svg>
@@ -70,18 +47,16 @@
                 </div>
             </div>
 
-            <!-- Кнопка -->
             <button type="submit" class="btn-auth">
-                <span>Увійти</span>
+                <span><?= lang('Auth.login_btn') ?></span>
                 <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                     <line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/>
                 </svg>
             </button>
         </form>
 
-        <!-- Посилання -->
         <div class="auth-footer">
-            <p>Немає акаунту? <a href="/register" class="auth-link">Зареєструватись</a></p>
+            <p><?= lang('Auth.login_no_account') ?> <a href="/register" class="auth-link"><?= lang('Auth.login_link') ?></a></p>
         </div>
     </div>
 </div>
