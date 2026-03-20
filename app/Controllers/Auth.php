@@ -3,10 +3,18 @@
 namespace App\Controllers;
 
 use App\Models\UserModel;
-use App\Filters\LoginThrottleFilter;
 
 class Auth extends BaseController
 {
+    /** Max failed attempts per window */
+    private const MAX_ATTEMPTS = 5;
+
+    /** Window in seconds (15 min) */
+    private const WINDOW = 900;
+
+    /** Lockout in seconds (30 min) */
+    private const LOCKOUT = 1800;
+
     public function login()
     {
         if (session()->get('user_id')) {
@@ -33,12 +41,17 @@ class Auth extends BaseController
         $email = $this->request->getPost('email');
         $ip    = $this->request->getIPAddress();
 
+        // --- Rate Limiting ---
+        $blocked = $this->checkThrottle($ip);
+        if ($blocked) {
+            return redirect()->back()->withInput()->with('error', $blocked);
+        }
+
         $userModel = new UserModel();
         $user = $userModel->findByEmail($email);
 
         if (! $user || ! password_verify($this->request->getPost('password'), $user['password'])) {
-            // Логуємо невдалу спробу
-            LoginThrottleFilter::logAttempt($ip, $email, false);
+            $this->logAttempt($ip, $email, false);
             return redirect()->back()->withInput()->with('error', lang('Auth.error_credentials') ?: 'Невірний email або пароль');
         }
 
@@ -47,12 +60,11 @@ class Auth extends BaseController
         }
 
         // Логуємо успішну спробу
-        LoginThrottleFilter::logAttempt($ip, $email, true);
+        $this->logAttempt($ip, $email, true);
 
-        // Регенерація session ID (захист від session fixation)
+        // Регенерація session ID
         session()->regenerate();
 
-        // Зберігаємо в сесію
         session()->set([
             'user_id'   => $user['id'],
             'user_email' => $user['email'],
@@ -64,7 +76,6 @@ class Auth extends BaseController
 
         $userModel->updateLastLogin($user['id']);
 
-        // Редірект на попередню сторінку або кабінет
         $redirect = session()->getFlashdata('redirect_url') ?? '/account';
         return redirect()->to($redirect)->with('success', 'Ласкаво просимо!');
     }
@@ -124,10 +135,8 @@ class Auth extends BaseController
 
         $user = $userModel->find($userId);
 
-        // Регенерація session ID
         session()->regenerate();
 
-        // Автоматичний логін після реєстрації
         session()->set([
             'user_id'    => $user['id'],
             'user_email' => $user['email'],
@@ -144,5 +153,58 @@ class Auth extends BaseController
     {
         session()->destroy();
         return redirect()->to('/')->with('success', 'Ви вийшли з акаунту');
+    }
+
+    // ------------------------------------------------------------------
+    //  Rate Limiting
+    // ------------------------------------------------------------------
+
+    private function checkThrottle(string $ip): ?string
+    {
+        try {
+            $db = \Config\Database::connect();
+
+            // Очищаємо старі записи
+            $cutoff = date('Y-m-d H:i:s', time() - self::LOCKOUT);
+            $db->table('login_attempts')
+                ->where('attempted_at <', $cutoff)
+                ->delete();
+
+            // Рахуємо невдалі спроби за вікно
+            $windowStart = date('Y-m-d H:i:s', time() - self::WINDOW);
+            $attempts = $db->table('login_attempts')
+                ->where('ip_address', $ip)
+                ->where('attempted_at >=', $windowStart)
+                ->where('success', 0)
+                ->countAllResults();
+
+            if ($attempts >= self::MAX_ATTEMPTS) {
+                $minutes = (int) ceil(self::LOCKOUT / 60);
+
+                $lang = session()->get('lang') ?? 'ua';
+                return $lang === 'en'
+                    ? "Too many login attempts. Try again in {$minutes} minutes."
+                    : "Забагато спроб входу. Спробуйте через {$minutes} хвилин.";
+            }
+        } catch (\Throwable $e) {
+            log_message('error', 'Throttle check failed: ' . $e->getMessage());
+        }
+
+        return null;
+    }
+
+    private function logAttempt(string $ip, string $email, bool $success): void
+    {
+        try {
+            $db = \Config\Database::connect();
+            $db->table('login_attempts')->insert([
+                'ip_address'   => $ip,
+                'email'        => $email,
+                'success'      => $success ? 1 : 0,
+                'attempted_at' => date('Y-m-d H:i:s'),
+            ]);
+        } catch (\Throwable $e) {
+            log_message('error', 'Login attempt log failed: ' . $e->getMessage());
+        }
     }
 }

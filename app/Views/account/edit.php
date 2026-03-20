@@ -5,7 +5,7 @@
     </div>
 
     <div class="edit-card">
-        <form method="post" action="/account/update" class="auth-form" autocomplete="on">
+        <form method="post" action="/account/edit" class="auth-form" autocomplete="on">
             <?= csrf_field() ?>
 
             <div class="form-group">
