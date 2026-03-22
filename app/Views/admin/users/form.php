@@ -1,15 +1,5 @@
 <section class="admin-page">
-    <div class="admin-header">
-        <h1 class="admin-title">Редагувати користувача</h1>
-        <div class="admin-nav">
-            <a href="/admin" class="admin-nav-link">Dashboard</a>
-            <a href="/admin/products" class="admin-nav-link">Товари</a>
-            <a href="/admin/categories" class="admin-nav-link">Категорії</a>
-            <a href="/admin/orders" class="admin-nav-link">Замовлення</a>
-            <a href="/admin/users" class="admin-nav-link active">Користувачі</a>
-            <a href="/admin/settings" class="admin-nav-link">Налаштування</a>
-        </div>
-    </div>
+    <?= view("admin/_nav", ["adminTitle" => "Редагувати користувача"]) ?>
 
     <div class="admin-section">
         <div class="admin-section-header">

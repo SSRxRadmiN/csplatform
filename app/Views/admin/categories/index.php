@@ -1,50 +1,62 @@
 <section class="admin-page">
-    <?= view("admin/_nav", ["adminTitle" => "Користувачі"]) ?>
+    <?= view("admin/_nav", ["adminTitle" => "Категорії"]) ?>
 
     <div class="admin-section">
         <div class="admin-section-header">
-            <h2 class="admin-section-title">Всі користувачі (<?= count($users) ?>)</h2>
+            <span class="admin-section-title">Всі категорії (<?= count($categories) ?>)</span>
+            <a href="/admin/categories/create" class="btn-admin-primary">+ Додати категорію</a>
         </div>
 
-        <?php if (empty($users)): ?>
-            <p class="admin-empty">Користувачів немає</p>
+        <?php if (empty($categories)): ?>
+            <div class="admin-empty">Категорій поки немає</div>
         <?php else: ?>
             <div class="admin-table-wrap">
                 <table class="admin-table">
                     <thead>
                         <tr>
                             <th>ID</th>
-                            <th>Нікнейм</th>
-                            <th>Email</th>
-                            <th>Steam ID</th>
-                            <th>Роль</th>
+                            <th>Іконка</th>
+                            <th>Slug</th>
+                            <th>Назва (UA)</th>
+                            <th>Назва (EN)</th>
+                            <th>Колір</th>
+                            <th>Порядок</th>
                             <th>Статус</th>
-                            <th>Останній вхід</th>
-                            <th>Реєстрація</th>
                             <th>Дії</th>
                         </tr>
                     </thead>
                     <tbody>
-                        <?php foreach ($users as $u): ?>
-                            <tr>
-                                <td><?= $u['id'] ?></td>
-                                <td><?= esc($u['username'] ?? '—') ?></td>
-                                <td><?= esc($u['email']) ?></td>
-                                <td><code><?= esc($u['steam_id'] ?? '—') ?></code></td>
+                        <?php foreach ($categories as $cat): ?>
+                            <tr class="<?= !$cat['is_active'] ? 'row-inactive' : '' ?>">
+                                <td><?= $cat['id'] ?></td>
+                                <td style="font-size:1.25rem;"><?= esc($cat['icon'] ?? '') ?></td>
+                                <td><code><?= esc($cat['slug']) ?></code></td>
+                                <td><?= esc($cat['name_ua']) ?></td>
+                                <td><?= esc($cat['name_en'] ?? '—') ?></td>
                                 <td>
-                                    <span class="status-badge status-<?= $u['role'] === 'admin' ? 'delivered' : 'pending' ?>">
-                                        <?= esc($u['role']) ?>
+                                    <span style="display:inline-flex;align-items:center;gap:0.4rem;">
+                                        <span style="width:14px;height:14px;border-radius:50%;background:<?= esc($cat['color'] ?? '#9ca3af') ?>;display:inline-block;"></span>
+                                        <code><?= esc($cat['color'] ?? '') ?></code>
                                     </span>
                                 </td>
+                                <td><?= (int) $cat['sort_order'] ?></td>
                                 <td>
-                                    <span class="status-badge status-<?= ($u['is_active'] ?? 1) ? 'delivered' : 'failed' ?>">
-                                        <?= ($u['is_active'] ?? 1) ? 'Активний' : 'Заблокований' ?>
-                                    </span>
+                                    <?php if ($cat['is_active']): ?>
+                                        <span class="status-badge status-delivered">Активна</span>
+                                    <?php else: ?>
+                                        <span class="status-badge status-expired">Неактивна</span>
+                                    <?php endif ?>
                                 </td>
-                                <td><?= !empty($u['last_login']) ? date('d.m.Y H:i', strtotime($u['last_login'])) : '—' ?></td>
-                                <td><?= date('d.m.Y', strtotime($u['created_at'])) ?></td>
                                 <td>
-                                    <a href="/admin/users/edit/<?= $u['id'] ?>" class="admin-link">Ред.</a>
+                                    <div class="admin-actions">
+                                        <a href="/admin/categories/edit/<?= $cat['id'] ?>" class="admin-btn-sm">Ред.</a>
+                                        <?php if ($cat['is_active']): ?>
+                                            <form method="post" action="/admin/categories/delete/<?= $cat['id'] ?>" style="display:inline;" onsubmit="return confirm('Деактивувати категорію?')">
+                                                <?= csrf_field() ?>
+                                                <button type="submit" class="admin-btn-sm admin-btn-danger">Вимкнути</button>
+                                            </form>
+                                        <?php endif ?>
+                                    </div>
                                 </td>
                             </tr>
                         <?php endforeach ?>
