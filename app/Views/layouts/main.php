@@ -130,7 +130,7 @@
         <ul class="footer-links">
             <li><a href="/privacy"><?= lang('App.footer_privacy') ?></a></li>
             <li><a href="/faq"><?= lang('App.footer_faq') ?></a></li>
-            <li><a href="#" target="_blank"><?= lang('App.footer_telegram') ?></a></li>
+            <li><a href="https://t.me/csheadshot" target="_blank"><?= lang('App.footer_telegram') ?></a></li>
         </ul>
     </footer>
 

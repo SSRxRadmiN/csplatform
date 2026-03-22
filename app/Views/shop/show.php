@@ -19,7 +19,7 @@ $catColor = $product['cat_color'] ?? '#9ca3af';
         <!-- Ліва частина — інфо -->
         <div class="product-info">
             <?php if (!empty($product['image_url'])): ?>
-                <div class="product-image">
+                <div class="product-image" onclick="openLightbox(this.querySelector('img').src)" style="cursor:zoom-in;">
                     <img src="<?= esc($product['image_url']) ?>" alt="<?= esc($name) ?>">
                 </div>
             <?php endif ?>
