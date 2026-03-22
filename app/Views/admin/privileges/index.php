@@ -1,16 +1,5 @@
 <section class="admin-page">
-    <div class="admin-header">
-        <h1 class="admin-title">Привілеї сервера</h1>
-        <div class="admin-nav">
-            <a href="/admin" class="admin-nav-link">Dashboard</a>
-            <a href="/admin/products" class="admin-nav-link">Товари</a>
-            <a href="/admin/categories" class="admin-nav-link">Категорії</a>
-            <a href="/admin/orders" class="admin-nav-link">Замовлення</a>
-            <a href="/admin/users" class="admin-nav-link">Користувачі</a>
-            <a href="/admin/privileges" class="admin-nav-link active">Привілеї</a>
-            <a href="/admin/settings" class="admin-nav-link">Налаштування</a>
-        </div>
-    </div>
+    <?= view("admin/_nav", ["adminTitle" => "Привілеї сервера"]) ?>
 
     <?php if (!empty($apiError)): ?>
         <div class="flash-message flash-error">API помилка: <?= esc($apiError) ?></div>

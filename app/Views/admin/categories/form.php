@@ -1,94 +1,94 @@
-<?php
-$isEdit = !empty($category);
-$action = $isEdit ? '/admin/categories/edit/' . $category['id'] : '/admin/categories/create';
-?>
-
 <section class="admin-page">
-    <div class="admin-header">
-        <h1 class="admin-title"><?= $isEdit ? 'Редагувати категорію' : 'Нова категорія' ?></h1>
-        <div class="admin-nav">
-            <a href="/admin" class="admin-nav-link">Dashboard</a>
-            <a href="/admin/products" class="admin-nav-link">Товари</a>
-            <a href="/admin/categories" class="admin-nav-link active">Категорії</a>
-            <a href="/admin/orders" class="admin-nav-link">Замовлення</a>
-            <a href="/admin/users" class="admin-nav-link">Користувачі</a>
-            <a href="/admin/settings" class="admin-nav-link">Налаштування</a>
-        </div>
-    </div>
+    <?= view("admin/_nav", ["adminTitle" => "Редагувати користувача"]) ?>
 
     <div class="admin-section">
         <div class="admin-section-header">
-            <a href="/admin/categories" class="admin-link">← Назад до категорій</a>
+            <a href="/admin/users" class="admin-link">← Назад до користувачів</a>
         </div>
 
-        <form method="post" action="<?= $action ?>" class="admin-form">
+        <!-- Інфо блок -->
+        <div class="admin-info-block" style="margin-bottom: 1.5rem; padding: 1rem; border: 1px solid rgba(74, 222, 128, 0.15); border-radius: 8px; background: rgba(74, 222, 128, 0.03);">
+            <div style="display: flex; gap: 2rem; flex-wrap: wrap; font-size: 0.85rem; color: rgba(240, 253, 244, 0.6);">
+                <span>ID: <strong style="color: #f0fdf4;"><?= $editUser['id'] ?></strong></span>
+                <span>Реєстрація: <strong style="color: #f0fdf4;"><?= date('d.m.Y H:i', strtotime($editUser['created_at'])) ?></strong></span>
+                <span>Останній вхід: <strong style="color: #f0fdf4;"><?= !empty($editUser['last_login']) ? date('d.m.Y H:i', strtotime($editUser['last_login'])) : '—' ?></strong></span>
+            </div>
+        </div>
+
+        <form method="post" action="/admin/users/edit/<?= $editUser['id'] ?>" class="admin-form">
             <?= csrf_field() ?>
 
             <div class="admin-form-grid">
                 <div class="admin-form-group">
-                    <label class="admin-label">Slug *</label>
-                    <input type="text" name="slug" class="admin-input"
-                        value="<?= esc(old('slug', $category['slug'] ?? '')) ?>"
-                        placeholder="vip" required pattern="[a-z0-9_-]+">
-                    <small class="admin-hint">Тільки латиниця, цифри, дефіс, підкреслення</small>
+                    <label class="admin-label">Нікнейм</label>
+                    <input type="text" name="username" class="admin-input"
+                        value="<?= esc(old('username', $editUser['username'] ?? '')) ?>"
+                        placeholder="Нік гравця">
                 </div>
 
                 <div class="admin-form-group">
-                    <label class="admin-label">Іконка (emoji)</label>
-                    <input type="text" name="icon" class="admin-input"
-                        value="<?= esc(old('icon', $category['icon'] ?? '')) ?>"
-                        placeholder="⭐">
+                    <label class="admin-label">Email *</label>
+                    <input type="email" name="email" class="admin-input"
+                        value="<?= esc(old('email', $editUser['email'])) ?>" required>
                 </div>
 
                 <div class="admin-form-group">
-                    <label class="admin-label">Назва (UA) *</label>
-                    <input type="text" name="name_ua" class="admin-input"
-                        value="<?= esc(old('name_ua', $category['name_ua'] ?? '')) ?>" required>
+                    <label class="admin-label">Steam ID</label>
+                    <input type="text" name="steam_id" class="admin-input"
+                        value="<?= esc(old('steam_id', $editUser['steam_id'] ?? '')) ?>"
+                        placeholder="STEAM_0:1:xxxxx">
+                    <small class="admin-hint">Формат: STEAM_X:Y:ZZZZZ</small>
                 </div>
 
                 <div class="admin-form-group">
-                    <label class="admin-label">Назва (EN)</label>
-                    <input type="text" name="name_en" class="admin-input"
-                        value="<?= esc(old('name_en', $category['name_en'] ?? '')) ?>">
+                    <label class="admin-label">Роль</label>
+                    <?php
+                        $roles = [
+                            'player'    => '🎮 Гравець',
+                            'moderator' => '🛡️ Модератор',
+                            'owner'     => '👑 Власник сервера',
+                            'admin'     => '⚡ Адміністратор',
+                        ];
+                        $currentRole = old('role', $editUser['role']);
+                        $isSelf = ((int)$editUser['id'] === (int)session()->get('user_id'));
+                    ?>
+                    <select name="role" class="admin-input" <?= $isSelf ? 'disabled' : '' ?>>
+                        <?php foreach ($roles as $value => $label): ?>
+                            <option value="<?= $value ?>" <?= $currentRole === $value ? 'selected' : '' ?>>
+                                <?= $label ?>
+                            </option>
+                        <?php endforeach ?>
+                    </select>
+                    <?php if ($isSelf): ?>
+                        <input type="hidden" name="role" value="<?= esc($currentRole) ?>">
+                        <small class="admin-hint">Не можна змінити роль самому собі</small>
+                    <?php endif ?>
                 </div>
 
                 <div class="admin-form-group">
-                    <label class="admin-label">Колір (hex)</label>
-                    <div style="display:flex;gap:0.5rem;align-items:center;">
-                        <input type="color" name="color" style="width:40px;height:36px;border:none;background:transparent;cursor:pointer;"
-                            value="<?= esc(old('color', $category['color'] ?? '#4ade80')) ?>">
-                        <input type="text" class="admin-input" style="flex:1;"
-                            value="<?= esc(old('color', $category['color'] ?? '#4ade80')) ?>"
-                            readonly id="color-text">
-                    </div>
-                    <small class="admin-hint">Використовується для бейджів у магазині</small>
+                    <label class="admin-label">Статус</label>
+                    <?php $isSelf = ((int)$editUser['id'] === (int)session()->get('user_id')); ?>
+                    <select name="is_active" class="admin-input" <?= $isSelf ? 'disabled' : '' ?>>
+                        <option value="1" <?= ($editUser['is_active'] ?? 1) ? 'selected' : '' ?>>✅ Активний</option>
+                        <option value="0" <?= !($editUser['is_active'] ?? 1) ? 'selected' : '' ?>>🚫 Заблокований</option>
+                    </select>
+                    <?php if ($isSelf): ?>
+                        <input type="hidden" name="is_active" value="1">
+                        <small class="admin-hint">Не можна заблокувати самого себе</small>
+                    <?php endif ?>
                 </div>
 
                 <div class="admin-form-group">
-                    <label class="admin-label">Порядок сортування</label>
-                    <input type="number" name="sort_order" class="admin-input" min="0"
-                        value="<?= esc(old('sort_order', $category['sort_order'] ?? '0')) ?>">
-                </div>
-
-                <div class="admin-form-group">
-                    <label class="admin-label">
-                        <input type="hidden" name="is_active" value="0">
-                        <input type="checkbox" name="is_active" value="1"
-                            <?= old('is_active', $category['is_active'] ?? 1) ? 'checked' : '' ?>>
-                        Активна
-                    </label>
+                    <label class="admin-label">Новий пароль</label>
+                    <input type="password" name="new_password" class="admin-input"
+                        placeholder="Залиште порожнім щоб не змінювати" autocomplete="new-password">
+                    <small class="admin-hint">Мінімум 6 символів. Залиште порожнім якщо не потрібно змінювати.</small>
                 </div>
             </div>
 
-            <button type="submit" class="btn-admin-primary" style="margin-top:1.5rem;">
-                <?= $isEdit ? 'Зберегти зміни' : 'Створити категорію' ?>
+            <button type="submit" class="btn-admin-primary" style="margin-top: 1.5rem;">
+                Зберегти зміни
             </button>
         </form>
     </div>
 </section>
-
-<script>
-document.querySelector('input[type="color"]').addEventListener('input', function() {
-    document.getElementById('color-text').value = this.value;
-});
-</script>

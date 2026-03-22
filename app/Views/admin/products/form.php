@@ -4,17 +4,7 @@ $action = $isEdit ? '/admin/products/edit/' . $product['id'] : '/admin/products/
 ?>
 
 <section class="admin-page">
-    <div class="admin-header">
-        <h1 class="admin-title"><?= $isEdit ? 'Редагувати товар' : 'Новий товар' ?></h1>
-        <div class="admin-nav">
-            <a href="/admin" class="admin-nav-link">Dashboard</a>
-            <a href="/admin/products" class="admin-nav-link active">Товари</a>
-            <a href="/admin/categories" class="admin-nav-link">Категорії</a>
-            <a href="/admin/orders" class="admin-nav-link">Замовлення</a>
-            <a href="/admin/users" class="admin-nav-link">Користувачі</a>
-            <a href="/admin/settings" class="admin-nav-link">Налаштування</a>
-        </div>
-    </div>
+    <?= view("admin/_nav", ["adminTitle" => $isEdit ? "Редагувати товар" : "Новий товар"]) ?>
 
     <div class="admin-section">
         <div class="admin-section-header">
