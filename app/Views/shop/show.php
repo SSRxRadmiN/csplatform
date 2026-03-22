@@ -46,16 +46,23 @@ $catColor = $product['cat_color'] ?? '#9ca3af';
                     <span class="product-spec-label"><?= lang('Shop.spec_duration') ?></span>
                     <span class="product-spec-value"><?= duration_text($duration) ?></span>
                 </div>
-                <?php if (!empty($product['amx_flags'])): ?>
+                <?php if ($catSlug !== 'models'): ?>
+                    <?php if (!empty($product['amx_flags'])): ?>
+                        <div class="product-spec">
+                            <span class="product-spec-label"><?= lang('Shop.spec_flags') ?></span>
+                            <span class="product-spec-value"><code><?= esc($product['amx_flags']) ?></code></span>
+                        </div>
+                    <?php endif ?>
+                    <?php if (!empty($product['amx_access'])): ?>
+                        <div class="product-spec">
+                            <span class="product-spec-label"><?= lang('Shop.spec_access') ?></span>
+                            <span class="product-spec-value"><code><?= esc($product['amx_access']) ?></code></span>
+                        </div>
+                    <?php endif ?>
+                <?php else: ?>
                     <div class="product-spec">
-                        <span class="product-spec-label"><?= lang('Shop.spec_flags') ?></span>
-                        <span class="product-spec-value"><code><?= esc($product['amx_flags']) ?></code></span>
-                    </div>
-                <?php endif ?>
-                <?php if (!empty($product['amx_access'])): ?>
-                    <div class="product-spec">
-                        <span class="product-spec-label"><?= lang('Shop.spec_access') ?></span>
-                        <span class="product-spec-value"><code><?= esc($product['amx_access']) ?></code></span>
+                        <span class="product-spec-label"><?= current_lang() === 'en' ? 'Type' : 'Тип' ?></span>
+                        <span class="product-spec-value">🎭 <?= current_lang() === 'en' ? 'Player model' : 'Модель гравця' ?></span>
                     </div>
                 <?php endif ?>
             </div>

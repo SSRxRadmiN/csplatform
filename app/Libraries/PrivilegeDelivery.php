@@ -101,14 +101,25 @@ class PrivilegeDelivery
      */
     private function deliverModel(array $order, array $product): array
     {
-        // model_te і model_ct зберігаються в product (додаткові поля)
-        // або вказуються через amx_access у форматі "model_te|model_ct"
-        $models = $this->parseModelFields($product);
+        // Пріоритет: окремі поля model_te/model_ct, fallback на парсинг amx_access
+        $te = $product['model_te'] ?? '';
+        $ct = $product['model_ct'] ?? '';
+
+        if (empty($te) && empty($ct)) {
+            // Fallback: парсити amx_access у форматі "model_te|model_ct"
+            $models = $this->parseModelFields($product);
+            $te = $models['te'];
+            $ct = $models['ct'];
+        }
+
+        // Якщо вказана тільки одна — використати для обох сторін
+        if (empty($te) && !empty($ct)) $te = $ct;
+        if (empty($ct) && !empty($te)) $ct = $te;
 
         return $this->callApi('model', [
             'steam_id'      => $order['steam_id'],
-            'model_te'      => $models['te'],
-            'model_ct'      => $models['ct'],
+            'model_te'      => $te,
+            'model_ct'      => $ct,
             'duration_days' => $order['duration_days'] ?? $product['duration_days'] ?? 30,
             'order_id'      => $order['id'],
         ]);

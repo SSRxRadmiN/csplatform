@@ -112,6 +112,27 @@ $action = $isEdit ? '/admin/products/edit/' . $product['id'] : '/admin/products/
                         placeholder="ce">
                 </div>
 
+                <!-- Поля моделей (видимі тільки для категорії "models") -->
+                <div class="admin-form-group admin-form-full" id="model-fields" style="display:none;">
+                    <label class="admin-label" style="margin-bottom:0.75rem; color:#4ade80;">🎭 Моделі гравця</label>
+                    <div style="display:grid; grid-template-columns:1fr 1fr; gap:1rem;">
+                        <div>
+                            <label class="admin-label">Модель TE (Терористи)</label>
+                            <input type="text" name="model_te" class="admin-input"
+                                value="<?= esc(old('model_te', $product['model_te'] ?? '')) ?>"
+                                placeholder="sas_urban">
+                            <small class="admin-hint">Назва моделі без шляху (тека models/player/)</small>
+                        </div>
+                        <div>
+                            <label class="admin-label">Модель CT (Спецназ)</label>
+                            <input type="text" name="model_ct" class="admin-input"
+                                value="<?= esc(old('model_ct', $product['model_ct'] ?? '')) ?>"
+                                placeholder="gsg9_urban">
+                            <small class="admin-hint">Назва моделі без шляху (тека models/player/)</small>
+                        </div>
+                    </div>
+                </div>
+
                 <div class="admin-form-group">
                     <label class="admin-label">Порядок сортування</label>
                     <input type="number" name="sort_order" class="admin-input" min="0"
@@ -134,3 +155,34 @@ $action = $isEdit ? '/admin/products/edit/' . $product['id'] : '/admin/products/
         </form>
     </div>
 </section>
+
+<!-- Slug-карта категорій для JS -->
+<?php
+$catSlugs = [];
+foreach ($categories as $c) {
+    $catSlugs[$c['id']] = $c['slug'] ?? '';
+}
+?>
+<script>
+(function() {
+    const catSlugs = <?= json_encode($catSlugs) ?>;
+    const catSelect = document.querySelector('select[name="category_id"]');
+    const modelFields = document.getElementById('model-fields');
+    const amxAccessGroup = document.querySelector('input[name="amx_access"]')?.closest('.admin-form-group');
+    const amxFlagsGroup = document.querySelector('input[name="amx_flags"]')?.closest('.admin-form-group');
+
+    function toggleFields() {
+        const slug = catSlugs[catSelect.value] || '';
+        const isModels = slug === 'models';
+
+        modelFields.style.display = isModels ? 'block' : 'none';
+
+        // Ховаємо AMX Access/Flags для моделей (не потрібні)
+        if (amxAccessGroup) amxAccessGroup.style.display = isModels ? 'none' : '';
+        if (amxFlagsGroup) amxFlagsGroup.style.display = isModels ? 'none' : '';
+    }
+
+    catSelect.addEventListener('change', toggleFields);
+    toggleFields(); // init
+})();
+</script>
