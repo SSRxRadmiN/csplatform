@@ -77,3 +77,59 @@ document.querySelectorAll('.status-item .value').forEach(el => {
         }
     });
 })();
+
+/* ═══ IMAGE LIGHTBOX ═══ */
+function openLightbox(src) {
+    if (!src) return;
+
+    // Створюємо overlay
+    const overlay = document.createElement('div');
+    overlay.className = 'lightbox-overlay';
+
+    const img = document.createElement('img');
+    img.className = 'lightbox-img';
+    img.src = src;
+    img.alt = 'Preview';
+
+    const closeBtn = document.createElement('button');
+    closeBtn.className = 'lightbox-close';
+    closeBtn.innerHTML = '&times;';
+    closeBtn.onclick = closeLightbox;
+
+    overlay.appendChild(closeBtn);
+    overlay.appendChild(img);
+    document.body.appendChild(overlay);
+    document.body.style.overflow = 'hidden';
+
+    // Закриття по кліку на overlay (не на картинку)
+    overlay.addEventListener('click', function(e) {
+        if (e.target === overlay) closeLightbox();
+    });
+
+    // Закриття по Escape
+    overlay._escHandler = function(e) {
+        if (e.key === 'Escape') closeLightbox();
+    };
+    document.addEventListener('keydown', overlay._escHandler);
+
+    // Анімація появи
+    requestAnimationFrame(() => overlay.classList.add('open'));
+}
+
+function closeLightbox() {
+    const overlay = document.querySelector('.lightbox-overlay');
+    if (!overlay) return;
+
+    if (overlay._escHandler) {
+        document.removeEventListener('keydown', overlay._escHandler);
+    }
+
+    overlay.classList.remove('open');
+    setTimeout(() => {
+        overlay.remove();
+        // Повертаємо скрол тільки якщо немає інших overlay
+        if (!document.querySelector('.lightbox-overlay')) {
+            document.body.style.overflow = '';
+        }
+    }, 250);
+}

@@ -63,7 +63,7 @@ foreach ($categories as $c) {
                                 <h3 class="product-card-name"><?= esc($name) ?></h3>
 
                                 <?php if ($desc): ?>
-                                    <p class="product-card-desc"><?= esc(mb_substr($desc, 0, 100)) ?><?= mb_strlen($desc) > 100 ? '…' : '' ?></p>
+                                    <p class="product-card-desc"><?= esc($desc) ?></p>
                                 <?php endif ?>
 
                                 <div class="product-card-meta">
