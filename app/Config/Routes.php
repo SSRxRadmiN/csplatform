@@ -82,6 +82,11 @@ $routes->group('admin', ['filter' => 'admin'], function ($routes) {
 
     $routes->get('settings', 'Admin\Settings::index');
     $routes->post('settings', 'Admin\Settings::update');
+
+    $routes->get('privileges', 'Admin\Privileges::index');
+    $routes->post('privileges/add', 'Admin\Privileges::add');
+    $routes->post('privileges/update/(:num)', 'Admin\Privileges::update/$1');
+    $routes->post('privileges/delete/(:num)', 'Admin\Privileges::delete/$1');
 });
 
 // ============================================
