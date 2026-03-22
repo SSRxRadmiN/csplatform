@@ -66,9 +66,15 @@
             <div class="product-badge" style="background: <?= esc($product['cat_color'] ?? '#4ade80') ?>20; color: <?= esc($product['cat_color'] ?? '#4ade80') ?>;">
                 <?= esc($product['cat_icon'] ?? '') ?> <?= esc(strtoupper(cat_name($product) ?: ($product['cat_name_ua'] ?? ''))) ?>
             </div>
-            <div class="product-icon">
-                <?= esc($product['cat_icon'] ?? '🎯') ?>
-            </div>
+            <?php if (!empty($product['image_url'])): ?>
+                <div class="product-image-preview">
+                    <img src="<?= esc($product['image_url']) ?>" alt="<?= esc(product_name($product)) ?>">
+                </div>
+            <?php else: ?>
+                <div class="product-icon">
+                    <?= esc($product['cat_icon'] ?? '🎯') ?>
+                </div>
+            <?php endif ?>
             <div class="product-name"><?= esc(product_name($product)) ?></div>
             <p class="product-desc"><?= esc(product_desc($product)) ?></p>
 
@@ -80,7 +86,7 @@
                 </span>
             </div>
 
-            <a href="/buy/<?= $product['id'] ?>" class="btn-buy">
+            <a href="/shop/<?= $product['id'] ?>" class="btn-buy">
                 <?= lang('Home.buy_btn') ?> <?= esc(product_name($product)) ?>
             </a>
         </div>
