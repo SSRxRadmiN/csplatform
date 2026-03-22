@@ -50,7 +50,7 @@
                                 <td><?= $p['id'] ?></td>
                                 <td title="<?= esc($p['nickname']) ?>"><?= esc(mb_strimwidth($p['nickname'], 0, 20, '…')) ?></td>
                                 <td><code style="font-size:0.75rem;"><?= esc($p['steamid']) ?></code></td>
-                                <td><code><?= esc($p['access']) ?></code></td>
+                                <td><code class="priv-access"><?= esc($p['access']) ?></code></td>
                                 <td><code><?= esc($p['flags']) ?></code></td>
                                 <td style="font-size:0.8rem;">
                                     <?php if ($p['status'] === 'permanent'): ?>
@@ -279,5 +279,28 @@ document.addEventListener('keydown', function(e) {
     gap: 0.75rem;
     padding: 1rem 1.5rem;
     border-top: 1px solid rgba(74,222,128,0.1);
+}
+
+/* Privileges table fixes */
+.admin-page .admin-table td code {
+    font-size: 0.7rem;
+    word-break: break-all;
+}
+.admin-page .admin-table .priv-access {
+    max-width: 120px;
+    font-size: 0.7rem;
+    word-break: break-all;
+    line-height: 1.4;
+}
+.admin-page .admin-actions {
+    display: flex;
+    gap: 0.4rem;
+    align-items: center;
+}
+.admin-page .admin-actions .admin-btn-sm {
+    padding: 0.3rem 0.7rem;
+    font-size: 0.75rem;
+    white-space: nowrap;
+    line-height: 1.3;
 }
 </style>
