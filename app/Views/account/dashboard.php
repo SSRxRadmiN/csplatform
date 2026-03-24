@@ -41,30 +41,32 @@ $userRole  = session()->get('user_role') ?? 'player';
                             <span class="privilege-name"><?= esc($p['product_name'] ?? 'Privilege #' . $p['id']) ?></span>
                             <span class="privilege-status"><?= lang('Account.status_active') ?></span>
                         </div>
-                        <?php if (!empty($p['expires_at'])): ?>
-                            <?php
-                                $expires = strtotime($p['expires_at']);
-                                $daysLeft = max(0, (int) ceil(($expires - time()) / 86400));
-                            ?>
-                            <div class="privilege-expires">
-                                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
-                                <?= lang('Account.days_left') ?> <?= days_text($daysLeft) ?>
-                                <span class="privilege-date">(<?= lang('Account.until') ?> <?= date('d.m.Y', $expires) ?>)</span>
+                        <div class="privilege-detail-row">
+                            <div class="privilege-detail-left">
+                                <?php if (!empty($p['expires_at'])): ?>
+                                    <?php
+                                        $expires = strtotime($p['expires_at']);
+                                        $daysLeft = max(0, (int) ceil(($expires - time()) / 86400));
+                                    ?>
+                                    <div class="privilege-expires">
+                                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+                                        <?= lang('Account.days_left') ?> <?= days_text($daysLeft) ?>
+                                        <span class="privilege-date">(<?= lang('Account.until') ?> <?= date('d.m.Y', $expires) ?>)</span>
+                                    </div>
+                                <?php else: ?>
+                                    <div class="privilege-expires"><?= lang('Account.unlimited') ?></div>
+                                <?php endif ?>
+                                <?php if (!empty($p['amx_flags'])): ?>
+                                    <div class="privilege-flags"><?= lang('Account.flags') ?>: <code><?= esc($p['amx_flags']) ?></code></div>
+                                <?php endif ?>
                             </div>
-                        <?php else: ?>
-                            <div class="privilege-expires"><?= lang('Account.unlimited') ?></div>
-                        <?php endif ?>
-                        <?php if (!empty($p['amx_flags'])): ?>
-                            <div class="privilege-flags"><?= lang('Account.flags') ?>: <code><?= esc($p['amx_flags']) ?></code></div>
-                        <?php endif ?>
-                        <?php if (!empty($p['product_id'])): ?>
-                            <div class="privilege-actions">
+                            <?php if (!empty($p['product_id'])): ?>
                                 <a href="/shop/<?= $p['product_id'] ?>" class="btn-privilege-extend">
                                     <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 5v14M5 12h14"/></svg>
                                     <?= current_lang() === 'en' ? 'Extend' : 'Продовжити' ?>
                                 </a>
-                            </div>
-                        <?php endif ?>
+                            <?php endif ?>
+                        </div>
                     </div>
                 <?php endforeach ?>
             </div>
