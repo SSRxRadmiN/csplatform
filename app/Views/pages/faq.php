@@ -104,6 +104,30 @@
 
         <div class="faq-item">
             <button class="faq-question" onclick="this.parentElement.classList.toggle('open')">
+                <span>Як продовжити привілегію?</span>
+                <svg class="faq-chevron" width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M5 8l5 5 5-5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </button>
+            <div class="faq-answer">
+                <div class="faq-answer-inner">
+                    Якщо у вас вже є активна привілегія (наприклад, VIP 30 днів) і ви купуєте таку ж повторно — термін автоматично продовжується. Нові дні додаються до залишку, а не починаються з нуля. Кнопка «Продовжити» доступна в розділі «Кабінет» → «Активні привілеї».
+                </div>
+            </div>
+        </div>
+
+        <div class="faq-item">
+            <button class="faq-question" onclick="this.parentElement.classList.toggle('open')">
+                <span>Що буде якщо купити іншу модель гравця?</span>
+                <svg class="faq-chevron" width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M5 8l5 5 5-5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </button>
+            <div class="faq-answer">
+                <div class="faq-answer-inner">
+                    При покупці нової моделі гравця стара модель автоматично замінюється на нову. Одночасно можна мати тільки одну активну модель. Термін дії нової моделі починається з моменту покупки.
+                </div>
+            </div>
+        </div>
+
+        <div class="faq-item">
+            <button class="faq-question" onclick="this.parentElement.classList.toggle('open')">
                 <span>Де подивитись історію покупок?</span>
                 <svg class="faq-chevron" width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M5 8l5 5 5-5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
             </button>

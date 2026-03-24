@@ -298,7 +298,7 @@ document.addEventListener('keydown', function(e) {
     align-items: center;
 }
 .admin-page .admin-actions .admin-btn-sm {
-    padding: 0.3rem 0.7rem;
+    padding: 0.38rem 0.7rem;
     font-size: 0.75rem;
     white-space: nowrap;
     line-height: 1.3;
