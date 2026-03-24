@@ -90,8 +90,8 @@ $routes->group('admin', ['filter' => 'admin'], function ($routes) {
 });
 
 // ============================================
-// Cron tasks (захист через секретний ключ)
+// Cron tasks (POST з ключем в header/body, без CSRF)
 // ============================================
-$routes->get('cron/expire', 'Cron::expire');
-$routes->get('cron/serverstats', 'Cron::serverstats');
+$routes->post('cron/expire', 'Cron::expire');
+$routes->post('cron/serverstats', 'Cron::serverstats');
 $routes->get('cron/health', 'Cron::health');

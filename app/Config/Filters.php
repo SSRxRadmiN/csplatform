@@ -15,6 +15,7 @@ use CodeIgniter\Filters\SecureHeaders;
 use App\Filters\AuthFilter;
 use App\Filters\AdminFilter;
 use App\Filters\LoginThrottleFilter;
+use App\Filters\SecurityHeadersFilter;
 
 class Filters extends BaseFilters
 {
@@ -35,6 +36,7 @@ class Filters extends BaseFilters
         'admin'         => AdminFilter::class,
         'antispam'      => \App\Filters\SpamFilter::class,
         'loginthrottle' => LoginThrottleFilter::class,
+        'securityheaders' => SecurityHeadersFilter::class,
     ];
 
     /**
@@ -43,10 +45,11 @@ class Filters extends BaseFilters
     public array $globals = [
         'before' => [
             'forcehttps',
-            'csrf' => ['except' => ['payment/callback']],
+            'csrf' => ['except' => ['payment/callback', 'cron/*']],
         ],
         'after' => [
             'toolbar',
+            'securityheaders',
         ],
     ];
 

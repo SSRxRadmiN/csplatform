@@ -10,28 +10,50 @@ use CodeIgniter\Controller;
 /**
  * Cron — автоматичні задачі
  *
- * Викликається через cron URL з секретним ключем:
- *   GET /cron/expire?key=SECRET_KEY
+ * Ключ передається через заголовок X-Cron-Key або POST body:
  *
- * Або через CLI:
- *   php spark cron:expire (TODO: якщо буде потрібно)
+ *   curl -s -X POST -H "X-Cron-Key: SECRET" "https://cs-headshot.com/cron/expire"
+ *   curl -s -X POST -d "key=SECRET" "https://cs-headshot.com/cron/serverstats"
  *
- * Рекомендований cron: кожні 15 хвилин
- *   * /15 * * * * curl -s "https://cs-headshot.com/cron/expire?key=SECRET" > /dev/null
+ * Рекомендований cron:
+ *   */15 * * * * curl -s -X POST -H "X-Cron-Key: SECRET" "https://cs-headshot.com/cron/expire" > /dev/null
+ *   */2  * * * * curl -s -X POST -H "X-Cron-Key: SECRET" "https://cs-headshot.com/cron/serverstats" > /dev/null
  */
 class Cron extends Controller
 {
+    /**
+     * Отримати cron ключ з заголовка X-Cron-Key або POST body
+     */
+    private function getCronKey(): string
+    {
+        // Пріоритет: header > POST body
+        $key = $this->request->getHeaderLine('X-Cron-Key');
+
+        if (empty($key)) {
+            $key = $this->request->getPost('key') ?? '';
+        }
+
+        return trim($key);
+    }
+
+    /**
+     * Верифікація cron ключа (timing-safe порівняння)
+     */
+    private function verifyCronKey(): bool
+    {
+        $key = $this->getCronKey();
+        $settings = new \App\Models\SettingModel();
+        $cronKey = $settings->get('cron_secret') ?? '';
+
+        return ! empty($cronKey) && hash_equals($cronKey, $key);
+    }
+
     /**
      * Перевірити прострочені привілеї та відкликати їх
      */
     public function expire()
     {
-        // Верифікація ключа
-        $key = $this->request->getGet('key');
-        $settings = new \App\Models\SettingModel();
-        $cronKey = $settings->get('cron_secret') ?? '';
-
-        if (empty($cronKey) || $key !== $cronKey) {
+        if (! $this->verifyCronKey()) {
             return $this->response->setStatusCode(403)->setBody('Forbidden');
         }
 
@@ -104,7 +126,7 @@ class Cron extends Controller
     }
 
     /**
-     * Health check для моніторингу
+     * Health check для моніторингу (без ключа, GET)
      */
     public function health()
     {
@@ -115,18 +137,10 @@ class Cron extends Controller
 
     /**
      * Оновити статус сервера через UDP A2S_INFO
-     * GET /cron/serverstats?key=SECRET
-     *
-     * Рекомендований cron: кожні 2 хвилини
-     *   * /2 * * * * curl -s "https://cs-headshot.com/cron/serverstats?key=SECRET" > /dev/null
      */
     public function serverstats()
     {
-        $key = $this->request->getGet('key');
-        $settings = new \App\Models\SettingModel();
-        $cronKey = $settings->get('cron_secret') ?? '';
-
-        if (empty($cronKey) || $key !== $cronKey) {
+        if (! $this->verifyCronKey()) {
             return $this->response->setStatusCode(403)->setBody('Forbidden');
         }
 
