@@ -16,8 +16,8 @@ use CodeIgniter\Controller;
  *   curl -s -X POST -d "key=SECRET" "https://cs-headshot.com/cron/serverstats"
  *
  * Рекомендований cron:
- *   */15 * * * * curl -s -X POST -H "X-Cron-Key: SECRET" "https://cs-headshot.com/cron/expire" > /dev/null
- *   */2  * * * * curl -s -X POST -H "X-Cron-Key: SECRET" "https://cs-headshot.com/cron/serverstats" > /dev/null
+ *   every 15 min: curl -s -X POST -H "X-Cron-Key: SECRET" "https://cs-headshot.com/cron/expire" > /dev/null
+ *   every 2 min:  curl -s -X POST -H "X-Cron-Key: SECRET" "https://cs-headshot.com/cron/serverstats" > /dev/null
  */
 class Cron extends Controller
 {

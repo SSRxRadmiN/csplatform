@@ -12,17 +12,40 @@ class Home extends BaseController
         $serverModel  = new ServerModel();
         $productModel = new ProductModel();
 
-        // Отримуємо наш сервер (id=1) з статистикою
-        $server = $serverModel->getWithStats(1);
-
-        // Отримуємо активні товари з категоріями
+        $server   = $serverModel->getWithStats(1);
         $products = $productModel->getByServerWithCategory(1);
 
+        // Групуємо товари по секціях для нового layout
+        $vipProducts     = [];
+        $modelProductsF  = [];
+        $modelProductsM  = [];
+        $serviceProducts = [];
+
+        foreach ($products as $p) {
+            $slug = $p['cat_slug'] ?? '';
+            if ($slug === 'vip') {
+                $vipProducts[] = $p;
+            } elseif ($slug === 'models') {
+                $gender = $p['gender'] ?? 'male';
+                if ($gender === 'female') {
+                    $modelProductsF[] = $p;
+                } else {
+                    $modelProductsM[] = $p;
+                }
+            } elseif ($slug === 'services' || $slug === 'unban') {
+                $serviceProducts[] = $p;
+            }
+        }
+
         return view('layouts/main', [
-            'page'     => 'home/index',
-            'title'    => 'CS Headshot — Привілеї для CS 1.6',
-            'server'   => $server,
-            'products' => $products,
+            'page'            => 'home/index',
+            'title'           => 'CS Headshot — Привілеї для CS 1.6',
+            'server'          => $server,
+            'products'        => $products,
+            'vipProducts'     => $vipProducts,
+            'modelProductsF'  => $modelProductsF,
+            'modelProductsM'  => $modelProductsM,
+            'serviceProducts' => $serviceProducts,
         ]);
     }
 
@@ -35,7 +58,6 @@ class Home extends BaseController
         if (in_array($locale, $allowed)) {
             session()->set('lang', $locale);
 
-            // Якщо юзер залогінений — зберегти в БД
             if (session()->get('user_id')) {
                 $userModel = new \App\Models\UserModel();
                 $userModel->update(session()->get('user_id'), ['language' => $locale]);
