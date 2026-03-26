@@ -105,7 +105,7 @@ $action = $isEdit ? '/admin/products/edit/' . $product['id'] : '/admin/products/
                 <!-- Поля моделей (видимі тільки для категорії "models") -->
                 <div class="admin-form-group admin-form-full" id="model-fields" style="display:none;">
                     <label class="admin-label" style="margin-bottom:0.75rem; color:#4ade80;">🎭 Моделі гравця</label>
-                    <div style="display:grid; grid-template-columns:1fr 1fr; gap:1rem;">
+                    <div style="display:grid; grid-template-columns:1fr 1fr 1fr; gap:1rem;">
                         <div>
                             <label class="admin-label">Модель TE (Терористи)</label>
                             <input type="text" name="model_te" class="admin-input"
@@ -119,6 +119,15 @@ $action = $isEdit ? '/admin/products/edit/' . $product['id'] : '/admin/products/
                                 value="<?= esc(old('model_ct', $product['model_ct'] ?? '')) ?>"
                                 placeholder="gsg9_urban">
                             <small class="admin-hint">Назва моделі без шляху (тека models/player/)</small>
+                        </div>
+                        <div>
+                            <label class="admin-label">Стать моделі</label>
+                            <select name="gender" class="admin-input">
+                                <option value="">Не вказано</option>
+                                <option value="male" <?= old('gender', $product['gender'] ?? '') === 'male' ? 'selected' : '' ?>>♂ Чоловіча</option>
+                                <option value="female" <?= old('gender', $product['gender'] ?? '') === 'female' ? 'selected' : '' ?>>♀ Жіноча</option>
+                            </select>
+                            <small class="admin-hint">Для розділення на головній сторінці</small>
                         </div>
                     </div>
                 </div>

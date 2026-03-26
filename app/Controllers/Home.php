@@ -32,7 +32,7 @@ class Home extends BaseController
                 } else {
                     $modelProductsM[] = $p;
                 }
-            } elseif ($slug === 'services' || $slug === 'unban') {
+            } elseif (in_array($slug, ['unban', 'xp', 'other', 'admin', 'services'])) {
                 $serviceProducts[] = $p;
             }
         }

@@ -49,7 +49,7 @@ class Products extends BaseController
             'description_ua', 'description_en',
             'price', 'duration_days',
             'amx_access', 'amx_flags',
-            'model_te', 'model_ct',
+            'model_te', 'model_ct', 'gender',
             'image_url', 'sort_order', 'is_active',
         ]);
 
@@ -99,7 +99,7 @@ class Products extends BaseController
             'description_ua', 'description_en',
             'price', 'duration_days',
             'amx_access', 'amx_flags',
-            'model_te', 'model_ct',
+            'model_te', 'model_ct', 'gender',
             'image_url', 'sort_order', 'is_active',
         ]);
 
