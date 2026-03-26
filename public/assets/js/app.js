@@ -133,3 +133,37 @@ function closeLightbox() {
         }
     }, 250);
 }
+
+/* ═══ COUNTER COUNT-UP ANIMATION ═══ */
+(function() {
+    const counters = document.querySelectorAll('.counter-value[data-count]');
+    if (!counters.length) return;
+
+    const animateCounter = (el) => {
+        const target = parseInt(el.dataset.count, 10);
+        const duration = 1500;
+        const start = performance.now();
+
+        const tick = (now) => {
+            const elapsed = now - start;
+            const progress = Math.min(elapsed / duration, 1);
+            const eased = 1 - Math.pow(1 - progress, 3);
+            el.textContent = Math.floor(eased * target);
+            if (progress < 1) requestAnimationFrame(tick);
+            else el.textContent = target;
+        };
+
+        requestAnimationFrame(tick);
+    };
+
+    const counterObserver = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                animateCounter(entry.target);
+                counterObserver.unobserve(entry.target);
+            }
+        });
+    }, { threshold: 0.5 });
+
+    counters.forEach(el => counterObserver.observe(el));
+})();

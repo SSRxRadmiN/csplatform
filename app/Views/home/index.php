@@ -51,6 +51,50 @@
     <?php endif; ?>
 </section>
 
+<!-- ═══ ЛІЧИЛЬНИКИ ═══ -->
+<section class="counters-section fade-in">
+    <div class="counters-grid">
+        <div class="counter-card">
+            <div class="counter-info">
+                <div class="counter-value" data-count="360">0</div>
+                <div class="counter-suffix">+</div>
+            </div>
+            <div class="counter-label"><?= lang('Home.counter_players') ?></div>
+            <div class="counter-icon">
+                <svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+            </div>
+        </div>
+        <div class="counter-card">
+            <div class="counter-info">
+                <div class="counter-value" data-count="10">0</div>
+                <div class="counter-suffix"></div>
+            </div>
+            <div class="counter-label"><?= lang('Home.counter_models') ?></div>
+            <div class="counter-icon">
+                <svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2z"/><path d="M8 14s1.5 2 4 2 4-2 4-2"/><line x1="9" y1="9" x2="9.01" y2="9"/><line x1="15" y1="9" x2="15.01" y2="9"/></svg>
+            </div>
+        </div>
+        <div class="counter-card">
+            <div class="counter-info">
+                <div class="counter-value">24/7</div>
+            </div>
+            <div class="counter-label"><?= lang('Home.counter_online') ?></div>
+            <div class="counter-icon">
+                <svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="3" width="20" height="14" rx="2" ry="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>
+            </div>
+        </div>
+        <div class="counter-card">
+            <div class="counter-info">
+                <div class="counter-value"><?= lang('Home.counter_instant_value') ?></div>
+            </div>
+            <div class="counter-label"><?= lang('Home.counter_instant') ?></div>
+            <div class="counter-icon">
+                <svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
+            </div>
+        </div>
+    </div>
+</section>
+
 <!-- ═══ СЕКЦІЯ 1: ПРИВІЛЕЇ (VIP 30 як є + VIP 90 анімований border) ═══ -->
 <?php if (!empty($vipProducts)): ?>
 <section id="shop-preview">
