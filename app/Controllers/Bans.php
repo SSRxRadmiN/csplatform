@@ -59,15 +59,17 @@ class Bans extends BaseController
         }
 
         return view('layouts/main', [
-            'page'        => 'bans/index',
-            'title'       => 'Банлист — CS Headshot',
-            'pageClass'   => 'page-bans',
-            'bans'        => $bans,
-            'error'       => $error,
-            'curPage'     => $page,
-            'perPage'     => $perPage,
-            'search'      => $search,
-            'showExpired' => $showExpired,
+            'page'            => 'bans/index',
+            'title'           => 'Банлист — CS Headshot',
+            'metaTitle'       => 'Банлист CS 1.6 — Реальні Кабани',
+            'metaDescription' => 'Список заблокованих гравців сервера Реальні Кабани CS 1.6. Перевірте статус бану або придбайте розбан.',
+            'pageClass'       => 'page-bans',
+            'bans'            => $bans,
+            'error'           => $error,
+            'curPage'         => $page,
+            'perPage'         => $perPage,
+            'search'          => $search,
+            'showExpired'     => $showExpired,
         ]);
     }
 }

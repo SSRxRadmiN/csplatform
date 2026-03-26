@@ -19,3 +19,11 @@
         </div>
     </div>
 </div>
+
+<?php if (!empty($seo['fb_pixel_id'])): ?>
+<script>
+    if (typeof fbq === 'function') {
+        fbq('track', 'Purchase', {currency: 'UAH', value: 0});
+    }
+</script>
+<?php endif ?>

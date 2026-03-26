@@ -57,13 +57,15 @@ class Stats extends BaseController
         }
 
         return view('layouts/main', [
-            'page'     => 'stats/index',
-            'title'    => 'Статистика гравців — CS Headshot',
-            'stats'    => $stats,
-            'error'    => $error,
-            'curPage'  => $page,
-            'perPage'  => $perPage,
-            'search'   => $search,
+            'page'            => 'stats/index',
+            'title'           => 'Статистика гравців — CS Headshot',
+            'metaTitle'       => 'Статистика гравців CS 1.6 — Рейтинг, звання, скіл',
+            'metaDescription' => 'Рейтинг 360+ гравців сервера Реальні Кабани CS 1.6 — звання, K/D, XP, скіл, відсоток хедшотів.',
+            'stats'           => $stats,
+            'error'           => $error,
+            'curPage'         => $page,
+            'perPage'         => $perPage,
+            'search'          => $search,
         ]);
     }
 

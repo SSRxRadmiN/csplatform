@@ -1,9 +1,51 @@
 <!DOCTYPE html>
+<?php
+// Load SEO/analytics settings from DB (once per request)
+if (!isset($seo)) {
+    $seoModel = new \App\Models\SettingModel();
+    $seoAll = $seoModel->getAll();
+    $seo = [
+        'ga_id'            => $seoAll['google_analytics_id'] ?? '',
+        'fb_pixel_id'      => $seoAll['facebook_pixel_id'] ?? '',
+        'meta_title'       => $seoAll['meta_title'] ?? '',
+        'meta_description' => $seoAll['meta_description'] ?? '',
+        'meta_keywords'    => $seoAll['meta_keywords'] ?? '',
+        'og_image'         => $seoAll['og_image'] ?? '',
+    ];
+}
+?>
 <html lang="<?= session()->get('lang') ?? 'ua' ?>">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title><?= esc($title ?? 'CS Headshot | РЕАЛЬНІ КАБАНИ Public Server CS 1.6') ?></title>
+    <title><?= esc($metaTitle ?? $title ?? 'CS Headshot | РЕАЛЬНІ КАБАНИ Public Server CS 1.6') ?></title>
+
+    <?php
+    // SEO Meta
+    $desc = $metaDescription ?? $seo['meta_description'] ?? '';
+    $kw   = $metaKeywords ?? $seo['meta_keywords'] ?? '';
+    $ogImg = $seo['og_image'] ?? '/logo_256.png';
+    ?>
+    <?php if ($desc): ?>
+        <meta name="description" content="<?= esc($desc) ?>">
+    <?php endif ?>
+    <?php if ($kw): ?>
+        <meta name="keywords" content="<?= esc($kw) ?>">
+    <?php endif ?>
+
+    <!-- Open Graph -->
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="<?= esc($metaTitle ?? $title ?? 'CS Headshot') ?>">
+    <?php if ($desc): ?>
+        <meta property="og:description" content="<?= esc($desc) ?>">
+    <?php endif ?>
+    <meta property="og:image" content="<?= base_url(esc($ogImg)) ?>">
+    <meta property="og:url" content="<?= current_url() ?>">
+    <meta property="og:site_name" content="CS Headshot">
+    <meta property="og:locale" content="<?= (session()->get('lang') ?? 'ua') === 'ua' ? 'uk_UA' : 'en_US' ?>">
+
+    <link rel="canonical" href="<?= current_url() ?>">
+
     <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="/assets/css/app.css">
     <?php if (str_contains($page ?? '', 'admin/')): ?>
@@ -11,6 +53,37 @@
     <?php endif ?>
     <link rel="icon" type="image/png" sizes="32x32" href="/favicon/favicon-32x32.png">
     <link rel="icon" type="image/png" sizes="16x16" href="/favicon/favicon-16x16.png">
+
+    <?php
+    // Google Analytics
+    $gaId = $seo['ga_id'] ?? '';
+    if ($gaId && !str_contains($page ?? '', 'admin/')):
+    ?>
+    <script async src="https://www.googletagmanager.com/gtag/js?id=<?= esc($gaId) ?>"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', '<?= esc($gaId) ?>');
+    </script>
+    <?php endif ?>
+
+    <?php
+    // Facebook Pixel
+    $fbId = $seo['fb_pixel_id'] ?? '';
+    if ($fbId && !str_contains($page ?? '', 'admin/')):
+    ?>
+    <script>
+        !function(f,b,e,v,n,t,s){if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+        n.callMethod.apply(n,arguments):n.queue.push(arguments)};if(!f._fbq)f._fbq=n;
+        n.push=n;n.loaded=!0;n.version='2.0';n.queue=[];t=b.createElement(e);t.async=!0;
+        t.src=v;s=b.getElementsByTagName(e)[0];s.parentNode.insertBefore(t,s)}(window,
+        document,'script','https://connect.facebook.net/en_US/fbevents.js');
+        fbq('init', '<?= esc($fbId) ?>');
+        fbq('track', 'PageView');
+    </script>
+    <noscript><img height="1" width="1" style="display:none" src="https://www.facebook.com/tr?id=<?= esc($fbId) ?>&ev=PageView&noscript=1"></noscript>
+    <?php endif ?>
 </head>
 <body class="<?= $pageClass ?? '' ?>">
 

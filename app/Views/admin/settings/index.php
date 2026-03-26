@@ -1,6 +1,7 @@
 <?php
 $groups = [
     'Загальні' => ['site_name', 'site_url', 'admin_email', 'default_language', 'maintenance_mode'],
+    'SEO / Аналітика' => ['meta_title', 'meta_description', 'meta_keywords', 'og_image', 'google_analytics_id', 'facebook_pixel_id'],
     'CASSA оплата' => ['cassa_id', 'cassa_secret', 'cassa_url', 'cassa_merchant_id'],
     'VPS API (доставка привілегів)' => ['vps_api_url', 'vps_api_token'],
     'Cron' => ['cron_secret'],
@@ -14,6 +15,12 @@ $labels = [
     'admin_email'         => 'Email адміна',
     'default_language'    => 'Мова за замовчуванням',
     'maintenance_mode'    => 'Режим обслуговування',
+    'meta_title'          => 'Мета-заголовок (title за замовчуванням)',
+    'meta_description'    => 'Мета-опис (description)',
+    'meta_keywords'       => 'Ключові слова (keywords)',
+    'og_image'            => 'OG зображення (шлях, напр. /logo_256.png)',
+    'google_analytics_id' => 'Google Analytics ID (G-XXXXXXX)',
+    'facebook_pixel_id'   => 'Facebook Pixel ID',
     'cassa_id'            => 'CASSA ID',
     'cassa_secret'        => 'Секретний ключ CASSA',
     'cassa_url'           => 'URL CASSA',
@@ -29,6 +36,7 @@ $labels = [
 ];
 
 $passwordFields = ['cassa_secret', 'vps_api_token', 'cron_secret', 'telegram_bot_token'];
+$textareaFields = ['meta_description', 'meta_keywords'];
 ?>
 
 <section class="admin-page">
@@ -59,6 +67,8 @@ $passwordFields = ['cassa_secret', 'vps_api_token', 'cron_secret', 'telegram_bot
                                     <option value="ua" <?= ($settings[$key] ?? 'ua') === 'ua' ? 'selected' : '' ?>>Українська</option>
                                     <option value="en" <?= ($settings[$key] ?? 'ua') === 'en' ? 'selected' : '' ?>>English</option>
                                 </select>
+                            <?php elseif (in_array($key, $textareaFields)): ?>
+                                <textarea name="<?= esc($key) ?>" class="admin-input admin-textarea" rows="3"><?= esc($settings[$key] ?? '') ?></textarea>
                             <?php elseif (in_array($key, $passwordFields)): ?>
                                 <input type="password" name="<?= esc($key) ?>" class="admin-input"
                                     value="<?= esc($settings[$key] ?? '') ?>"

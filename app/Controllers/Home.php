@@ -40,6 +40,8 @@ class Home extends BaseController
         return view('layouts/main', [
             'page'            => 'home/index',
             'title'           => 'CS Headshot — Привілеї для CS 1.6',
+            'metaTitle'       => 'CS Headshot — VIP, моделі, розбан для CS 1.6 сервера Реальні Кабани',
+            'metaDescription' => 'Магазин привілегій CS 1.6 — купити VIP статус, скіни моделей, розбан. Сервер Реальні Кабани, автоматична активація.',
             'server'          => $server,
             'products'        => $products,
             'vipProducts'     => $vipProducts,

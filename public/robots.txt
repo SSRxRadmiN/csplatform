@@ -1,2 +1,10 @@
 User-agent: *
-Disallow: 
+Allow: /
+Disallow: /admin/
+Disallow: /account/
+Disallow: /buy/
+Disallow: /payment/
+Disallow: /cron/
+Disallow: /lang/
+
+Sitemap: https://cs-headshot.com/sitemap.xml

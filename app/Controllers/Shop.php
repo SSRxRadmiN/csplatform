@@ -19,11 +19,13 @@ class Shop extends BaseController
         $categories = $categoryModel->getActive();
 
         return view('layouts/main', [
-            'page'       => 'shop/index',
-            'title'      => 'Магазин — CS Headshot',
-            'server'     => $server,
-            'products'   => $products,
-            'categories' => $categories,
+            'page'            => 'shop/index',
+            'title'           => 'Магазин — CS Headshot',
+            'metaTitle'       => 'Магазин привілегій CS 1.6 — CS Headshot',
+            'metaDescription' => 'VIP статус, моделі гравців, розбан, адмін-права — всі привілеї для сервера Реальні Кабани CS 1.6.',
+            'server'          => $server,
+            'products'        => $products,
+            'categories'      => $categories,
         ]);
     }
 
@@ -44,11 +46,15 @@ class Shop extends BaseController
 
         $server = $serverModel->getWithStats($product['server_id']);
 
+        $pName = $product['name_ua'];
+
         return view('layouts/main', [
-            'page'    => 'shop/show',
-            'title'   => $product['name_ua'] . ' — CS Headshot',
-            'product' => $product,
-            'server'  => $server,
+            'page'            => 'shop/show',
+            'title'           => $pName . ' — CS Headshot',
+            'metaTitle'       => $pName . ' — Купити на CS Headshot',
+            'metaDescription' => $pName . ' для CS 1.6 сервера Реальні Кабани. Автоматична активація після оплати.',
+            'product'         => $product,
+            'server'          => $server,
         ]);
     }
 }
