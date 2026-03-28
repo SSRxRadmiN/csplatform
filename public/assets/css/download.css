@@ -1,108 +1,83 @@
 /* ═══════════════════════════════════════
    CS 1.6 Download Landing — download.css
-   Single background image, UI overlaid
-   Image ratio: 1332×2000 (1:1.502)
-   Max content width: 960px
+   BG on body (full page), content max 1024px
+   Values tuned via DevTools on 1920×901 viewport
    ═══════════════════════════════════════ */
 
-/* ── PAGE OVERRIDES ── */
+/* ── GLOBAL PAGE SETUP ── */
 .page-download .ambient-glow,
 .page-download .grid-pattern { display: none; }
-.page-download main { min-height: auto; }
 
-/* ── WRAPPER ── */
-.dl-page {
-    position: relative;
-    width: 100%;
-    max-width: 960px;
-    margin: 0 auto;
-    /* Height driven by aspect ratio of background image */
-    aspect-ratio: 1332 / 2000;
-    overflow: hidden;
+.page-download {
+    background: url('/assets/img/download/bg-full.webp') top center / contain no-repeat;
+    background-color: #050a05;
 }
 
-/* ── BACKGROUND IMAGE ── */
-.dl-bg {
-    position: absolute;
-    inset: 0;
-    z-index: 0;
-}
-
-.dl-bg img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    display: block;
-}
-
-/* Side blur/fade — pseudo-elements on body level */
+/* Side fades — smooth transition from bg image to black */
 .page-download main::before,
 .page-download main::after {
     content: "";
     position: fixed;
     top: 0;
     bottom: 0;
-    width: calc((100vw - 960px) / 2 + 40px);
+    width: calc((100vw - 960px) / 2 + 60px);
     z-index: 2;
     pointer-events: none;
 }
-
 .page-download main::before {
     left: 0;
     background: linear-gradient(90deg,
-        var(--bg-deep, #050a05) 0%,
-        var(--bg-deep, #050a05) 60%,
+        #050a05 0%,
+        #050a05 40%,
+        rgba(5,10,5,0.8) 70%,
         transparent 100%
     );
 }
-
 .page-download main::after {
     right: 0;
     background: linear-gradient(270deg,
-        var(--bg-deep, #050a05) 0%,
-        var(--bg-deep, #050a05) 60%,
+        #050a05 0%,
+        #050a05 40%,
+        rgba(5,10,5,0.8) 70%,
         transparent 100%
     );
 }
 
-/* ═══ HERO ═══
-   Upper soldier zone: 10%–45% of image height
-   Content sits left-aligned over the dark left side */
+/* Content wrapper */
+.dl-wrap {
+    max-width: 1024px;
+    margin: 0 auto;
+    padding-left: 32px;
+    padding-right: 32px;
+}
+
+/* ═══ HERO ═══ */
 .dl-hero {
-    position: absolute;
-    top: 5%;
-    left: 0;
-    right: 0;
-    height: 42%;
-    z-index: 3;
-    display: flex;
-    align-items: center;
+    padding-top: 230px;
+    padding-bottom: 70px;
 }
 
 .dl-hero__content {
-    padding: 0 7%;
-    max-width: 55%;
+    max-width: 480px;
     animation: dlFadeInUp 0.8s ease-out;
 }
 
 .dl-hero__title {
-    font-size: clamp(36px, 5.5vw, 72px);
+    font-size: clamp(48px, 7vw, 80px);
     font-weight: 900;
     line-height: 0.95;
-    margin-bottom: 14px;
-    text-shadow: 0 0 40px rgba(74, 222, 128, 0.15);
+    margin-bottom: 16px;
+    text-shadow: 0 2px 30px rgba(0,0,0,0.6);
 }
-
-.dl-hero__title span {
-    display: block;
-}
+.dl-hero__title span { display: block; }
 
 .dl-hero__subtitle {
-    font-size: clamp(13px, 1.6vw, 17px);
+    font-size: clamp(14px, 1.6vw, 18px);
     color: rgba(180, 200, 180, 0.7);
     line-height: 1.5;
-    margin-bottom: 24px;
-    max-width: 360px;
+    margin-bottom: 28px;
+    max-width: 380px;
+    text-shadow: 0 1px 10px rgba(0,0,0,0.6);
 }
 
 /* ── CTA BUTTON ── */
@@ -114,7 +89,7 @@
     background: linear-gradient(135deg, #4ade80, #a3e635);
     color: #050a05;
     font-family: 'Outfit', sans-serif;
-    font-size: clamp(14px, 1.6vw, 18px);
+    font-size: clamp(15px, 1.6vw, 18px);
     font-weight: 800;
     border: none;
     border-radius: 12px;
@@ -125,41 +100,29 @@
         0 4px 20px rgba(0,0,0,0.4);
     transition: transform 0.2s, box-shadow 0.2s;
 }
-
 .dl-btn:hover {
     transform: translateY(-2px) scale(1.02);
-    box-shadow:
-        0 0 50px rgba(74, 222, 128, 0.5),
-        0 8px 30px rgba(0,0,0,0.5);
+    box-shadow: 0 0 50px rgba(74, 222, 128, 0.5), 0 8px 30px rgba(0,0,0,0.5);
     color: #050a05;
 }
+.dl-btn:active { transform: translateY(0) scale(0.98); }
+.dl-btn svg { width: 18px; height: 18px; }
 
-.dl-btn:active {
-    transform: translateY(0) scale(0.98);
-}
-
-.dl-btn svg {
-    width: 18px;
-    height: 18px;
-}
-
-/* ── CHECKMARKS ── */
+/* ── CHECKS ── */
 .dl-hero__checks {
     display: flex;
     gap: 20px;
     margin-top: 18px;
-    font-size: clamp(11px, 1.3vw, 14px);
+    font-size: clamp(12px, 1.3vw, 14px);
     color: rgba(180, 200, 180, 0.6);
     font-weight: 500;
-    flex-wrap: wrap;
 }
-
 .dl-hero__checks span {
     display: flex;
     align-items: center;
     gap: 5px;
+    white-space: nowrap;
 }
-
 .dl-check-icon {
     width: 16px;
     height: 16px;
@@ -167,43 +130,31 @@
     flex-shrink: 0;
 }
 
-/* ═══ FEATURES ═══
-   Three boxes zone: ~47%–55% of image height
-   Matches the three outlined boxes in the background */
+/* ═══ FEATURES ═══ */
 .dl-features {
-    position: absolute;
-    top: 46%;
-    left: 0;
-    right: 0;
-    z-index: 3;
-    padding: 0 5%;
+    padding-top: 150px;
+    padding-bottom: 150px;
 }
 
 .dl-features__grid {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
-    gap: 3%;
+    gap: 16px;
 }
 
 .dl-card {
-    padding: clamp(16px, 2.5vw, 28px) clamp(12px, 2vw, 22px);
-    background: rgba(16, 28, 16, 0.55);
-    border: 1px solid rgba(74, 222, 128, 0.12);
+    padding: 24px 18px;
     border-radius: 12px;
-    backdrop-filter: blur(6px);
     text-align: center;
-    transition: transform 0.3s, border-color 0.3s, box-shadow 0.3s;
+    transition: transform 0.3s;
 }
-
 .dl-card:hover {
     transform: translateY(-3px);
-    border-color: rgba(74, 222, 128, 0.3);
-    box-shadow: 0 8px 30px rgba(74, 222, 128, 0.1);
 }
 
 .dl-card__icon {
-    width: 40px;
-    height: 40px;
+    width: 42px;
+    height: 42px;
     margin: 0 auto 10px;
     background: rgba(74, 222, 128, 0.1);
     border-radius: 10px;
@@ -211,15 +162,10 @@
     align-items: center;
     justify-content: center;
 }
-
-.dl-card__icon svg {
-    width: 20px;
-    height: 20px;
-    color: #4ade80;
-}
+.dl-card__icon svg { width: 20px; height: 20px; color: #4ade80; }
 
 .dl-card__title {
-    font-size: clamp(14px, 1.8vw, 20px);
+    font-size: clamp(15px, 1.8vw, 20px);
     font-weight: 700;
     margin-bottom: 8px;
 }
@@ -233,39 +179,29 @@
     justify-content: center;
     gap: 5px;
 }
+.dl-card__text .dl-check-icon { width: 13px; height: 13px; }
 
-.dl-card__text .dl-check-icon {
-    width: 13px;
-    height: 13px;
-    flex-shrink: 0;
+/* ═══ CTA ═══ */
+.dl-cta {
+    padding-top: 20px;
+    padding-bottom: 130px;
 }
 
-/* ═══ CTA ═══
-   Lower soldier zone: 57%–85% of image height
-   Content left-aligned, soldier visible on right */
-.dl-cta {
-    position: absolute;
-    top: 60%;
-    left: 0;
-    right: 0;
-    height: 25%;
-    z-index: 3;
-    display: flex;
-    align-items: center;
+.dl-cta__inner {
+    position: relative;
 }
 
 .dl-cta__content {
-    padding: 0 7%;
     max-width: 50%;
 }
 
 .dl-cta__title {
-    font-size: clamp(22px, 3.5vw, 38px);
+    font-size: clamp(24px, 3.8vw, 40px);
     font-weight: 800;
     line-height: 1.1;
-    margin-bottom: 20px;
+    margin-bottom: 24px;
+    text-shadow: 0 2px 20px rgba(0,0,0,0.5);
 }
-
 .dl-cta__title em {
     font-style: italic;
     color: #4ade80;
@@ -274,15 +210,13 @@
 /* ── GRID DOTS ── */
 .dl-grid-dots {
     position: absolute;
-    bottom: 12%;
-    right: 5%;
+    bottom: 0;
+    right: 0;
     display: grid;
     grid-template-columns: repeat(2, 8px);
     gap: 4px;
     opacity: 0.5;
-    z-index: 3;
 }
-
 .dl-grid-dots span {
     width: 8px;
     height: 8px;
@@ -292,35 +226,30 @@
 
 /* ═══ SEO TEXT ═══ */
 .dl-seo {
-    padding: 40px 20px 80px;
-    max-width: 960px;
-    margin: 0 auto;
+    padding-top: 20px;
+    padding-bottom: 80px;
 }
 
 .dl-seo__inner {
     padding: 36px;
-    background: rgba(16, 28, 16, 0.4);
+    background: rgba(16, 28, 16, 0.5);
     border: 1px solid rgba(74, 222, 128, 0.1);
     border-radius: 16px;
+    backdrop-filter: blur(6px);
 }
-
 .dl-seo__inner h2 {
     font-size: 20px;
     font-weight: 700;
     margin-bottom: 14px;
     color: #86efac;
 }
-
 .dl-seo__inner p {
     font-size: 14px;
     color: rgba(134, 239, 172, 0.5);
     line-height: 1.7;
     margin-bottom: 10px;
 }
-
-.dl-seo__inner p:last-child {
-    margin-bottom: 0;
-}
+.dl-seo__inner p:last-child { margin-bottom: 0; }
 
 /* ═══ ANIMATIONS ═══ */
 .dl-fade-up {
@@ -328,12 +257,7 @@
     transform: translateY(20px);
     transition: opacity 0.6s ease, transform 0.6s ease;
 }
-
-.dl-fade-up.visible {
-    opacity: 1;
-    transform: translateY(0);
-}
-
+.dl-fade-up.visible { opacity: 1; transform: translateY(0); }
 .dl-fade-up:nth-child(2) { transition-delay: 0.12s; }
 .dl-fade-up:nth-child(3) { transition-delay: 0.24s; }
 
@@ -343,65 +267,52 @@
 }
 
 /* ═══ RESPONSIVE ═══ */
-
-/* Large screens — bg stays 960px, sides fade to black */
-@media (min-width: 961px) {
-    .dl-page {
-        /* On wide screens keep aspect ratio locked */
-    }
-}
-
-/* Tablets */
 @media (max-width: 768px) {
-    .dl-page {
-        max-width: 100%;
-    }
-
-    /* Hide side fades on mobile — full width */
     .page-download main::before,
-    .page-download main::after {
-        display: none;
-    }
+    .page-download main::after { display: none; }
 
-    .dl-hero__content {
-        max-width: 65%;
-        padding: 0 5%;
-    }
+    .dl-wrap { padding-left: 20px; padding-right: 20px; }
 
-    .dl-hero__title { font-size: 32px; }
-    .dl-hero__subtitle { font-size: 13px; margin-bottom: 16px; }
+    .dl-hero { padding-top: 300px; padding-bottom: 30px; }
+    .dl-hero__content { max-width: 65%; }
+    .dl-hero__title { font-size: 36px; }
+    .dl-hero__subtitle { font-size: 13px; margin-bottom: 18px; }
     .dl-btn { padding: 12px 24px; font-size: 14px; }
     .dl-hero__checks { gap: 12px; font-size: 11px; }
 
-    .dl-features { padding: 0 4%; }
-    .dl-card { padding: 14px 10px; border-radius: 8px; }
-    .dl-card__icon { width: 32px; height: 32px; margin-bottom: 6px; }
+    .dl-features { padding-top: 80px; padding-bottom: 80px; }
+    .dl-card { padding: 16px 12px; }
+    .dl-card__icon { width: 34px; height: 34px; }
     .dl-card__icon svg { width: 16px; height: 16px; }
-    .dl-card__title { font-size: 13px; margin-bottom: 4px; }
-    .dl-card__text { font-size: 10px; }
+    .dl-card__title { font-size: 14px; }
+    .dl-card__text { font-size: 11px; }
 
+    .dl-cta { padding-top: 30px; padding-bottom: 60px; }
     .dl-cta__content { max-width: 60%; }
-    .dl-cta__title { font-size: 22px; }
+    .dl-cta__title { font-size: 24px; }
+
+    .dl-seo__inner { padding: 24px 20px; }
 }
 
-/* Small phones */
 @media (max-width: 480px) {
-    .dl-hero { top: 3%; }
-    .dl-hero__content { max-width: 75%; }
-    .dl-hero__title { font-size: 28px; }
+    .dl-wrap { padding-left: 16px; padding-right: 16px; }
+
+    .dl-hero { padding-top: 200px; padding-bottom: 20px; }
+    .dl-hero__content { max-width: 80%; }
+    .dl-hero__title { font-size: 30px; }
     .dl-hero__checks { flex-direction: column; gap: 6px; }
 
-    .dl-features { top: 44%; }
-    .dl-features__grid { gap: 2%; }
+    .dl-features { padding-top: 50px; padding-bottom: 50px; }
+    .dl-features__grid { gap: 8px; }
+    .dl-card { padding: 12px 8px; border-radius: 8px; }
     .dl-card__title { font-size: 12px; }
-    .dl-card__text { font-size: 9px; gap: 3px; }
-    .dl-card__text .dl-check-icon { width: 10px; height: 10px; }
+    .dl-card__text { font-size: 10px; }
 
-    .dl-cta { top: 58%; }
+    .dl-cta { padding-top: 20px; padding-bottom: 40px; }
     .dl-cta__content { max-width: 70%; }
-    .dl-cta__title { font-size: 18px; margin-bottom: 14px; }
+    .dl-cta__title { font-size: 20px; }
 
-    .dl-seo__inner { padding: 24px 16px; }
+    .dl-seo__inner { padding: 20px 14px; }
     .dl-seo__inner h2 { font-size: 17px; }
     .dl-seo__inner p { font-size: 13px; }
 }
