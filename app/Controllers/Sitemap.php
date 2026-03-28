@@ -22,6 +22,7 @@ class Sitemap extends BaseController
             ['loc' => $baseUrl . '/bans',    'priority' => '0.6', 'changefreq' => 'daily'],
             ['loc' => $baseUrl . '/faq',     'priority' => '0.4', 'changefreq' => 'monthly'],
             ['loc' => $baseUrl . '/privacy', 'priority' => '0.3', 'changefreq' => 'monthly'],
+            ['loc' => $baseUrl . '/download-cs-1-6', 'priority' => '0.8', 'changefreq' => 'monthly'],
         ];
 
         // Product pages

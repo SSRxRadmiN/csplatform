@@ -3716,7 +3716,7 @@ footer {
 
 .counter-card {
     background: rgba(10, 26, 14, 0.6);
-    border: 1px solid var(--border);
+    border: 2px solid transparent;
     border-radius: 14px;
     padding: 26px 22px;
     display: flex;
@@ -3724,33 +3724,47 @@ footer {
     gap: 6px;
     position: relative;
     overflow: hidden;
-    transition: border-color 0.4s, transform 0.3s, box-shadow 0.4s;
+    transition: transform 0.4s, box-shadow 0.4s;
     opacity: 0;
     animation: counterFadeUp 0.6s ease forwards;
+    /* Default state = old hover look */
+    background-image:
+        linear-gradient(rgba(10, 26, 14, 0.6), rgba(10, 26, 14, 0.6)),
+        linear-gradient(90deg, var(--border-hover), var(--border-hover));
+    background-origin: border-box;
+    background-clip: padding-box, border-box;
+    box-shadow: 0 12px 40px rgba(74, 222, 128, 0.06);
 }
 
 .counter-card:nth-child(2) { animation-delay: 0.1s; }
 .counter-card:nth-child(3) { animation-delay: 0.2s; }
 .counter-card:nth-child(4) { animation-delay: 0.3s; }
 
-/* Top accent line */
+/* Top accent line — always visible */
 .counter-card::before {
     content: '';
     position: absolute;
     top: 0; left: 20px; right: 20px;
     height: 2px;
     background: linear-gradient(90deg, transparent, var(--accent-1), transparent);
-    opacity: 0;
+    opacity: 0.6;
     transition: opacity 0.4s;
 }
 
-.counter-card:hover::before { opacity: 0.6; }
-
+/* Hover — animated gradient border like vip-animated */
 .counter-card:hover {
-    border-color: var(--border-hover);
+    background-image:
+        linear-gradient(rgba(10, 26, 14, 0.6), rgba(10, 26, 14, 0.6)),
+        linear-gradient(90deg, #4ade80, #a3e635, #facc15, #4ade80);
+    background-origin: border-box;
+    background-clip: padding-box, border-box;
+    background-size: 100% 100%, 200% 100%;
+    animation: counterFadeUp 0.6s ease forwards, vipBorderFlow 4s linear infinite;
     transform: translateY(-3px);
-    box-shadow: 0 12px 40px rgba(74, 222, 128, 0.06);
+    box-shadow: 0 16px 50px rgba(74, 222, 128, 0.12), 0 0 30px rgba(74, 222, 128, 0.06);
 }
+
+.counter-card:hover::before { opacity: 1; }
 
 .counter-info {
     display: flex;
@@ -3761,15 +3775,15 @@ footer {
 .counter-value {
     font-size: 34px;
     font-weight: 800;
-    color: var(--text-primary);
+    color: var(--accent-1);
     letter-spacing: -0.02em;
     line-height: 1;
+    text-shadow: 0 0 20px rgba(74, 222, 128, 0.3);
     transition: text-shadow 0.4s, color 0.3s;
 }
 
 .counter-card:hover .counter-value {
-    color: var(--accent-1);
-    text-shadow: 0 0 20px rgba(74, 222, 128, 0.3);
+    text-shadow: 0 0 30px rgba(74, 222, 128, 0.5), 0 0 60px rgba(74, 222, 128, 0.2);
 }
 
 .counter-suffix {
@@ -3789,17 +3803,17 @@ footer {
     top: 50%;
     right: 18px;
     transform: translateY(-50%);
-    opacity: 0.12;
+    opacity: 0.25;
     color: var(--accent-1);
     transition: opacity 0.4s, transform 0.4s;
 }
 
 .counter-card:hover .counter-icon {
-    opacity: 0.35;
-    transform: translateY(-50%) scale(1.1);
+    opacity: 0.45;
+    transform: translateY(-50%) scale(1.15);
 }
 
-/* Subtle glow ring behind icon on hover */
+/* Subtle glow ring behind icon */
 .counter-icon::after {
     content: '';
     position: absolute;
@@ -3808,7 +3822,7 @@ footer {
     width: 60px; height: 60px;
     border-radius: 50%;
     background: radial-gradient(circle, rgba(74, 222, 128, 0.1), transparent 70%);
-    opacity: 0;
+    opacity: 0.7;
     transition: opacity 0.4s;
 }
 

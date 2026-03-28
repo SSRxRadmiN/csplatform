@@ -105,6 +105,7 @@ if (!isset($seo)) {
             <li><a href="/shop" class="<?= str_contains(current_url(), '/shop') ? 'active' : '' ?>"><?= lang('App.nav_shop') ?></a></li>
             <li><a href="/stats" class="<?= str_contains(current_url(), '/stats') ? 'active' : '' ?>"><?= lang('App.nav_stats') ?></a></li>
             <li><a href="/bans" class="<?= str_contains(current_url(), '/bans') ? 'active' : '' ?>"><?= lang('App.nav_bans') ?></a></li>
+            <li><a href="/download-cs-1-6" class="<?= str_contains(current_url(), '/download') ? 'active' : '' ?>"><?= lang('App.nav_download') ?></a></li>
         </ul>
 
         <div class="nav-right">
@@ -145,6 +146,9 @@ if (!isset($seo)) {
             </a>
             <a href="/bans" class="drawer-link <?= str_contains(current_url(), '/bans') ? 'active' : '' ?>">
                 <span class="drawer-icon">🚫</span> <?= lang('App.nav_bans') ?>
+            </a>
+            <a href="/download-cs-1-6" class="drawer-link <?= str_contains(current_url(), '/download') ? 'active' : '' ?>">
+                <span class="drawer-icon">⬇️</span> <?= lang('App.nav_download') ?>
             </a>
         </div>
         <div class="drawer-divider"></div>

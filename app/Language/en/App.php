@@ -33,4 +33,22 @@ return [
     'search'         => 'Search',
     'loading'        => 'Loading...',
     'no_results'     => 'No results found',
+
+    // Download page
+    'nav_download'         => 'Download CS 1.6',
+    'dl_title_1'           => 'Download',
+    'dl_subtitle'          => 'Ukrainian build without viruses, with high FPS and online servers',
+    'dl_btn_download'      => 'Download for free',
+    'dl_check_virus'       => 'No viruses',
+    'dl_check_windows'     => 'Windows 10/11',
+    'dl_check_servers'     => 'Online servers',
+    'dl_feat_fps'          => 'High FPS',
+    'dl_feat_fps_desc'     => 'Smooth gameplay even on low-end PCs',
+    'dl_feat_clean'        => 'No viruses',
+    'dl_feat_clean_desc'   => 'Clean build without malware',
+    'dl_feat_servers'      => 'Online servers',
+    'dl_feat_servers_desc' => 'Plenty of servers with low ping',
+    'dl_cta_title_1'       => 'Play',
+    'dl_cta_title_em'      => 'online',
+    'dl_cta_title_2'       => 'on the server',
 ];

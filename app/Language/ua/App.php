@@ -33,4 +33,22 @@ return [
     'search'         => 'Знайти',
     'loading'        => 'Завантаження...',
     'no_results'     => 'Нічого не знайдено',
+
+    // Download page
+    'nav_download'         => 'Скачати CS 1.6',
+    'dl_title_1'           => 'Скачати',
+    'dl_subtitle'          => 'Українська збірка без вірусів, з високим FPS та онлайн серверами',
+    'dl_btn_download'      => 'Скачати безкоштовно',
+    'dl_check_virus'       => 'Без вірусів',
+    'dl_check_windows'     => 'Windows 10/11',
+    'dl_check_servers'     => 'Онлайн сервери',
+    'dl_feat_fps'          => 'Високий FPS',
+    'dl_feat_fps_desc'     => 'Стабільна гра навіть на слабких ПК',
+    'dl_feat_clean'        => 'Без вірусів',
+    'dl_feat_clean_desc'   => 'Чиста збірка без шкідливих програм',
+    'dl_feat_servers'      => 'Онлайн сервери',
+    'dl_feat_servers_desc' => 'Безліч серверів з низьким пінгом',
+    'dl_cta_title_1'       => 'Грай',
+    'dl_cta_title_em'      => 'онлайн',
+    'dl_cta_title_2'       => 'на сервері',
 ];

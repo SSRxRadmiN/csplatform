@@ -25,4 +25,16 @@ class Pages extends BaseController
             'pageClass'       => 'page-privacy',
         ]);
     }
+
+    public function download()
+    {
+        return view('layouts/main', [
+            'page'            => 'download/index',
+            'title'           => 'Скачати CS 1.6 — Українська збірка без вірусів | CS Headshot',
+            'metaTitle'       => 'Скачати CS 1.6 — Українська збірка без вірусів | CS Headshot',
+            'metaDescription' => 'Завантажити Counter-Strike 1.6 — українська збірка без вірусів, з високим FPS та онлайн серверами. Працює на Windows 10/11. Безкоштовно!',
+            'metaKeywords'    => 'скачати кс 1.6, скачати cs 1.6, counter strike 1.6 скачати, cs 1.6 українська збірка, кс 1.6 без вірусів, cs 1.6 безкоштовно',
+            'pageClass'       => 'page-download',
+        ]);
+    }
 }
