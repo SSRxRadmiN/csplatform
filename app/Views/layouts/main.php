@@ -48,6 +48,7 @@ if (!isset($seo)) {
 
     <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="/assets/css/app.css">
+    <link rel="stylesheet" href="/assets/css/responsive.css">
     <?php if (str_contains($page ?? '', 'admin/')): ?>
         <link rel="stylesheet" href="/assets/css/admin.css">
     <?php endif ?>

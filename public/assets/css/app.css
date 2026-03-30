@@ -972,43 +972,6 @@ footer {
 .nav-hide-mobile { display: inline-flex; }
 
 /* ═══ RESPONSIVE ═══ */
-@media (max-width: 900px) {
-    .products-grid { grid-template-columns: 1fr; max-width: 420px; }
-    .steps-grid { grid-template-columns: repeat(2, 1fr); }
-    .nav-links { display: none; }
-    .burger-btn { display: flex; }
-    .nav-hide-mobile { display: none !important; }
-    nav { padding: 0 16px; }
-}
-
-@media (max-width: 600px) {
-    .hero { padding: 100px 20px 60px; }
-    .hero h1 { font-size: 2.2rem; }
-    section { padding: 60px 20px; }
-
-    /* Server status — vertical stack */
-    .server-status {
-        flex-direction: column;
-        gap: 8px;
-        padding: 14px 20px;
-        align-items: flex-start;
-    }
-    .status-divider { display: none; }
-    .status-item { font-size: 0.85rem; }
-
-    .hero-actions { flex-direction: column; width: 100%; max-width: 300px; }
-    .btn-hero { justify-content: center; }
-    .steps-grid { grid-template-columns: 1fr; }
-    .form-card { margin: 100px 16px 40px; padding: 28px; }
-    footer { flex-direction: column; gap: 16px; text-align: center; }
-    .footer-links { justify-content: center; }
-
-    /* Stats search mobile */
-    .stats-controls { flex-direction: column; align-items: stretch; }
-    .stats-search-form { max-width: 100%; }
-    .stats-per-page { justify-content: center; }
-}
-
 
 /* ==============================================
    AUTH PAGES — Login / Register
@@ -1319,20 +1282,6 @@ footer {
 }
 
 /* Mobile */
-@media (max-width: 480px) {
-    .auth-card {
-        padding: 2rem 1.25rem;
-        border-radius: 12px;
-    }
-
-    .auth-title {
-        font-size: 1.3rem;
-    }
-
-    .form-input {
-        font-size: 1rem; /* щоб iOS не зумив */
-    }
-}
 
 /* ==============================================
    SHOP PAGES — Каталог + Картка товару
@@ -1830,39 +1779,6 @@ footer {
 }
 
 /* ---- Responsive ---- */
-@media (max-width: 768px) {
-    .product-layout {
-        grid-template-columns: 1fr;
-    }
-
-    .product-buy-card {
-        position: static;
-    }
-
-    .shop-title {
-        font-size: 1.7rem;
-    }
-
-    .product-name {
-        font-size: 1.5rem;
-    }
-}
-
-@media (max-width: 480px) {
-    .shop-grid {
-        grid-template-columns: 1fr;
-    }
-
-    .shop-hero {
-        padding: 3rem 1rem 1.5rem;
-    }
-
-    .shop-ip {
-        display: block;
-        margin: 0.5rem auto 0;
-    }
-}
-
 
 /* ==============================================
    ACCOUNT PAGES — Dashboard / Edit / Purchases
@@ -2375,30 +2291,6 @@ footer {
 }
 
 /* ---- Responsive ---- */
-@media (max-width: 640px) {
-    .account-header {
-        flex-direction: column;
-        align-items: flex-start;
-    }
-
-    .account-actions {
-        width: 100%;
-    }
-
-    .account-actions a {
-        flex: 1;
-        text-align: center;
-    }
-
-    .orders-table {
-        font-size: 0.78rem;
-    }
-
-    .orders-table th,
-    .orders-table td {
-        padding: 0.6rem 0.7rem;
-    }
-}
 
 /* ==============================================
    BUY PAGE — Оформлення замовлення
@@ -2903,14 +2795,6 @@ footer {
 }
 
 /* Responsive */
-@media (max-width: 768px) {
-    .stats-hide-mobile { display: none; }
-    .stats-title { font-size: 1.8rem; }
-    .stats-summary { gap: 1.5rem; }
-    .stats-player-grid { grid-template-columns: 1fr; }
-    .stats-table { font-size: 0.78rem; }
-    .stats-table th, .stats-table td { padding: 0.45rem 0.4rem; }
-}
 
 /* ============================================
    Bans Page Styles
@@ -3393,33 +3277,6 @@ footer {
 }
 
 /* ═══ Responsive ═══ */
-@media (max-width: 900px) {
-    .bans-card-main {
-        grid-template-columns: 1.5fr 1.5fr 1fr 32px;
-    }
-    .bans-card-date,
-    .bans-card-status { display: none; }
-    .bans-details-grid { grid-template-columns: repeat(2, 1fr); }
-}
-
-@media (max-width: 600px) {
-    .bans-title { font-size: 1.8rem; }
-    .bans-summary { gap: 1.2rem; }
-    .bans-summary-value { font-size: 1.3rem; }
-
-    .bans-card-main {
-        grid-template-columns: 1fr 1fr 32px;
-        padding: 0.6rem 0.75rem;
-    }
-    .bans-card-reason { display: none; }
-    .bans-card-date,
-    .bans-card-status { display: none; }
-
-    .bans-details-grid { grid-template-columns: 1fr; }
-
-    .bans-search-form { flex-direction: column; }
-    .bans-search-wrap { min-width: 100%; }
-}
 
 /* ============================================
    FAQ Page
@@ -3585,39 +3442,6 @@ footer {
    FAQ & Privacy — Responsive
    ============================================ */
 
-@media (max-width: 768px) {
-    .faq-page,
-    .privacy-page {
-        padding: 5rem 1rem 3rem;
-    }
-
-    .faq-title {
-        font-size: 1.8rem;
-    }
-
-    .privacy-title {
-        font-size: 1.6rem;
-    }
-
-    .faq-question {
-        padding: 16px 18px;
-        font-size: 0.93rem;
-    }
-
-    .faq-answer-inner {
-        padding: 0 18px 16px;
-        font-size: 0.9rem;
-    }
-
-    .privacy-section h2 {
-        font-size: 1.05rem;
-    }
-
-    .privacy-section p {
-        font-size: 0.9rem;
-    }
-}
-
 /* ═══════════════════════════════════════════
    IMAGE LIGHTBOX
    ═══════════════════════════════════════════ */
@@ -3690,10 +3514,6 @@ footer {
     gap: 20px;
     max-width: 1100px;
     margin: 0 auto;
-}
-
-@media (max-width: 768px) {
-    .vip-grid { grid-template-columns: 1fr; }
 }
 
 /* ═══════════════════════════════════════════════
@@ -3830,15 +3650,6 @@ footer {
 }
 
 .counter-card:hover .counter-icon::after { opacity: 1; }
-
-@media (max-width: 900px) {
-    .counters-grid { grid-template-columns: repeat(2, 1fr); }
-}
-
-@media (max-width: 480px) {
-    .counters-grid { grid-template-columns: 1fr; }
-    .counter-value { font-size: 28px; }
-}
 
 /* VIP 90 — animated gradient border */
 @keyframes vipBorderFlow {
@@ -4110,12 +3921,6 @@ footer {
     box-shadow: 0 6px 32px rgba(236, 72, 153, 0.4);
 }
 
-@media (max-width: 768px) {
-    .skin-card { flex: 0 0 280px; }
-    .skin-card-img { height: 160px; }
-    .models-slider-header { padding: 0 0.5rem; }
-}
-
 /* ═══════════════════════════════════════════════
    HOMEPAGE — Services Grid
    ═══════════════════════════════════════════════ */
@@ -4227,8 +4032,4 @@ footer {
 .service-card--combo .service-card-btn:hover {
     background: rgba(167, 139, 250, 0.06);
     border-color: #a78bfa;
-}
-
-@media (max-width: 768px) {
-    .services-grid { grid-template-columns: 1fr; }
 }
