@@ -26,6 +26,18 @@ class Pages extends BaseController
         ]);
     }
 
+    public function privileges()
+    {
+        return view('layouts/main', [
+            'page'            => 'pages/privileges',
+            'title'           => 'Привілегії — CS Headshot',
+            'metaTitle'       => 'Привілегії на сервері — VIP та Меценат | CS Headshot',
+            'metaDescription' => 'Порівняння привілегій на сервері Реальні Кабани CS 1.6 — що отримує звичайний гравець, VIP та Меценат. Повна таблиця бонусів.',
+            'metaKeywords'    => 'привілегії cs 1.6, vip cs 1.6, меценат cs 1.6, бонуси сервер cs, реальні кабани привілегії',
+            'pageClass'       => 'page-privileges',
+        ]);
+    }
+
     public function download()
     {
         return view('layouts/main', [

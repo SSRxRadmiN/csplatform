@@ -17,6 +17,7 @@ $routes->get('stats/player/(:num)', 'Stats::player/$1', ['filter' => 'auth']);
 $routes->get('bans', 'Bans::index');
 $routes->get('faq', 'Pages::faq');
 $routes->get('privacy', 'Pages::privacy');
+$routes->get('privileges', 'Pages::privileges');
 $routes->get('download-cs-1-6', 'Pages::download');
 $routes->get('sitemap.xml', 'Sitemap::index');
 $routes->get('lang/(:segment)', 'Home::lang/$1');
