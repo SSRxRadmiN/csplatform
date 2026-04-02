@@ -87,80 +87,110 @@
                         <td><span class="val-yes">✓</span></td>
                         <td><span class="val-yes">✓</span></td>
                     </tr>
+
+                    <!-- SECTION: AK47 / M4A1 -->
+                    <tr class="priv-section-row"><td colspan="4">Зброя: AK47 / M4A1</td></tr>
+
                     <tr>
-                        <td class="priv-feat">Deagle</td>
+                        <td class="priv-feat">Gold AK47 / M4A1 (+10%)<span class="priv-feat__detail">VIP меню /vipmenu</span></td>
+                        <td><span class="val-yes">✓</span></td>
+                        <td><span class="val-yes">✓</span></td>
+                        <td><span class="val-yes">✓</span></td>
+                    </tr>
+                    <tr>
+                        <td class="priv-feat">Обойма / запас</td>
+                        <td><span class="val-dim val-num">35 / 105</span></td>
+                        <td><span class="val-dim val-num">35 / 105</span></td>
+                        <td><span class="val-dim val-num">35 / 105</span></td>
+                    </tr>
+                    <tr>
+                        <td class="priv-feat">5 Ultimate наборів (+20%)<span class="priv-feat__detail">Galaxy, Сайрекс, Тигр, Азімов, Неон</span></td>
+                        <td><span class="val-no">✗</span></td>
+                        <td><span class="val-yes">✓</span></td>
+                        <td><span class="val-yes">✓</span></td>
+                    </tr>
+                    <tr>
+                        <td class="priv-feat">Обойма / запас (Ultimate)</td>
+                        <td><span class="val-no">✗</span></td>
+                        <td><span class="val-normal val-num">40 / 140</span></td>
+                        <td><span class="val-normal val-num">40 / 140</span></td>
+                    </tr>
+                    <tr>
+                        <td class="priv-feat">2 ексклюзивні набори (+30%)<span class="priv-feat__detail">тільки Меценат</span></td>
+                        <td><span class="val-no">✗</span></td>
+                        <td><span class="val-no">✗</span></td>
+                        <td><span class="val-mecenas-yes">✓</span></td>
+                    </tr>
+                    <tr>
+                        <td class="priv-feat">Обойма / запас (Ексклюзив)</td>
+                        <td><span class="val-no">✗</span></td>
+                        <td><span class="val-no">✗</span></td>
+                        <td><span class="val-mecenas val-num">45 / 180</span></td>
+                    </tr>
+
+                    <!-- SECTION: Deagle -->
+                    <tr class="priv-section-row"><td colspan="4">Зброя: Deagle</td></tr>
+
+                    <tr>
+                        <td class="priv-feat">Тип</td>
                         <td><span class="val-dim">Звичайний</span></td>
                         <td><span class="val-gold">Gold +10%</span></td>
                         <td><span class="val-gold">Gold +10%</span></td>
                     </tr>
+
+                    <!-- SECTION: Knife -->
+                    <tr class="priv-section-row"><td colspan="4">Зброя: Ніж</td></tr>
+
                     <tr>
-                        <td class="priv-feat">Ніж</td>
+                        <td class="priv-feat">Тип</td>
                         <td><span class="val-dim">Звичайний</span></td>
                         <td><span class="val-gold">Gold +10%</span></td>
                         <td><span class="val-gold">Gold +10%</span></td>
                     </tr>
 
-                    <!-- SECTION: VIP Menu -->
-                    <tr class="priv-section-row"><td colspan="4">VIP меню (/vipmenu) — з раунду 2</td></tr>
+                    <!-- SECTION: AWP -->
+                    <tr class="priv-section-row"><td colspan="4">Зброя: AWP</td></tr>
 
                     <tr>
-                        <td class="priv-feat">Gold AK47 (+10%)<span class="priv-feat__detail">обойма 35 / запас 105</span></td>
+                        <td class="priv-feat">Звичайний AWP<span class="priv-feat__detail">VIP меню /vipmenu</span></td>
                         <td><span class="val-yes">✓</span></td>
                         <td><span class="val-yes">✓</span></td>
                         <td><span class="val-yes">✓</span></td>
                     </tr>
                     <tr>
-                        <td class="priv-feat">Gold M4A1 (+10%)<span class="priv-feat__detail">обойма 35 / запас 105</span></td>
-                        <td><span class="val-yes">✓</span></td>
-                        <td><span class="val-yes">✓</span></td>
-                        <td><span class="val-yes">✓</span></td>
-                    </tr>
-                    <tr>
-                        <td class="priv-feat">Famas / AWP</td>
-                        <td><span class="val-yes">✓</span></td>
-                        <td><span class="val-yes">✓</span></td>
-                        <td><span class="val-yes">✓</span></td>
-                    </tr>
-
-                    <!-- SECTION: Ultimate Menu -->
-                    <tr class="priv-section-row"><td colspan="4">Ultimate меню (/ultimate) — VIP</td></tr>
-
-                    <tr>
-                        <td class="priv-feat">5 наборів AK+M4 (+20%)<span class="priv-feat__detail">Galaxy, Сайрекс, Тигр, Азімов, Неон · обойма 40 / запас 140</span></td>
+                        <td class="priv-feat">Gold AWP (+100%)<span class="priv-feat__detail">Ultimate меню /ultimate</span></td>
                         <td><span class="val-no">✗</span></td>
                         <td><span class="val-yes">✓</span></td>
                         <td><span class="val-yes">✓</span></td>
                     </tr>
                     <tr>
-                        <td class="priv-feat">Gold AWP (+100%)<span class="priv-feat__detail">обойма 10 / запас 50</span></td>
+                        <td class="priv-feat">Обойма / запас (Gold)</td>
                         <td><span class="val-no">✗</span></td>
+                        <td><span class="val-normal val-num">10 / 50</span></td>
+                        <td><span class="val-normal val-num">10 / 50</span></td>
+                    </tr>
+
+                    <!-- SECTION: Famas -->
+                    <tr class="priv-section-row"><td colspan="4">Зброя: Famas</td></tr>
+
+                    <tr>
+                        <td class="priv-feat">Famas<span class="priv-feat__detail">VIP меню /vipmenu</span></td>
+                        <td><span class="val-yes">✓</span></td>
                         <td><span class="val-yes">✓</span></td>
                         <td><span class="val-yes">✓</span></td>
                     </tr>
 
-                    <!-- SECTION: Mecenas Exclusive -->
-                    <tr class="priv-section-row priv-section-row--mecenas"><td colspan="4">Ексклюзив Мецената</td></tr>
+                    <!-- SECTION: Ammo -->
+                    <tr class="priv-section-row"><td colspan="4">Патрони</td></tr>
 
                     <tr>
-                        <td class="priv-feat">2 набори AK+M4 (+30%)<span class="priv-feat__detail">обойма 45 / запас 180</span></td>
+                        <td class="priv-feat">Автопоповнення на раунд</td>
                         <td><span class="val-no">✗</span></td>
-                        <td><span class="val-no">✗</span></td>
-                        <td><span class="val-mecenas-yes">✓</span></td>
+                        <td><span class="val-yes">✓</span></td>
+                        <td><span class="val-yes">✓</span></td>
                     </tr>
                     <tr>
-                        <td class="priv-feat">+10% швидкість бігу</td>
-                        <td><span class="val-no">✗</span></td>
-                        <td><span class="val-no">✗</span></td>
-                        <td><span class="val-mecenas-yes">✓</span></td>
-                    </tr>
-                    <tr>
-                        <td class="priv-feat">Патрони після кіла<span class="priv-feat__detail">ammo refill</span></td>
-                        <td><span class="val-no">✗</span></td>
-                        <td><span class="val-no">✗</span></td>
-                        <td><span class="val-mecenas-yes">✓</span></td>
-                    </tr>
-                    <tr>
-                        <td class="priv-feat">Адмін-лайт<span class="priv-feat__detail">кік, слей, мут</span></td>
+                        <td class="priv-feat">Refill патронів після кіла</td>
                         <td><span class="val-no">✗</span></td>
                         <td><span class="val-no">✗</span></td>
                         <td><span class="val-mecenas-yes">✓</span></td>
@@ -216,17 +246,51 @@
                         <td><span class="val-yes val-num">120</span></td>
                     </tr>
 
-                    <!-- SECTION: Ammo -->
-                    <tr class="priv-section-row"><td colspan="4">Патрони</td></tr>
+                    <!-- SECTION: Mecenas Exclusive -->
+                    <tr class="priv-section-row priv-section-row--mecenas"><td colspan="4">Ексклюзив Мецената</td></tr>
 
                     <tr>
-                        <td class="priv-feat">Автопоповнення на раунд</td>
+                        <td class="priv-feat">+10% швидкість бігу</td>
                         <td><span class="val-no">✗</span></td>
-                        <td><span class="val-yes">✓</span></td>
-                        <td><span class="val-yes">✓</span></td>
+                        <td><span class="val-no">✗</span></td>
+                        <td><span class="val-mecenas-yes">✓</span></td>
                     </tr>
                     <tr>
-                        <td class="priv-feat">Refill патронів після кіла</td>
+                        <td class="priv-feat">Патрони після кіла<span class="priv-feat__detail">ammo refill</span></td>
+                        <td><span class="val-no">✗</span></td>
+                        <td><span class="val-no">✗</span></td>
+                        <td><span class="val-mecenas-yes">✓</span></td>
+                    </tr>
+                    <tr>
+                        <td class="priv-feat">Ексклюзивні набори AK+M4 (+30%)</td>
+                        <td><span class="val-no">✗</span></td>
+                        <td><span class="val-no">✗</span></td>
+                        <td><span class="val-mecenas-yes">✓</span></td>
+                    </tr>
+
+                    <!-- SECTION: Admin Lite -->
+                    <tr class="priv-section-row priv-section-row--mecenas"><td colspan="4">🛡️ Адмін-лайт (тільки Меценат)</td></tr>
+
+                    <tr>
+                        <td class="priv-feat">Кік гравця</td>
+                        <td><span class="val-no">✗</span></td>
+                        <td><span class="val-no">✗</span></td>
+                        <td><span class="val-mecenas-yes">✓</span></td>
+                    </tr>
+                    <tr>
+                        <td class="priv-feat">Слей гравця</td>
+                        <td><span class="val-no">✗</span></td>
+                        <td><span class="val-no">✗</span></td>
+                        <td><span class="val-mecenas-yes">✓</span></td>
+                    </tr>
+                    <tr>
+                        <td class="priv-feat">Мут гравця</td>
+                        <td><span class="val-no">✗</span></td>
+                        <td><span class="val-no">✗</span></td>
+                        <td><span class="val-mecenas-yes">✓</span></td>
+                    </tr>
+                    <tr>
+                        <td class="priv-feat">Запуск голосування за карту</td>
                         <td><span class="val-no">✗</span></td>
                         <td><span class="val-no">✗</span></td>
                         <td><span class="val-mecenas-yes">✓</span></td>

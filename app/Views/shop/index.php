@@ -24,6 +24,23 @@ foreach ($categories as $c) {
     </p>
 </section>
 
+<!-- CTA: Порівняння привілегій -->
+<section class="priv-cta-banner fade-in" style="margin-bottom: 3rem;">
+    <div class="priv-cta-banner__inner">
+        <div class="priv-cta-banner__text">
+            <div class="priv-cta-banner__icon">⚔️</div>
+            <div>
+                <div class="priv-cta-banner__title">Не знаєш що обрати?</div>
+                <div class="priv-cta-banner__sub">Порівняй усі бонуси звичайного гравця, VIP та Мецената в одній таблиці</div>
+            </div>
+        </div>
+        <a href="/privileges" class="priv-cta-banner__btn">
+            Порівняти привілегії
+            <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+        </a>
+    </div>
+</section>
+
 <?php if (empty($products)): ?>
     <div class="shop-empty">
         <p><?= lang('Shop.empty') ?></p>

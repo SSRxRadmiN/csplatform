@@ -388,7 +388,7 @@ nav {
 section {
     position: relative;
     z-index: 1;
-    padding: 100px 40px;
+    padding: 100px 40px 40px 40px;
 }
 
 .section-header {
@@ -4041,7 +4041,7 @@ footer {
 .priv-page {
     max-width: 1100px;
     margin: 0 auto;
-    padding: 60px 24px 80px;
+    padding: 100px 24px 80px;
 }
 
 /* Header */
@@ -4321,7 +4321,7 @@ footer {
 .val-yes { color: #1D9E75; font-size: 16px; }
 .val-no { color: #E24B4A; opacity: 0.5; font-size: 14px; }
 .val-gold { color: #BA7517; font-weight: 500; }
-.val-mecenas { color: #7C5CFC; font-weight: 500; }
+.val-mecenas { color: #7C5CFC; font-weight: 500; font-size: 16px; }
 .val-dim { color: #5a6b5a; font-size: 13px; }
 .val-normal { color: #8a9b8a; }
 .val-num { font-family: 'JetBrains Mono', monospace; font-size: 13px; }
@@ -4439,4 +4439,81 @@ footer {
     padding: 2px 6px;
     border-radius: 4px;
     font-size: 12px;
+}
+
+/* Privileges CTA Banner (homepage + shop) */
+.priv-cta-banner {
+    max-width: 1100px;
+    margin: 2rem auto 4rem;
+    padding: 0 1.5rem;
+}
+
+.priv-cta-banner__inner {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 24px;
+    padding: 24px 32px;
+    border-radius: 16px;
+    border: 1px solid rgba(124, 92, 252, 0.15);
+    background: linear-gradient(135deg, rgba(74, 222, 128, 0.04), rgba(124, 92, 252, 0.06));
+    position: relative;
+    overflow: hidden;
+}
+
+.priv-cta-banner__inner::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(ellipse at 0% 50%, rgba(74, 222, 128, 0.06), transparent 50%),
+                radial-gradient(ellipse at 100% 50%, rgba(124, 92, 252, 0.06), transparent 50%);
+    pointer-events: none;
+}
+
+.priv-cta-banner__text {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    position: relative;
+}
+
+.priv-cta-banner__icon {
+    font-size: 28px;
+    flex-shrink: 0;
+}
+
+.priv-cta-banner__title {
+    font-size: 16px;
+    font-weight: 600;
+    color: #e8f0e8;
+    margin-bottom: 2px;
+}
+
+.priv-cta-banner__sub {
+    font-size: 13px;
+    color: #8a9b8a;
+    font-weight: 300;
+}
+
+.priv-cta-banner__btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 10px 24px;
+    border-radius: 10px;
+    background: linear-gradient(135deg, #1D9E75, #7C5CFC);
+    color: #fff;
+    font-family: inherit;
+    font-size: 13px;
+    font-weight: 500;
+    text-decoration: none;
+    white-space: nowrap;
+    transition: all 0.3s;
+    position: relative;
+    flex-shrink: 0;
+}
+
+.priv-cta-banner__btn:hover {
+    box-shadow: 0 4px 20px rgba(124, 92, 252, 0.3);
+    transform: translateY(-1px);
 }

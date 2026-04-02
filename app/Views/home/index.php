@@ -56,7 +56,7 @@
     <div class="counters-grid">
         <div class="counter-card">
             <div class="counter-info">
-                <div class="counter-value" data-count="460">0</div>
+                <div class="counter-value" data-count="360">0</div>
                 <div class="counter-suffix">+</div>
             </div>
             <div class="counter-label"><?= lang('Home.counter_players') ?></div>
@@ -66,7 +66,7 @@
         </div>
         <div class="counter-card">
             <div class="counter-info">
-                <div class="counter-value" data-count="15">0</div>
+                <div class="counter-value" data-count="10">0</div>
                 <div class="counter-suffix"></div>
             </div>
             <div class="counter-label"><?= lang('Home.counter_models') ?></div>
@@ -133,7 +133,22 @@
 </section>
 <?php endif; ?>
 
-<!-- ═══ СЕКЦІЯ 2: МОДЕЛІ ГРАВЦІВ — автоскрол слайдери ═══ -->
+<!-- ═══ CTA: ПОРІВНЯННЯ ПРИВІЛЕГІЙ ═══ -->
+<section class="priv-cta-banner fade-in">
+    <div class="priv-cta-banner__inner">
+        <div class="priv-cta-banner__text">
+            <div class="priv-cta-banner__icon">⚔️</div>
+            <div>
+                <div class="priv-cta-banner__title">Не знаєш що обрати?</div>
+                <div class="priv-cta-banner__sub">Порівняй усі бонуси звичайного гравця, VIP та Мецената в одній таблиці</div>
+            </div>
+        </div>
+        <a href="/privileges" class="priv-cta-banner__btn">
+            Порівняти привілегії
+            <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+        </a>
+    </div>
+</section>
 <?php if (!empty($modelProductsF) || !empty($modelProductsM)): ?>
 <section id="models-section">
     <div class="section-header fade-in">
