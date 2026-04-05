@@ -56,7 +56,7 @@
     <div class="counters-grid">
         <div class="counter-card">
             <div class="counter-info">
-                <div class="counter-value" data-count="360">0</div>
+                <div class="counter-value" data-count="460">0</div>
                 <div class="counter-suffix">+</div>
             </div>
             <div class="counter-label"><?= lang('Home.counter_players') ?></div>
@@ -66,7 +66,7 @@
         </div>
         <div class="counter-card">
             <div class="counter-info">
-                <div class="counter-value" data-count="10">0</div>
+                <div class="counter-value" data-count="15">0</div>
                 <div class="counter-suffix"></div>
             </div>
             <div class="counter-label"><?= lang('Home.counter_models') ?></div>

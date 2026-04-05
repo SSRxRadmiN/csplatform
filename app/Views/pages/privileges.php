@@ -104,7 +104,7 @@
                         <td><span class="val-dim val-num">35 / 105</span></td>
                     </tr>
                     <tr>
-                        <td class="priv-feat">5 Ultimate наборів (+20%)<span class="priv-feat__detail">Galaxy, Сайрекс, Тигр, Азімов, Неон</span></td>
+                        <td class="priv-feat">5 Ultimate наборів (+20%)<span class="priv-feat__detail">ДаркБлу, Сайрекс, Тигр, Азімов, Неон</span></td>
                         <td><span class="val-no">✗</span></td>
                         <td><span class="val-yes">✓</span></td>
                         <td><span class="val-yes">✓</span></td>
