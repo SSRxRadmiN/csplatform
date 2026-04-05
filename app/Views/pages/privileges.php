@@ -20,7 +20,7 @@
             <div class="priv-tier__name">VIP</div>
             <div class="priv-tier__flag">флаг t</div>
             <div class="priv-tier__desc">Все від гравця + Ultimate скіни, Gold Deagle & Knife, бонуси HP та грошей, тег VIP</div>
-            <div class="priv-tier__price"><a href="/shop">Від 49₴ / 30 днів →</a></div>
+            <div class="priv-tier__price"><a href="/shop">Від 100₴ / 7 днів →</a></div>
         </div>
         <div class="priv-tier priv-tier--mecenas">
             <div class="priv-tier__icon">👑</div>
@@ -112,8 +112,8 @@
                     <tr>
                         <td class="priv-feat">Обойма / запас (Ultimate)</td>
                         <td><span class="val-no">✗</span></td>
-                        <td><span class="val-normal val-num">40 / 140</span></td>
-                        <td><span class="val-normal val-num">40 / 140</span></td>
+                        <td><span class="val-normal val-num">40 / 120</span></td>
+                        <td><span class="val-normal val-num">40 / 120</span></td>
                     </tr>
                     <tr>
                         <td class="priv-feat">2 ексклюзивні набори (+30%)<span class="priv-feat__detail">тільки Меценат</span></td>
