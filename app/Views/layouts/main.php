@@ -40,11 +40,18 @@ if (!isset($seo)) {
         <meta property="og:description" content="<?= esc($desc) ?>">
     <?php endif ?>
     <meta property="og:image" content="<?= base_url(esc($ogImg)) ?>">
-    <meta property="og:url" content="<?= current_url() ?>">
+    <?php
+        // Build a clean canonical URL: no query string, no trailing slash (except root)
+        $cleanUrl = current_url(false);
+        if ($cleanUrl !== rtrim(base_url(), '/') . '/') {
+            $cleanUrl = rtrim($cleanUrl, '/');
+        }
+    ?>
+    <meta property="og:url" content="<?= esc($cleanUrl, 'attr') ?>">
     <meta property="og:site_name" content="CS Headshot">
     <meta property="og:locale" content="<?= (session()->get('lang') ?? 'ua') === 'ua' ? 'uk_UA' : 'en_US' ?>">
 
-    <link rel="canonical" href="<?= current_url() ?>">
+    <link rel="canonical" href="<?= esc($cleanUrl, 'attr') ?>">
 
     <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="/assets/css/app.css">

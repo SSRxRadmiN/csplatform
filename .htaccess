@@ -1,17 +1,34 @@
-# To prevent access to .env and other files
+# ════════════════════════════════════════════════════════════
+# CS Headshot — root .htaccess
+# - Protects .env and dotfiles
+# - 301 redirects /index.php/* and /public/* to clean URLs
+# - Routes all requests into /public/ (CodeIgniter 4 entry)
+# ════════════════════════════════════════════════════════════
+
+# To prevent access to .env and other dotfiles
 <Files .*>
-# Apache 2.2
-<IfModule !mod_authz_core.c>
-Order deny,allow
-Deny from all
-</IfModule>
-# Apache 2.4
-<IfModule mod_authz_core.c>
-Require all denied
-</IfModule>
+    # Apache 2.2
+    <IfModule !mod_authz_core.c>
+        Order deny,allow
+        Deny from all
+    </IfModule>
+    # Apache 2.4
+    <IfModule mod_authz_core.c>
+        Require all denied
+    </IfModule>
 </Files>
 
 <IfModule mod_rewrite.c>
     RewriteEngine On
+
+    # ── Canonical: kill /index.php/ from URLs (301) ──
+    RewriteCond %{THE_REQUEST} \s/+index\.php/?(\S*)\s [NC]
+    RewriteRule ^ /%1 [R=301,L,NE]
+
+    # ── Canonical: kill /public/ from URLs (301) ──
+    RewriteCond %{THE_REQUEST} \s/+public/(\S*)\s [NC]
+    RewriteRule ^ /%1 [R=301,L,NE]
+
+    # ── Internal rewrite: route everything into /public/ ──
     RewriteRule ^(.*)$ public/$1 [L]
 </IfModule>
