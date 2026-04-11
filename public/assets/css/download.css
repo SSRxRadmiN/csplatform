@@ -9,8 +9,22 @@
 .page-download .grid-pattern { display: none; }
 
 .page-download {
-    background: url('/assets/img/download/bg-full.webp') top center / contain no-repeat;
-    background-color: #050a05;
+    background:
+        #050a05;
+}
+
+.dl-hero {
+    background: url('/assets/img/download/bg-hego.webp') center center / contain no-repeat;
+}
+.dl-features {
+    background: url('/assets/img/download/bg-futured2.webp') center center / contain no-repeat;
+}
+.dl-cta {
+    background: url('/assets/img/download/bg-cta3.webp') center center / contain no-repeat;
+}
+
+.dl-included {
+    background: url(/assets/img/download/bg-textdown4.webp) top center / 1332px no-repeat;
 }
 
 /* Side fades — smooth transition from bg image to black */
@@ -53,11 +67,11 @@
 
 /* ═══ HERO ═══ */
 .dl-hero {
-    padding-top: 230px;
-    padding-bottom: 70px;
+    height: 650px;
 }
 
 .dl-hero__content {
+    padding-top: 60px;
     max-width: 480px;
     animation: dlFadeInUp 0.8s ease-out;
 }
@@ -132,14 +146,18 @@
 
 /* ═══ FEATURES ═══ */
 .dl-features {
-    padding-top: 150px;
-    padding-bottom: 150px;
+    height: 250px;
+}
+
+.dl-features-card {
+    max-width: 940px;
+    margin-top: -35px;
 }
 
 .dl-features__grid {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
-    gap: 14px;
+    gap: 10px;
 }
 
 .dl-card {
@@ -183,12 +201,12 @@
 
 /* ═══ CTA ═══ */
 .dl-cta {
-    padding-top: 20px;
-    padding-bottom: 130px;
+    height: 350px;
 }
 
 .dl-cta__inner {
     position: relative;
+    padding-top: 10px;
 }
 
 .dl-cta__content {

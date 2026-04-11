@@ -95,7 +95,7 @@
 
 <!-- ═══ FEATURES ═══ -->
 <section class="dl-features">
-    <div class="dl-wrap">
+    <div class="dl-wrap dl-features-card">
         <div class="dl-features__grid">
             <div class="dl-card dl-fade-up">
                 <div class="dl-card__icon">
