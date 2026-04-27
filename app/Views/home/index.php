@@ -23,7 +23,7 @@
             <?= lang('Home.hero_btn_shop') ?>
             <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
         </a>
-        <a href="steam://connect/<?= esc($server['ip'] ?? '31.42.190.78') ?>:<?= esc($server['port'] ?? '27015') ?>" class="btn-hero btn-hero-secondary">
+        <a href="steam://connect/<?= esc($server['ip'] ?? '185.252.24.118') ?>:<?= esc($server['port'] ?? '27015') ?>" class="btn-hero btn-hero-secondary">
             <?= lang('Home.hero_btn_connect') ?>
         </a>
     </div>

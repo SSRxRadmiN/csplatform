@@ -25,7 +25,7 @@
         <div class="priv-tier priv-tier--mecenas">
             <div class="priv-tier__icon">👑</div>
             <div class="priv-tier__name">Меценат</div>
-            <div class="priv-tier__flag">флаги dt</div>
+            <div class="priv-tier__flag">флаги mt</div>
             <div class="priv-tier__desc">Все від VIP + ексклюзивна зброя +30%, швидкість +10%, ammo refill, адмін‑лайт</div>
             <div class="priv-tier__price"><a href="/shop">Дізнатись ціну →</a></div>
         </div>
@@ -104,7 +104,7 @@
                         <td><span class="val-dim val-num">35 / 105</span></td>
                     </tr>
                     <tr>
-                        <td class="priv-feat">5 Ultimate наборів (+20%)<span class="priv-feat__detail">ДаркБлу, Сайрекс, Тигр, Азімов, Неон</span></td>
+                        <td class="priv-feat">5 Ultimate наборів (+20%)<span class="priv-feat__detail">Galaxy, Сайрекс, Тигр, Азімов, Неон</span></td>
                         <td><span class="val-no">✗</span></td>
                         <td><span class="val-yes">✓</span></td>
                         <td><span class="val-yes">✓</span></td>
@@ -112,8 +112,8 @@
                     <tr>
                         <td class="priv-feat">Обойма / запас (Ultimate)</td>
                         <td><span class="val-no">✗</span></td>
-                        <td><span class="val-normal val-num">40 / 120</span></td>
-                        <td><span class="val-normal val-num">40 / 120</span></td>
+                        <td><span class="val-normal val-num">40 / 140</span></td>
+                        <td><span class="val-normal val-num">40 / 140</span></td>
                     </tr>
                     <tr>
                         <td class="priv-feat">2 ексклюзивні набори (+30%)<span class="priv-feat__detail">тільки Меценат</span></td>
@@ -122,7 +122,7 @@
                         <td><span class="val-mecenas-yes">✓</span></td>
                     </tr>
                     <tr>
-                        <td class="priv-feat">Обойма / запас (Ексклюзив)</td>
+                        <td class="priv-feat">Обойма / запас (Ексклюзив +30%)</td>
                         <td><span class="val-no">✗</span></td>
                         <td><span class="val-no">✗</span></td>
                         <td><span class="val-mecenas val-num">45 / 180</span></td>
@@ -208,14 +208,14 @@
                     <tr>
                         <td class="priv-feat">За фраг / хедшот</td>
                         <td><span class="val-no">✗</span></td>
-                        <td><span class="val-normal val-num">+100$ / +150$</span></td>
-                        <td><span class="val-normal val-num">+100$ / +150$</span></td>
+                        <td><span class="val-normal val-num">+200$ / +250$</span></td>
+                        <td><span class="val-normal val-num">+200$ / +250$</span></td>
                     </tr>
                     <tr>
                         <td class="priv-feat">За ніж / гранату</td>
-                        <td><span class="val-no">✗</span></td>
-                        <td><span class="val-normal val-num">+500$ / +500$</span></td>
-                        <td><span class="val-normal val-num">+500$ / +500$</span></td>
+                        <td><span class="val-dim val-num">+1000$ / ✗</span></td>
+                        <td><span class="val-normal val-num">+1000$ / +500$</span></td>
+                        <td><span class="val-normal val-num">+1000$ / +500$</span></td>
                     </tr>
 
                     <!-- SECTION: HP -->
@@ -230,14 +230,14 @@
                     <tr>
                         <td class="priv-feat">HP за фраг / хедшот</td>
                         <td><span class="val-dim val-num">+5 / ✗</span></td>
-                        <td><span class="val-normal val-num">+5 / +10</span></td>
-                        <td><span class="val-normal val-num">+5 / +10</span></td>
+                        <td><span class="val-normal val-num">+5 / +5</span></td>
+                        <td><span class="val-normal val-num">+5 / +5</span></td>
                     </tr>
                     <tr>
                         <td class="priv-feat">HP за ніж / гранату</td>
-                        <td><span class="val-dim val-num">+15 / ✗</span></td>
-                        <td><span class="val-normal val-num">+15 / +15</span></td>
-                        <td><span class="val-normal val-num">+15 / +15</span></td>
+                        <td><span class="val-dim val-num">+10 / ✗</span></td>
+                        <td><span class="val-normal val-num">+10 / +10</span></td>
+                        <td><span class="val-normal val-num">+10 / +10</span></td>
                     </tr>
                     <tr>
                         <td class="priv-feat">Максимум HP</td>
@@ -302,8 +302,8 @@
                     <tr>
                         <td class="priv-feat">Стандартна модель</td>
                         <td><span class="val-dim val-mono">custom_te/ct</span></td>
-                        <td><span class="val-yes val-mono">vip_rbs_te/ct</span></td>
-                        <td><span class="val-yes val-mono">vip_rbs_te/ct</span></td>
+                        <td><span class="val-yes val-mono">vip_te/ct</span></td>
+                        <td><span class="val-yes val-mono">vip_te/ct</span></td>
                     </tr>
                     <tr>
                         <td class="priv-feat">Кастомна моделька<span class="priv-feat__detail">furyghost, carrie та ін.</span></td>
@@ -325,7 +325,7 @@
                         <td class="priv-feat">Чат-префікс</td>
                         <td><span class="val-dim">[Звання]</span></td>
                         <td><span class="val-yes val-sm">[VIP] [Звання]</span></td>
-                        <td><span class="val-mecenas val-xs">[Меценат] [VIP] [Звання]</span></td>
+                        <td><span class="val-mecenas val-sm">[Меценат] [Звання]</span></td>
                     </tr>
                     <tr>
                         <td class="priv-feat">Повідомлення при вході</td>
