@@ -2,13 +2,15 @@
 
 namespace App\Libraries;
 
-use App\Models\SettingModel;
+use App\Models\ServerModel;
 
 /**
  * ServerQuery — отримання статусу сервера через VPS Privilege API
  *
  * Shared hosting не підтримує UDP сокети, тому запит йде
  * через HTTP GET до VPS API (?action=serverstats).
+ *
+ * Облікові дані API читаються з таблиці `servers` (api_url, api_key).
  */
 class ServerQuery
 {
@@ -17,12 +19,13 @@ class ServerQuery
      */
     public static function updateServerStats(int $serverId = 1): array
     {
-        $settings = new SettingModel();
-        $apiUrl   = $settings->get('vps_api_url') ?? '';
-        $apiToken = $settings->get('vps_api_token') ?? '';
+        $serverModel = new ServerModel();
+        $creds = $serverModel->getApiCredentials($serverId);
+        $apiUrl   = $creds['url'];
+        $apiToken = $creds['token'];
 
         if (empty($apiUrl) || empty($apiToken)) {
-            return ['success' => false, 'message' => 'VPS API not configured'];
+            return ['success' => false, 'message' => "VPS API not configured for server #{$serverId}"];
         }
 
         // GET запит до VPS API

@@ -2,15 +2,16 @@
 
 namespace App\Controllers;
 
-use App\Models\SettingModel;
+use App\Models\ServerModel;
 
 class Bans extends BaseController
 {
     public function index()
     {
-        $settingModel = new SettingModel();
-        $vpsUrl   = $settingModel->get('vps_api_url');
-        $vpsToken = $settingModel->get('vps_api_token');
+        $serverModel = new ServerModel();
+        $creds       = $serverModel->getApiCredentials(1);
+        $vpsUrl      = $creds['url'];
+        $vpsToken    = $creds['token'];
 
         $page        = max(1, (int) ($this->request->getGet('page') ?? 1));
         $perPage     = (int) ($this->request->getGet('per_page') ?? 20);

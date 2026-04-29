@@ -79,6 +79,14 @@ $routes->group('admin', ['filter' => 'admin'], function ($routes) {
     $routes->post('categories/edit/(:num)', 'Admin\Categories::update/$1');
     $routes->post('categories/delete/(:num)', 'Admin\Categories::delete/$1');
 
+    // Сервери — CRUD (управління IP/портом/API замість settings)
+    $routes->get('servers', 'Admin\Servers::index');
+    $routes->get('servers/create', 'Admin\Servers::create');
+    $routes->post('servers/create', 'Admin\Servers::store');
+    $routes->get('servers/edit/(:num)', 'Admin\Servers::edit/$1');
+    $routes->post('servers/edit/(:num)', 'Admin\Servers::update/$1');
+    $routes->post('servers/delete/(:num)', 'Admin\Servers::delete/$1');
+
     $routes->get('users', 'Admin\Users::index');
     $routes->get('users/edit/(:num)', 'Admin\Users::edit/$1');
     $routes->post('users/edit/(:num)', 'Admin\Users::update/$1');

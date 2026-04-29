@@ -2,7 +2,6 @@
 
 namespace App\Libraries;
 
-use App\Models\SettingModel;
 use App\Models\ServerModel;
 
 /**
@@ -14,22 +13,26 @@ use App\Models\ServerModel;
  *   - unban:   Розбан гравця
  *   - model:   Персональна модель гравця (через ultimate_models.ini)
  *
- * Конфігурація в Settings:
- *   - vps_api_url:   http://31.42.190.78/api/privilege
- *   - vps_api_token: секретний API токен
+ * Конфігурація читається з таблиці `servers` (поля api_url, api_key)
+ * через ServerModel::getApiCredentials(). Раніше зчитувалося з settings
+ * (vps_api_url / vps_api_token), наразі ці ключі більше не використовуються.
  */
 class PrivilegeDelivery
 {
     private string $apiUrl;
     private string $apiToken;
     private int    $timeout;
+    private int    $serverId;
 
-    public function __construct()
+    public function __construct(int $serverId = 1)
     {
-        $settings = new SettingModel();
+        $this->serverId = $serverId;
 
-        $this->apiUrl   = $settings->get('vps_api_url') ?? 'http://31.42.190.78/api/privilege';
-        $this->apiToken = $settings->get('vps_api_token') ?? '';
+        $serverModel = new ServerModel();
+        $creds = $serverModel->getApiCredentials($serverId);
+
+        $this->apiUrl   = $creds['url']   ?: '';
+        $this->apiToken = $creds['token'] ?: '';
         $this->timeout  = 15;
     }
 
@@ -142,8 +145,8 @@ class PrivilegeDelivery
      */
     private function callApi(string $action, array $params): array
     {
-        if (empty($this->apiToken)) {
-            $msg = 'VPS API token not configured. Set vps_api_token in Settings.';
+        if (empty($this->apiToken) || empty($this->apiUrl)) {
+            $msg = "VPS API not configured for server #{$this->serverId}. Заповніть api_url/api_key у /admin/servers.";
             log_message('error', "[PrivilegeDelivery] {$msg}");
             return ['success' => false, 'message' => $msg];
         }

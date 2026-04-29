@@ -9,6 +9,7 @@
             '/admin/orders'     => 'Замовлення',
             '/admin/users'      => 'Користувачі',
             '/admin/privileges' => 'Привілеї',
+            '/admin/servers'    => 'Сервери',
             '/admin/settings'   => 'Налаштування',
         ];
         $currentPath = '/' . trim(uri_string(), '/');

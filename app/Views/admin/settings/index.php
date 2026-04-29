@@ -3,7 +3,6 @@ $groups = [
     'Загальні' => ['site_name', 'site_url', 'admin_email', 'default_language', 'maintenance_mode'],
     'SEO / Аналітика' => ['meta_title', 'meta_description', 'meta_keywords', 'og_image', 'google_analytics_id', 'facebook_pixel_id'],
     'CASSA оплата' => ['cassa_id', 'cassa_secret', 'cassa_url', 'cassa_merchant_id'],
-    'VPS API (доставка привілегів)' => ['vps_api_url', 'vps_api_token'],
     'Cron' => ['cron_secret'],
     'Telegram сповіщення' => ['telegram_bot_token', 'telegram_admin_chat'],
     'Email сповіщення' => ['email_enabled', 'email_from', 'email_from_name'],
@@ -25,8 +24,6 @@ $labels = [
     'cassa_secret'        => 'Секретний ключ CASSA',
     'cassa_url'           => 'URL CASSA',
     'cassa_merchant_id'   => 'Merchant ID',
-    'vps_api_url'         => 'URL API',
-    'vps_api_token'       => 'API Token',
     'cron_secret'         => 'Секретний ключ Cron',
     'telegram_bot_token'  => 'Bot Token',
     'telegram_admin_chat' => 'Admin Chat ID',
@@ -35,7 +32,7 @@ $labels = [
     'email_from_name'     => 'Ім\'я відправника',
 ];
 
-$passwordFields = ['cassa_secret', 'vps_api_token', 'cron_secret', 'telegram_bot_token'];
+$passwordFields = ['cassa_secret', 'cron_secret', 'telegram_bot_token'];
 $textareaFields = ['meta_description', 'meta_keywords'];
 ?>
 
@@ -43,6 +40,11 @@ $textareaFields = ['meta_description', 'meta_keywords'];
     <?= view("admin/_nav", ["adminTitle" => "Налаштування"]) ?>
 
     <div class="admin-section">
+        <div class="admin-hint" style="margin-bottom:1rem;padding:0.75rem 1rem;background:#0f1f0f;border-left:3px solid #4ade80;border-radius:4px;">
+            <strong>ℹ️ IP/Порт сервера та VPS API</strong> — тепер редагуються в розділі
+            <a href="/admin/servers" style="color:#4ade80;">Сервери</a>.
+        </div>
+
         <form method="post" action="/admin/settings" class="admin-form">
             <?= csrf_field() ?>
 

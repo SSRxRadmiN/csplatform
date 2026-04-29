@@ -3,7 +3,7 @@
 namespace App\Controllers\Admin;
 
 use App\Controllers\BaseController;
-use App\Models\SettingModel;
+use App\Models\ServerModel;
 
 class Privileges extends BaseController
 {
@@ -12,9 +12,10 @@ class Privileges extends BaseController
 
     public function __construct()
     {
-        $settings = new SettingModel();
-        $this->apiUrl   = $settings->get('vps_api_url') ?? 'http://31.42.190.78/api/privilege';
-        $this->apiToken = $settings->get('vps_api_token') ?? '';
+        $serverModel = new ServerModel();
+        $creds = $serverModel->getApiCredentials(1);
+        $this->apiUrl   = $creds['url']   ?: '';
+        $this->apiToken = $creds['token'] ?: '';
     }
 
     /**
@@ -114,6 +115,10 @@ class Privileges extends BaseController
      */
     private function apiGet(string $query): array
     {
+        if (empty($this->apiUrl)) {
+            return ['error' => 'VPS API не налаштований. Заповніть api_url у /admin/servers.'];
+        }
+
         $url = rtrim($this->apiUrl, '/') . '?' . $query;
 
         $ch = curl_init($url);
@@ -139,6 +144,10 @@ class Privileges extends BaseController
      */
     private function apiPost(string $action, array $params): array
     {
+        if (empty($this->apiUrl)) {
+            return ['error' => 'VPS API не налаштований. Заповніть api_url у /admin/servers.'];
+        }
+
         $params['action'] = $action;
         $params['token']  = $this->apiToken;
 

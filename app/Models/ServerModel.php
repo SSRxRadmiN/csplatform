@@ -23,6 +23,30 @@ class ServerModel extends Model
 
     protected $returnType = 'array';
 
+    // Валідація для адмін-форми
+    protected $validationRules = [
+        'name' => 'required|max_length[120]',
+        'ip'   => 'required|max_length[64]',
+        'port' => 'required|integer|greater_than[0]|less_than[65536]',
+    ];
+
+    protected $validationMessages = [
+        'name' => [
+            'required'   => 'Введіть назву сервера',
+            'max_length' => 'Назва занадто довга',
+        ],
+        'ip' => [
+            'required'   => 'Введіть IP або хост',
+            'max_length' => 'IP занадто довгий',
+        ],
+        'port' => [
+            'required'      => 'Введіть порт',
+            'integer'       => 'Порт має бути числом',
+            'greater_than'  => 'Порт має бути > 0',
+            'less_than'     => 'Порт має бути < 65536',
+        ],
+    ];
+
     /**
      * Отримати активні сервери
      */
@@ -41,5 +65,21 @@ class ServerModel extends Model
         return $this->select('servers.*, server_stats.current_players, server_stats.max_players, server_stats.current_map, server_stats.is_online')
                     ->join('server_stats', 'server_stats.server_id = servers.id', 'left')
                     ->find($id);
+    }
+
+    /**
+     * Отримати облікові дані VPS API для сервера.
+     * Використовується бібліотеками PrivilegeDelivery, ServerQuery,
+     * та контролерами Stats, Bans, Admin\Privileges.
+     *
+     * @return array{url: string, token: string}
+     */
+    public function getApiCredentials(int $serverId = 1): array
+    {
+        $row = $this->select('api_url, api_key')->find($serverId);
+        return [
+            'url'   => $row['api_url'] ?? '',
+            'token' => $row['api_key'] ?? '',
+        ];
     }
 }
