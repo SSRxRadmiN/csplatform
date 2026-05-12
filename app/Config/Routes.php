@@ -21,6 +21,10 @@ $routes->get('privileges', 'Pages::privileges');
 $routes->get('download-cs-1-6', 'Pages::download');
 $routes->get('sitemap.xml', 'Sitemap::index');
 $routes->get('lang/(:segment)', 'Home::lang/$1');
+// ============================================
+// AJAX API (публічно, GET)
+// ============================================
+$routes->get('api/server/(:num)/players', 'ApiServer::players/$1');
 
 // ============================================
 // Авторизація

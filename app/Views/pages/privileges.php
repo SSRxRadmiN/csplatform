@@ -290,7 +290,7 @@
                         <td><span class="val-mecenas-yes">✓</span></td>
                     </tr>
                     <tr>
-                        <td class="priv-feat">Запуск голосування за карту</td>
+                        <td class="priv-feat">Можливість номінувати декілька карт</td>
                         <td><span class="val-no">✗</span></td>
                         <td><span class="val-no">✗</span></td>
                         <td><span class="val-mecenas-yes">✓</span></td>

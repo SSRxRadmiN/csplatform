@@ -32,4 +32,5 @@ return [
     'step3_desc'       => 'Оплати зручним способом через CASSA',
     'step4_title'      => 'Грай!',
     'step4_desc'       => 'Привілеї активні при зміні карти',
+    'hero_btn_telegram' => 'Долучитись в Telegram',
 ];

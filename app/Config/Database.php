@@ -27,9 +27,9 @@ class Database extends Config
     public array $default = [
         'DSN'          => '',
         'hostname'     => 'localhost',
-        'username'     => 'erssmxwg_cs2',
-        'password'     => '5@)2wFepS5',
-        'database'     => 'erssmxwg_cs2',
+        'username'     => 'erssmxwg_csheadshot',
+        'password'     => 'iH}c1veq8HWT5kKH',
+        'database'     => 'erssmxwg_csheadshot',
         'DBDriver'     => 'MySQLi',
         'DBPrefix'     => '',
         'pConnect'     => false,

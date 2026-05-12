@@ -23,29 +23,104 @@
             <?= lang('Home.hero_btn_shop') ?>
             <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
         </a>
-        <a href="steam://connect/<?= esc($server['ip'] ?? '185.252.24.118') ?>:<?= esc($server['port'] ?? '27015') ?>" class="btn-hero btn-hero-secondary">
-            <?= lang('Home.hero_btn_connect') ?>
+        <a href="https://t.me/csheadshot" target="_blank" rel="noopener" class="btn-hero btn-hero-secondary">
+            <svg width="16" height="16" fill="currentColor" viewBox="0 0 24 24" style="margin-right:6px;">
+                <path d="M11.944 0A12 12 0 0 0 0 12a12 12 0 0 0 12 12 12 12 0 0 0 12-12A12 12 0 0 0 12 0a12 12 0 0 0-.056 0zm4.962 7.224c.1-.002.321.023.465.14a.506.506 0 0 1 .171.325c.016.093.036.306.02.472-.18 1.898-.962 6.502-1.36 8.627-.168.9-.499 1.201-.82 1.23-.696.065-1.225-.46-1.9-.902-1.056-.693-1.653-1.124-2.678-1.8-1.185-.78-.417-1.21.258-1.91.177-.184 3.247-2.977 3.307-3.23.007-.032.014-.15-.056-.212s-.174-.041-.249-.024c-.106.024-1.793 1.14-5.061 3.345-.48.33-.913.49-1.302.48-.428-.008-1.252-.241-1.865-.44-.752-.245-1.349-.374-1.297-.789.027-.216.325-.437.893-.663 3.498-1.524 5.83-2.529 6.998-3.014 3.332-1.386 4.025-1.627 4.476-1.635z"/>
+            </svg>
+            <?= lang('Home.hero_btn_telegram') ?? 'Долучитись в Telegram' ?>
         </a>
     </div>
 
-    <?php if (!empty($server)): ?>
-    <div class="server-status">
-        <div class="status-item">
-            <span class="value <?= $server['is_online'] ? 'status-online' : 'status-offline' ?>">
-                ● <?= $server['is_online'] ? 'ONLINE' : 'OFFLINE' ?>
-            </span>
-        </div>
-        <div class="status-divider"></div>
-        <div class="status-item">
-            IP: <span class="value"><?= esc($server['ip']) ?>:<?= esc($server['port']) ?></span>
-        </div>
-        <div class="status-divider"></div>
-        <div class="status-item">
-            <?= lang('App.server_map') ?>: <span class="value"><?= esc($server['current_map'] ?? '—') ?></span>
-        </div>
-        <div class="status-divider"></div>
-        <div class="status-item">
-            <?= lang('App.server_players') ?>: <span class="value"><?= $server['current_players'] ?? 0 ?> / <?= $server['max_players'] ?? 32 ?></span>
+    <!-- ═══ НАШІ СЕРВЕРИ (всередині Hero) ═══ -->
+    <?php if (!empty($servers)): ?>
+    <div class="hero-servers fade-in">
+        <div class="servers-table-wrap">
+            <table class="servers-table">
+                <thead>
+                    <tr>
+                        <th class="srv-col-name">Сервер</th>
+                        <th class="srv-col-map">Мапа</th>
+                        <th class="srv-col-players">Онлайн</th>
+                        <th class="srv-col-ip">IP-адрес</th>
+                        <th class="srv-col-actions">Дії</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <?php foreach ($servers as $srv): ?>
+                        <?php
+                            $isOnline = !empty($srv['is_online']);
+                            $players  = (int) ($srv['current_players'] ?? 0);
+                            $maxPlay  = (int) ($srv['max_players'] ?? 32);
+                            $map      = $srv['current_map'] ?? '—';
+                            $ipPort   = $srv['ip'] . ':' . $srv['port'];
+                        ?>
+                        <tr class="<?= $isOnline ? 'srv-row-online' : 'srv-row-offline' ?>">
+                            <td class="srv-col-name">
+                                <div class="srv-name-wrap">
+                                    <span class="srv-status-dot <?= $isOnline ? 'srv-dot-online' : 'srv-dot-offline' ?>"></span>
+                                    <span class="srv-name"><?= esc($srv['name']) ?></span>
+                                    <?php if (!empty($srv['country'])): ?>
+                                        <span class="srv-country"><?= esc($srv['country']) ?></span>
+                                    <?php endif; ?>
+                                </div>
+                            </td>
+                            <td class="srv-col-map">
+                                <code class="srv-map"><?= esc($map) ?></code>
+                            </td>
+                            <td class="srv-col-players">
+                                <?php if ($isOnline): ?>
+                                    <button type="button"
+                                            class="srv-players-btn"
+                                            data-players-server="<?= (int) $srv['id'] ?>"
+                                            data-server-name="<?= esc($srv['name']) ?>"
+                                            title="Показати список гравців">
+                                        <span class="srv-players"><?= $players ?> / <?= $maxPlay ?></span>
+                                    </button>
+                                <?php else: ?>
+                                    <span class="srv-players-off">Офлайн</span>
+                                <?php endif; ?>
+                            </td>
+                            <td class="srv-col-ip">
+                                <button type="button" class="srv-ip-btn" data-copy="<?= esc($ipPort) ?>" title="Скопіювати">
+                                    <code><?= esc($ipPort) ?></code>
+                                    <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                                        <rect x="9" y="9" width="13" height="13" rx="2"/>
+                                        <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/>
+                                    </svg>
+                                </button>
+                            </td>
+                            <td class="srv-col-actions">
+                                <div class="srv-actions-wrap">
+                                    <a href="steam://connect/<?= esc($ipPort) ?>"
+                                       class="srv-icon-btn srv-icon-connect"
+                                       title="Підключитись до сервера">
+                                        <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                                            <polygon points="5 3 19 12 5 21 5 3"/>
+                                        </svg>
+                                    </a>
+                                    <a href="/bans"
+                                       class="srv-icon-btn srv-icon-bans"
+                                       title="Список заблокованих">
+                                        <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                                            <circle cx="12" cy="12" r="10"/>
+                                            <line x1="4.93" y1="4.93" x2="19.07" y2="19.07"/>
+                                        </svg>
+                                    </a>
+                                    <a href="/stats"
+                                       class="srv-icon-btn srv-icon-stats"
+                                       title="Статистика гравців">
+                                        <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                                            <line x1="18" y1="20" x2="18" y2="10"/>
+                                            <line x1="12" y1="20" x2="12" y2="4"/>
+                                            <line x1="6"  y1="20" x2="6"  y2="14"/>
+                                        </svg>
+                                    </a>
+                                </div>
+                            </td>
+                        </tr>
+                    <?php endforeach; ?>
+                </tbody>
+            </table>
         </div>
     </div>
     <?php endif; ?>
@@ -314,3 +389,23 @@
         </div>
     </div>
 </section>
+
+<!-- ═══ МОДАЛКА: СПИСОК ГРАВЦІВ ═══ -->
+<div id="players-modal" class="players-modal-overlay" hidden>
+    <div class="players-modal" role="dialog" aria-labelledby="players-modal-title" aria-modal="true">
+        <div class="players-modal-header">
+            <div class="players-modal-title-wrap">
+                <h3 id="players-modal-title" class="players-modal-title">Гравці на сервері</h3>
+                <span id="players-modal-server" class="players-modal-subtitle"></span>
+            </div>
+            <button type="button" class="players-modal-close" aria-label="Закрити">
+                <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                    <line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/>
+                </svg>
+            </button>
+        </div>
+        <div id="players-modal-body" class="players-modal-body">
+            <div class="players-modal-loader">Завантаження...</div>
+        </div>
+    </div>
+</div>

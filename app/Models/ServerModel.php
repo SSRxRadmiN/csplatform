@@ -68,6 +68,20 @@ class ServerModel extends Model
     }
 
     /**
+     * Отримати всі активні (і верифіковані) сервери разом зі статистикою.
+     * Використовується на головній сторінці для блоку "Наші сервери".
+     */
+    public function getActiveWithStats(): array
+    {
+        return $this->select('servers.*, server_stats.current_players, server_stats.max_players, server_stats.current_map, server_stats.is_online')
+                    ->join('server_stats', 'server_stats.server_id = servers.id', 'left')
+                    ->where('servers.is_active', 1)
+                    ->where('servers.is_verified', 1)
+                    ->orderBy('servers.id', 'ASC')
+                    ->findAll();
+    }
+
+    /**
      * Отримати облікові дані VPS API для сервера.
      * Використовується бібліотеками PrivilegeDelivery, ServerQuery,
      * та контролерами Stats, Bans, Admin\Privileges.

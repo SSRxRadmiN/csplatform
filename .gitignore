@@ -80,3 +80,4 @@ phpunit
 /phpunit*.xml
 /results/
 /build/
+app/Config/Database.php

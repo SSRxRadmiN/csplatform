@@ -32,4 +32,5 @@ return [
     'step3_desc'       => 'Pay conveniently via CASSA',
     'step4_title'      => 'Play!',
     'step4_desc'       => 'Privileges activate on map change',
+    'hero_btn_telegram' => 'Join our Telegram',
 ];

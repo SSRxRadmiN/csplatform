@@ -13,6 +13,7 @@ class Home extends BaseController
         $productModel = new ProductModel();
 
         $server   = $serverModel->getWithStats(1);
+        $servers  = $serverModel->getActiveWithStats();
         $products = $productModel->getByServerWithCategory(1);
 
         // Групуємо товари по секціях для нового layout
@@ -43,6 +44,7 @@ class Home extends BaseController
             'metaTitle'       => 'CS Headshot — VIP, моделі, розбан для CS 1.6 сервера Реальні Кабани',
             'metaDescription' => 'Магазин привілегій CS 1.6 — купити VIP статус, скіни моделей, розбан. Сервер Реальні Кабани, автоматична активація.',
             'server'          => $server,
+            'servers'         => $servers,
             'products'        => $products,
             'vipProducts'     => $vipProducts,
             'modelProductsF'  => $modelProductsF,

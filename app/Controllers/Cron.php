@@ -137,6 +137,9 @@ class Cron extends Controller
 
     /**
      * Оновити статус сервера через UDP A2S_INFO
+     *
+     * Обходить усі активні+верифіковані сервери з таблиці `servers`.
+     * Для кожного викликає ServerQuery::updateServerStats($id).
      */
     public function serverstats()
     {
@@ -144,13 +147,27 @@ class Cron extends Controller
             return $this->response->setStatusCode(403)->setBody('Forbidden');
         }
 
-        $result = \App\Libraries\ServerQuery::updateServerStats(1);
+        $serverModel = new \App\Models\ServerModel();
+        $servers     = $serverModel->getActive();
 
-        log_message('info', '[Cron] ServerStats: ' . json_encode($result));
+        $results = [];
+        foreach ($servers as $srv) {
+            $result = \App\Libraries\ServerQuery::updateServerStats((int) $srv['id']);
+            $results[] = [
+                'server_id' => $srv['id'],
+                'name'      => $srv['name'],
+                'result'    => $result,
+            ];
+        }
+
+        log_message('info', '[Cron] ServerStats: ' . count($results) . ' servers processed');
 
         return $this->response
             ->setContentType('application/json')
-            ->setBody(json_encode($result, JSON_UNESCAPED_UNICODE));
+            ->setBody(json_encode([
+                'processed' => count($results),
+                'results'   => $results,
+            ], JSON_UNESCAPED_UNICODE));
     }
 
     /**
