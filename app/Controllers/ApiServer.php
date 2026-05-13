@@ -2,29 +2,29 @@
 
 namespace App\Controllers;
 
+use App\Libraries\ServerQuery;
 use App\Models\ServerModel;
 use CodeIgniter\Controller;
 
 /**
  * ApiServer — AJAX-ендпоінти для модалок на головній сторінці.
  *
+ * v2: повністю переписано на ПРЯМЕ UDP до HLDS, без VPS API.
+ *
  * Маршрут (Routes.php):
  *   $routes->get('api/server/(:num)/players', 'ApiServer::players/$1');
  *
  * Логіка:
- *   1. Тягне список гравців з VPS API (?action=players) — A2S_PLAYER через UDP
- *   2. Тягне зі своєї БД активні VIP/Admin замовлення з нікнеймами покупців
+ *   1. ServerQuery::getPlayers() — пряме UDP A2S_PLAYER до HLDS
+ *   2. Зі своєї БД (s-host) забирає активні VIP/Admin нікнейми
  *   3. Зливає: на кожному гравці прапорець is_vip=true якщо нік збігається
  *
- * Кешування — не робимо. Кожен клік = свіжий запит до сервера (~300ms).
+ * Кешування — не робимо. Кожен клік = свіжий UDP-запит (~50-150мс).
  */
 class ApiServer extends Controller
 {
     public function players(int $serverId)
     {
-        // CSRF не потрібен — GET, читання
-        // Auth теж не потрібен — це публічна інфа (як на gam1ngcs)
-
         $serverModel = new ServerModel();
         $server = $serverModel->find($serverId);
 
@@ -32,43 +32,31 @@ class ApiServer extends Controller
             return $this->jsonError('Server not found', 404);
         }
 
-        $creds = $serverModel->getApiCredentials($serverId);
-        if (empty($creds['url']) || empty($creds['token'])) {
-            return $this->jsonError('Server API not configured', 503);
-        }
+        $ip   = $server['ip'];
+        $port = (int) $server['port'];
 
-        // === Запит #1: список гравців з VPS API ===
-        $url = rtrim($creds['url'], '/') . '?action=players&token=' . urlencode($creds['token']);
-        $apiResult = $this->fetchJson($url, 5);
+        // === Пряме UDP до ігрового сервера ===
+        $playersRaw = ServerQuery::getPlayers($ip, $port);
 
-        if ($apiResult === null) {
-            return $this->jsonError('Game server unavailable', 503);
-        }
-
-        if (! ($apiResult['is_online'] ?? false)) {
+        if ($playersRaw === null) {
             return $this->response
                 ->setStatusCode(200)
                 ->setContentType('application/json')
                 ->setJSON([
-                    'success'    => true,
-                    'is_online'  => false,
-                    'count'      => 0,
-                    'players'    => [],
-                    'message'    => $apiResult['error'] ?? 'Server offline',
+                    'success'   => true,
+                    'is_online' => false,
+                    'count'     => 0,
+                    'players'   => [],
+                    'message'   => 'Server did not respond',
                 ]);
         }
 
-        $players = $apiResult['players'] ?? [];
-
-        // === Запит #2: активні VIP/Admin нікнейми з нашої БД ===
+        // === VIP-маркер: список активних VIP-нікнеймів з нашої БД ===
         $vipNicks = $this->getActiveVipNicknames();
 
-        // === Зливаємо ===
-        foreach ($players as &$p) {
-            $nickLower    = mb_strtolower($p['name'], 'UTF-8');
-            $p['is_vip']  = isset($vipNicks[$nickLower]);
-            // Можна додати тип привілею якщо потрібно:
-            // $p['privilege'] = $vipNicks[$nickLower] ?? null;
+        foreach ($playersRaw as &$p) {
+            $nickLower   = mb_strtolower($p['name'], 'UTF-8');
+            $p['is_vip'] = isset($vipNicks[$nickLower]);
         }
         unset($p);
 
@@ -77,11 +65,11 @@ class ApiServer extends Controller
             ->setJSON([
                 'success'   => true,
                 'is_online' => true,
-                'count'     => count($players),
-                'players'   => $players,
+                'count'     => count($playersRaw),
+                'players'   => $playersRaw,
                 'server'    => [
                     'name' => $server['name'],
-                    'ip'   => $server['ip'] . ':' . $server['port'],
+                    'ip'   => $ip . ':' . $port,
                 ],
             ]);
     }
@@ -122,38 +110,6 @@ class ApiServer extends Controller
         }
 
         return $map;
-    }
-
-    // ─────────────────────────────────────────────────────────────────
-    // Хелпери
-    // ─────────────────────────────────────────────────────────────────
-
-    /**
-     * GET-запит з таймаутом, повертає декодований JSON або null при помилці.
-     */
-    private function fetchJson(string $url, int $timeoutSec = 5): ?array
-    {
-        $ch = curl_init($url);
-        curl_setopt_array($ch, [
-            CURLOPT_RETURNTRANSFER => true,
-            CURLOPT_TIMEOUT        => $timeoutSec,
-            CURLOPT_CONNECTTIMEOUT => 3,
-            CURLOPT_FOLLOWLOCATION => false,
-        ]);
-        $body = curl_exec($ch);
-        $code = curl_getinfo($ch, CURLINFO_HTTP_CODE);
-        $err  = curl_error($ch);
-        curl_close($ch);
-
-        if ($body === false || $code >= 400) {
-            log_message('error', '[ApiServer] fetchJson failed: code={c}, err={e}, url={u}', [
-                'c' => $code, 'e' => $err, 'u' => $url,
-            ]);
-            return null;
-        }
-
-        $data = json_decode($body, true);
-        return is_array($data) ? $data : null;
     }
 
     private function jsonError(string $message, int $code = 400)
