@@ -2,7 +2,7 @@
 
     <!-- Header -->
     <div class="priv-header">
-        <div class="priv-header__badge">⚡ Сервер «Реальні Кабани»</div>
+        <div class="priv-header__badge">⚡ Сервер «УКРАЇНСЬКА • ЕЛІТА»</div>
         <h1 class="priv-header__title">Порівняння <span>привілегій</span></h1>
         <p class="priv-header__sub">Що отримує звичайний гравець, VIP та Меценат — повна таблиця бонусів на сервері</p>
     </div>
@@ -19,14 +19,14 @@
             <div class="priv-tier__icon">⭐</div>
             <div class="priv-tier__name">VIP</div>
             <div class="priv-tier__flag">флаг t</div>
-            <div class="priv-tier__desc">Все від гравця + Ultimate скіни, Gold Deagle & Knife, бонуси HP та грошей, тег VIP</div>
+            <div class="priv-tier__desc">Все від гравця + Ultimate скіни, Deagle & Knife & AWP, бонуси HP та грошей, тег VIP</div>
             <div class="priv-tier__price"><a href="/shop">Від 100₴ / 7 днів →</a></div>
         </div>
         <div class="priv-tier priv-tier--mecenas">
             <div class="priv-tier__icon">👑</div>
             <div class="priv-tier__name">Меценат</div>
-            <div class="priv-tier__flag">флаги mt</div>
-            <div class="priv-tier__desc">Все від VIP + ексклюзивна зброя +30%, швидкість +10%, ammo refill, адмін‑лайт</div>
+            <div class="priv-tier__flag">флаг m</div>
+            <div class="priv-tier__desc">Все від VIP + ексклюзивна зброя +20%, швидкість +10%, ammo refill, адмін‑лайт</div>
             <div class="priv-tier__price"><a href="/shop">Дізнатись ціну →</a></div>
         </div>
     </div>
@@ -48,7 +48,7 @@
                         </th>
                         <th class="priv-th--mecenas">
                             <span class="priv-th__label">Меценат</span>
-                            <span class="priv-th__sub">флаги dt</span>
+                            <span class="priv-th__sub">флаг m</span>
                         </th>
                     </tr>
                 </thead>
@@ -92,19 +92,19 @@
                     <tr class="priv-section-row"><td colspan="4">Зброя: AK47 / M4A1</td></tr>
 
                     <tr>
-                        <td class="priv-feat">Gold AK47 / M4A1 (+10%)<span class="priv-feat__detail">VIP меню /vipmenu</span></td>
+                        <td class="priv-feat">AK47 / M4A1<span class="priv-feat__detail">VIP меню /vipmenu</span></td>
                         <td><span class="val-yes">✓</span></td>
                         <td><span class="val-yes">✓</span></td>
                         <td><span class="val-yes">✓</span></td>
                     </tr>
                     <tr>
                         <td class="priv-feat">Обойма / запас</td>
-                        <td><span class="val-dim val-num">35 / 105</span></td>
-                        <td><span class="val-dim val-num">35 / 105</span></td>
-                        <td><span class="val-dim val-num">35 / 105</span></td>
+                        <td><span class="val-dim val-num">30 / 90</span></td>
+                        <td><span class="val-dim val-num">30 / 90</span></td>
+                        <td><span class="val-dim val-num">30 / 90</span></td>
                     </tr>
                     <tr>
-                        <td class="priv-feat">5 Ultimate наборів (+20%)<span class="priv-feat__detail">Galaxy, Сайрекс, Тигр, Азімов, Неон</span></td>
+                        <td class="priv-feat">5 Ultimate наборів (+10%)<span class="priv-feat__detail">Sexy Blue, Сайрекс, Потік, Консул, Неон</span></td>
                         <td><span class="val-no">✗</span></td>
                         <td><span class="val-yes">✓</span></td>
                         <td><span class="val-yes">✓</span></td>
@@ -112,17 +112,17 @@
                     <tr>
                         <td class="priv-feat">Обойма / запас (Ultimate)</td>
                         <td><span class="val-no">✗</span></td>
-                        <td><span class="val-normal val-num">40 / 140</span></td>
-                        <td><span class="val-normal val-num">40 / 140</span></td>
+                        <td><span class="val-normal val-num">40 / 120</span></td>
+                        <td><span class="val-normal val-num">40 / 120</span></td>
                     </tr>
                     <tr>
-                        <td class="priv-feat">2 ексклюзивні набори (+30%)<span class="priv-feat__detail">тільки Меценат</span></td>
+                        <td class="priv-feat">2 ексклюзивні набори (+20%)<span class="priv-feat__detail">тільки Меценат</span></td>
                         <td><span class="val-no">✗</span></td>
                         <td><span class="val-no">✗</span></td>
                         <td><span class="val-mecenas-yes">✓</span></td>
                     </tr>
                     <tr>
-                        <td class="priv-feat">Обойма / запас (Ексклюзив +30%)</td>
+                        <td class="priv-feat">Обойма / запас (Ексклюзив +50%)</td>
                         <td><span class="val-no">✗</span></td>
                         <td><span class="val-no">✗</span></td>
                         <td><span class="val-mecenas val-num">45 / 180</span></td>
@@ -139,13 +139,13 @@
                     </tr>
 
                     <!-- SECTION: Knife -->
-                    <tr class="priv-section-row"><td colspan="4">Зброя: Ніж</td></tr>
+                    <tr class="priv-section-row"><td colspan="4">Зброя: Ніж (/knife)</td></tr>
 
                     <tr>
                         <td class="priv-feat">Тип</td>
-                        <td><span class="val-dim">Звичайний</span></td>
-                        <td><span class="val-gold">Gold +10%</span></td>
-                        <td><span class="val-gold">Gold +10%</span></td>
+                        <td><span class="val-dim">Звичайні (4шт.)</span></td>
+                        <td><span class="val-gold">Весь набір +10%</span></td>
+                        <td><span class="val-gold">Весь набір +10%</span></td>
                     </tr>
 
                     <!-- SECTION: AWP -->
@@ -202,12 +202,12 @@
                     <tr>
                         <td class="priv-feat">Бонус за раунд</td>
                         <td><span class="val-dim val-num">+500$</span></td>
-                        <td><span class="val-normal val-num">+1000$</span></td>
-                        <td><span class="val-normal val-num">+1000$</span></td>
+                        <td><span class="val-normal val-num">+1500$</span></td>
+                        <td><span class="val-normal val-num">+1500$</span></td>
                     </tr>
                     <tr>
                         <td class="priv-feat">За фраг / хедшот</td>
-                        <td><span class="val-no">✗</span></td>
+                        <td><span class="val-dim val-num">+200$ / ✗</span></td>
                         <td><span class="val-normal val-num">+200$ / +250$</span></td>
                         <td><span class="val-normal val-num">+200$ / +250$</span></td>
                     </tr>
@@ -262,7 +262,7 @@
                         <td><span class="val-mecenas-yes">✓</span></td>
                     </tr>
                     <tr>
-                        <td class="priv-feat">Ексклюзивні набори AK+M4 (+30%)</td>
+                        <td class="priv-feat">Ексклюзивні набори AK+M4 (+20%)</td>
                         <td><span class="val-no">✗</span></td>
                         <td><span class="val-no">✗</span></td>
                         <td><span class="val-mecenas-yes">✓</span></td>
@@ -309,7 +309,7 @@
                         <td class="priv-feat">Кастомна моделька<span class="priv-feat__detail">furyghost, carrie та ін.</span></td>
                         <td><span class="val-dim">Окрема покупка</span></td>
                         <td><span class="val-dim">Окрема покупка</span></td>
-                        <td><span class="val-dim">Окрема покупка</span></td>
+                        <td><span class="val-dim">Окрема покупка (-20%)</span></td>
                     </tr>
 
                     <!-- SECTION: Visual & Chat -->
