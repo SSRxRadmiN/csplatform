@@ -5,35 +5,27 @@ namespace App\Libraries;
 use App\Models\ServerModel;
 
 /**
- * PrivilegeDelivery — видача привілегій на ігровий сервер
+ * PrivilegeDelivery — видача привілегій на ігровий сервер.
  *
- * Надсилає HTTP POST запити до Privilege API на VPS.
+ * Пише напряму в базу freshbans (amx_amxadmins / amx_bans) через
+ * FreshbansRepository (віддалений MySQL на 185.252.24.118).
+ * Раніше йшло HTTP POST на Python privilege_api.py — більше не потрібно.
+ *
  * Типи доставки:
- *   - deliver: VIP/Admin привілегії (через FreshBans MySQL)
- *   - unban:   Розбан гравця
- *   - model:   Персональна модель гравця (через ultimate_models.ini)
- *
- * Конфігурація читається з таблиці `servers` (поля api_url, api_key)
- * через ServerModel::getApiCredentials(). Раніше зчитувалося з settings
- * (vps_api_url / vps_api_token), наразі ці ключі більше не використовуються.
+ *   - deliver (vip/admin): запис привілегії в amx_amxadmins
+ *   - unban:               amx_bans.expired = 1
+ *   - model:               НЕ автоматизується (файл ultimate_models.ini на FS
+ *                          сервера), видається вручну.
  */
 class PrivilegeDelivery
 {
-    private string $apiUrl;
-    private string $apiToken;
-    private int    $timeout;
-    private int    $serverId;
+    private int $serverId;
+    private FreshbansRepository $repo;
 
     public function __construct(int $serverId = 1)
     {
         $this->serverId = $serverId;
-
-        $serverModel = new ServerModel();
-        $creds = $serverModel->getApiCredentials($serverId);
-
-        $this->apiUrl   = $creds['url']   ?: '';
-        $this->apiToken = $creds['token'] ?: '';
-        $this->timeout  = 15;
+        $this->repo     = new FreshbansRepository();
     }
 
     /**
@@ -78,14 +70,16 @@ class PrivilegeDelivery
      */
     private function deliverPrivilege(array $order, array $product): array
     {
-        return $this->callApi('deliver', [
-            'steam_id'      => $order['steam_id'],
-            'access'        => $product['amx_access'] ?? 't',
-            'flags'         => $product['amx_flags'] ?? 'ce',
-            'nickname'      => $order['username'] ?? '',
-            'duration_days' => $order['duration_days'] ?? $product['duration_days'] ?? 30,
-            'order_id'      => $order['id'],
-        ]);
+        $duration = (int) ($order['duration_days'] ?? $product['duration_days'] ?? 30);
+
+        return $this->wrap('deliver', $this->repo->deliver(
+            $order['steam_id'],
+            $product['amx_access'] ?? 't',
+            $product['amx_flags'] ?? 'ce',
+            $duration,
+            $order['username'] ?? '',
+            $order['id']
+        ));
     }
 
     /**
@@ -93,39 +87,19 @@ class PrivilegeDelivery
      */
     private function deliverUnban(array $order): array
     {
-        return $this->callApi('unban', [
-            'steam_id' => $order['steam_id'],
-            'order_id' => $order['id'],
-        ]);
+        return $this->wrap('unban', $this->repo->unban($order['steam_id']));
     }
 
     /**
-     * Видача моделі гравця
+     * Видача моделі гравця.
+     * Через прямий MySQL не автоматизується (файл ultimate_models.ini на FS
+     * ігрового сервера). Видається вручну — повертаємо відповідний статус.
      */
     private function deliverModel(array $order, array $product): array
     {
-        // Пріоритет: окремі поля model_te/model_ct, fallback на парсинг amx_access
-        $te = $product['model_te'] ?? '';
-        $ct = $product['model_ct'] ?? '';
-
-        if (empty($te) && empty($ct)) {
-            // Fallback: парсити amx_access у форматі "model_te|model_ct"
-            $models = $this->parseModelFields($product);
-            $te = $models['te'];
-            $ct = $models['ct'];
-        }
-
-        // Якщо вказана тільки одна — використати для обох сторін
-        if (empty($te) && !empty($ct)) $te = $ct;
-        if (empty($ct) && !empty($te)) $ct = $te;
-
-        return $this->callApi('model', [
-            'steam_id'      => $order['steam_id'],
-            'model_te'      => $te,
-            'model_ct'      => $ct,
-            'duration_days' => $order['duration_days'] ?? $product['duration_days'] ?? 30,
-            'order_id'      => $order['id'],
-        ]);
+        $msg = "Модель: ручна видача (ultimate_models.ini на сервері), order #{$order['id']}.";
+        log_message('info', "[PrivilegeDelivery] {$msg}");
+        return ['success' => false, 'manual' => true, 'message' => $msg];
     }
 
     /**
@@ -133,79 +107,27 @@ class PrivilegeDelivery
      */
     public function revoke(array $order, string $type = 'all'): array
     {
-        return $this->callApi('revoke', [
-            'order_id' => $order['id'],
-            'type'     => $type,
-            'steam_id' => $order['steam_id'] ?? '',
-        ]);
+        // 'all' трактуємо як admin/vip (моделі тут не чіпаємо — ручні)
+        $repoType = $type === 'all' ? 'admin' : $type;
+        return $this->wrap('revoke', $this->repo->revoke($order['id'], $repoType));
     }
 
     /**
-     * HTTP POST до VPS Privilege API
+     * Обгортка над результатом репозиторію: логування + єдиний формат відповіді,
+     * сумісний зі старим callApi (success + message з датою).
+     * Ловить DB-винятки (немає конекту до 185.252.24.118, тощо).
      */
-    private function callApi(string $action, array $params): array
+    private function wrap(string $action, array $result): array
     {
-        if (empty($this->apiToken) || empty($this->apiUrl)) {
-            $msg = "VPS API not configured for server #{$this->serverId}. Заповніть api_url/api_key у /admin/servers.";
-            log_message('error', "[PrivilegeDelivery] {$msg}");
-            return ['success' => false, 'message' => $msg];
-        }
-
-        // Token передаємо як параметр (API очікує в params, не в хедерах)
-        $params['token'] = $this->apiToken;
-        $params['action'] = $action;
-
-        // Перетворюємо duration_days → duration (API очікує 'duration')
-        if (isset($params['duration_days'])) {
-            $params['duration'] = $params['duration_days'];
-            unset($params['duration_days']);
-        }
-
-        $url = rtrim($this->apiUrl, '/');
-
-        $ch = curl_init($url);
-        curl_setopt_array($ch, [
-            CURLOPT_POST           => true,
-            CURLOPT_POSTFIELDS     => json_encode($params),
-            CURLOPT_RETURNTRANSFER => true,
-            CURLOPT_TIMEOUT        => $this->timeout,
-            CURLOPT_CONNECTTIMEOUT => 5,
-            CURLOPT_HTTPHEADER     => [
-                'Content-Type: application/json',
-            ],
-        ]);
-
-        $response = curl_exec($ch);
-        $httpCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
-        $error    = curl_error($ch);
-        curl_close($ch);
-
-        // cURL помилка
-        if ($response === false) {
-            $msg = "VPS API connection failed: {$error}";
-            log_message('error', "[PrivilegeDelivery] {$msg}");
-            return ['success' => false, 'message' => $msg];
-        }
-
-        // Парсимо відповідь
-        $data = json_decode($response, true);
-
-        if (! is_array($data)) {
-            $msg = "VPS API invalid response (HTTP {$httpCode}): " . substr($response, 0, 200);
-            log_message('error', "[PrivilegeDelivery] {$msg}");
-            return ['success' => false, 'message' => $msg];
-        }
-
-        // Логуємо результат
-        $status = ($data['success'] ?? false) ? 'SUCCESS' : 'FAILED';
+        $status = ($result['success'] ?? false) ? 'SUCCESS' : 'FAILED';
         log_message('info', "[PrivilegeDelivery] {$status}: action={action} | {message}", [
             'action'  => $action,
-            'message' => $data['message'] ?? '—',
+            'message' => $result['message'] ?? '—',
         ]);
 
         return [
-            'success' => $data['success'] ?? false,
-            'message' => date('Y-m-d H:i:s') . " | API {$action}: " . ($data['message'] ?? 'No message'),
+            'success' => $result['success'] ?? false,
+            'message' => date('Y-m-d H:i:s') . " | {$action}: " . ($result['message'] ?? 'No message'),
         ];
     }
 
@@ -224,23 +146,5 @@ class PrivilegeDelivery
             return $row['slug'] ?? 'other';
         }
         return $product['category'] ?? 'other';
-    }
-
-    /**
-     * Парсити поля моделей з товару
-     * amx_access у форматі "model_te|model_ct" для товарів категорії models
-     */
-    private function parseModelFields(array $product): array
-    {
-        $access = $product['amx_access'] ?? '';
-
-        if (str_contains($access, '|')) {
-            [$te, $ct] = explode('|', $access, 2);
-            return ['te' => trim($te), 'ct' => trim($ct)];
-        }
-
-        // Fallback: одна модель для обох сторін
-        $model = $access ?: 'default';
-        return ['te' => $model, 'ct' => $model];
     }
 }

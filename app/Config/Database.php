@@ -27,9 +27,9 @@ class Database extends Config
     public array $default = [
         'DSN'          => '',
         'hostname'     => 'localhost',
-        'username'     => 'erssmxwg_',
-        'password'     => '',
-        'database'     => 'erssmxwg',
+        'username'     => 'erssmxwg_csheadshot',
+        'password'     => 'iH}c1veq8HWT5kKH',
+        'database'     => 'erssmxwg_csheadshot',
         'DBDriver'     => 'MySQLi',
         'DBPrefix'     => '',
         'pConnect'     => false,
@@ -49,6 +49,20 @@ class Database extends Config
             'datetime' => 'Y-m-d H:i:s',
             'time'     => 'H:i:s',
         ],
+    ];
+
+    public array $freshbans = [
+    'DSN'      => '',
+    'hostname' => '185.252.24.118',
+    'username' => 'freshbans_web',
+    'password' => '',
+    'database' => 'freshbans',
+    'DBDriver' => 'MySQLi',
+    'DBPrefix' => '',
+    'pConnect' => false,
+    'charset'  => 'utf8',
+    'DBCollat' => 'utf8_general_ci',
+    'port'     => 3306,
     ];
 
     //    /**

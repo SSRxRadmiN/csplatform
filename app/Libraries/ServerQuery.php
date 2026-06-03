@@ -59,10 +59,11 @@ class ServerQuery
         $db = \Config\Database::connect();
 
         if ($info === null) {
-            // Сервер не відповів → офлайн
-            $db->table('server_stats')
-               ->where('server_id', $serverId)
-               ->update(['is_online' => 0]);
+            // Сервер не відповів → офлайн.
+            // upsert: якщо рядка ще немає (новий сервер) — створюємо.
+            self::upsertStats($db, $serverId, [
+                'is_online' => 0,
+            ]);
 
             return [
                 'success'   => true,
@@ -72,14 +73,12 @@ class ServerQuery
         }
 
         // Сервер відповів → онлайн, оновлюємо кеш
-        $db->table('server_stats')
-           ->where('server_id', $serverId)
-           ->update([
-               'current_players' => $info['players'],
-               'max_players'     => $info['max_players'],
-               'current_map'     => $info['map'],
-               'is_online'       => 1,
-           ]);
+        self::upsertStats($db, $serverId, [
+            'current_players' => $info['players'],
+            'max_players'     => $info['max_players'],
+            'current_map'     => $info['map'],
+            'is_online'       => 1,
+        ]);
 
         return [
             'success'  => true,
@@ -88,6 +87,29 @@ class ServerQuery
             'map'      => $info['map'],
             'hostname' => $info['hostname'],
         ];
+    }
+
+    /**
+     * Upsert у server_stats: оновлює рядок, а якщо його немає — створює.
+     *
+     * Потрібно бо при додаванні сервера через адмінку рядок створюється
+     * лише в `servers`, а не в `server_stats`. Голий UPDATE для такого
+     * сервера зачіпав би 0 рядків — і сервер назавжди лишався б "офлайн".
+     */
+    private static function upsertStats($db, int $serverId, array $fields): void
+    {
+        $exists = $db->table('server_stats')
+            ->where('server_id', $serverId)
+            ->countAllResults() > 0;
+
+        if ($exists) {
+            $db->table('server_stats')
+               ->where('server_id', $serverId)
+               ->update($fields);
+        } else {
+            $db->table('server_stats')
+               ->insert(array_merge(['server_id' => $serverId], $fields));
+        }
     }
 
     // ─────────────────────────────────────────────────────────────────
@@ -152,10 +174,11 @@ class ServerQuery
 
         $header = ord($data[4]);
         $offset = 5;
+        $len    = strlen($data);
 
         // Source Engine (0x49): protocol(byte), name, map, folder, game, appid, players, max, bots, ...
         if ($header === 0x49) {
-            $protocol = ord($data[$offset++]);
+            $protocol = self::readByte($data, $offset, $len);
             $hostname = self::readString($data, $offset);
             $map      = self::readString($data, $offset);
             $folder   = self::readString($data, $offset);
@@ -164,9 +187,9 @@ class ServerQuery
             // appid (2 bytes) — пропускаємо
             $offset += 2;
 
-            $players    = ord($data[$offset++]);
-            $maxPlayers = ord($data[$offset++]);
-            $bots       = ord($data[$offset++]);
+            $players    = self::readByte($data, $offset, $len);
+            $maxPlayers = self::readByte($data, $offset, $len);
+            $bots       = self::readByte($data, $offset, $len);
 
             return [
                 'hostname'    => self::decodeUtf8($hostname),
@@ -188,9 +211,9 @@ class ServerQuery
             $folder   = self::readString($data, $offset);
             $game     = self::readString($data, $offset);
 
-            $players    = ord($data[$offset++]);
-            $maxPlayers = ord($data[$offset++]);
-            $protocol   = ord($data[$offset++]);
+            $players    = self::readByte($data, $offset, $len);
+            $maxPlayers = self::readByte($data, $offset, $len);
+            $protocol   = self::readByte($data, $offset, $len);
 
             return [
                 'hostname'    => self::decodeUtf8($hostname),
@@ -205,6 +228,19 @@ class ServerQuery
         }
 
         return null;
+    }
+
+    /**
+     * Безпечне читання одного байта: якщо вийшли за межі пакету — повертає 0
+     * замість Uninitialized string offset warning. $offset зсувається завжди.
+     */
+    private static function readByte(string $data, int &$offset, int $len): int
+    {
+        if ($offset >= $len) {
+            $offset++;
+            return 0;
+        }
+        return ord($data[$offset++]);
     }
 
     // ─────────────────────────────────────────────────────────────────

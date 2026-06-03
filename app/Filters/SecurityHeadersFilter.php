@@ -60,7 +60,7 @@ class SecurityHeadersFilter implements FilterInterface
             "connect-src 'self' https://www.google-analytics.com https://analytics.google.com https://www.facebook.com",
             "frame-ancestors 'self'",
             "base-uri 'self'",
-            "form-action 'self' https://www.cassa.exchange",
+            "form-action 'self' https://www.cassa.exchange https://cshost.com.ua",
         ]);
 
         $response->setHeader('Content-Security-Policy', $csp);

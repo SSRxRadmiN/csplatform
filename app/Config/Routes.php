@@ -90,7 +90,7 @@ $routes->group('admin', ['filter' => 'admin'], function ($routes) {
     $routes->get('servers/edit/(:num)', 'Admin\Servers::edit/$1');
     $routes->post('servers/edit/(:num)', 'Admin\Servers::update/$1');
     $routes->post('servers/delete/(:num)', 'Admin\Servers::delete/$1');
-
+    $routes->get('servers/probe', 'Admin\Servers::probe');
     $routes->get('users', 'Admin\Users::index');
     $routes->get('users/edit/(:num)', 'Admin\Users::edit/$1');
     $routes->post('users/edit/(:num)', 'Admin\Users::update/$1');

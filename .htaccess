@@ -31,4 +31,16 @@
 
     # ── Internal rewrite: route everything into /public/ ──
     RewriteRule ^(.*)$ public/$1 [L]
+    
+    RewriteRule "(^|/)\.env" - [F,L]
+   RewriteRule "\.\.[\\/]" - [F,L]
+   RewriteCond %{REQUEST_URI} (update\.cgi|_vti_bin|_layouts|\.well-known/acme) [NC]
+   RewriteRule .* - [F,L]
 </IfModule>
+
+<Files 403.shtml>
+order allow,deny
+allow from all
+</Files>
+
+deny from 195.178.110.199

@@ -80,13 +80,14 @@ class NotificationService
         $status = $delivered ? '✅ Доставлено' : '💰 Оплачено';
         $productName = $order['product_name'] ?? '—';
         $amount = (int) ($order['amount'] ?? 0);
+        $username = $order['username'] ?? '—';
 
         $text = "{$status}\n\n"
               . "📦 Замовлення #{$order['id']}\n"
               . "🎮 {$productName}\n"
               . "💵 {$amount} ₴\n"
               . "🆔 {$order['steam_id']}\n"
-              . "👤 {$order['username'] ?? '—'}";
+              . "👤 {$username}";
 
         if (! empty($order['delivery_log'])) {
             // Тільки останній рядок логу
@@ -107,10 +108,11 @@ class NotificationService
             return;
         }
 
+        $productName = $order['product_name'] ?? '—';
         $text = "⚠️ ПОМИЛКА ДОСТАВКИ\n\n"
               . "Замовлення #{$order['id']}\n"
               . "Steam: {$order['steam_id']}\n"
-              . "Товар: {$order['product_name'] ?? '—'}\n\n"
+              . "Товар: {$productName}\n\n"
               . "Помилка: {$error}\n\n"
               . "Потрібна ручна видача!";
 

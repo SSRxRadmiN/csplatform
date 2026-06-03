@@ -4579,7 +4579,7 @@ footer {
 
 .servers-table th {
     padding: 14px 16px;
-    text-align: left;
+    text-align: center;
     font-weight: 500;
     color: #9ca3af;
     font-size: 0.82rem;
@@ -4808,9 +4808,9 @@ footer {
 
 .servers-table th {
     padding: 14px 16px;
-    text-align: left;
+    text-align: center;
     font-weight: 500;
-    color: #9ca3af;
+    color: #a7a563;
     font-size: 0.82rem;
     text-transform: uppercase;
     letter-spacing: 0.05em;
