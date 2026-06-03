@@ -46,6 +46,9 @@ class Shop extends BaseController
 
         $server = $serverModel->getWithStats($product['server_id']);
 
+        // Усі сервери для вибору на картці товару (товари однакові для обох)
+        $servers = $serverModel->findAll();
+
         $pName = $product['name_ua'];
 
         return view('layouts/main', [
@@ -55,6 +58,7 @@ class Shop extends BaseController
             'metaDescription' => $pName . ' для CS 1.6 сервера Реальні Кабани. Автоматична активація після оплати.',
             'product'         => $product,
             'server'          => $server,
+            'servers'         => $servers,
         ]);
     }
 }

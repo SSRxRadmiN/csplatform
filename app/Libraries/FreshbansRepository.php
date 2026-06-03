@@ -27,28 +27,66 @@ class FreshbansRepository
     }
 
     /**
-     * Видати/продовжити VIP або Admin привілегію.
-     * Порт handle_deliver.
+     * Резолвить freshbans server_id (amx_serverinfo.id) за адресою сервера.
      *
-     * @param string $steamId  STEAM_0:1:...
-     * @param string $access   рядок доступу AMX (напр. 'abcdefghijklmnopqrstu')
-     * @param string $flags    флаги (напр. 't' VIP / 'tm' / 'ce')
-     * @param int    $duration днів; 0 = безстроково
-     * @param string $nickname
-     * @param int|string $orderId
-     * @return array{success:bool, action?:string, message:string}
+     * Потрібен, бо нумерація серверів у CI4-таблиці `servers` (РК=1, УЕ=2) НЕ
+     * збігається з freshbans `amx_serverinfo` (РК=3, УЕ=4). Спільний природний
+     * ключ — address (IP:port), однаковий в обох базах. Мапимо по ньому, щоб
+     * не хардкодити id і не тримати окреме поле-мапу в синхроні.
+     *
+     * @return int|null freshbans server_id, або null якщо сервер не знайдено
+     *                   (не підключався до freshbans → привілей нікуди писати)
      */
-    public function deliver(string $steamId, string $access, string $flags, int $duration, string $nickname, $orderId): array
+    public function resolveServerId(string $ip, int $port): ?int
+    {
+        $address = $ip . ':' . $port;
+
+        $row = $this->db->table('amx_serverinfo')
+            ->select('id')
+            ->where('address', $address)
+            ->limit(1)
+            ->get()
+            ->getRowArray();
+
+        return $row ? (int) $row['id'] : null;
+    }
+
+    /**
+     * Видати/продовжити VIP або Admin привілегію на КОНКРЕТНИЙ сервер.
+     *
+     * Схема freshbans (підтверджена логікою CSBans + живими даними):
+     *   - amx_amxadmins: один рядок на адміна. access = куплені права (напр. 't'),
+     *     flags = тип авторизації 'ce' (c=по steamid, e=без пароля) — однаково для всіх
+     *     куплених привілеїв. password = ''.
+     *   - amx_admins_servers: прив'язка адміна до сервера. РІВНО цей рядок робить
+     *     привілей активним на сервері. server_id = 3 (РК) або 4 (УЕ).
+     *     custom_flags = права на цьому сервері (= access).
+     *
+     * Привілей діє ТІЛЬКИ там, де є рядок у amx_admins_servers → пишемо лише для
+     * вибраного $serverId, інші сервери не чіпаємо.
+     *
+     * @param string     $steamId   STEAM_0:1:...
+     * @param string     $access    куплені права AMX (напр. 't' VIP, 'tm', 'abcde...')
+     * @param int        $serverId  3 = РЕАЛЬНІ КАБАНИ, 4 = УКРАЇНСЬКА ЕЛІТА
+     * @param int        $duration  днів; 0 = безстроково
+     * @param string     $nickname
+     * @param int|string $orderId
+     * @param string     $authFlags тип авторизації для amx_amxadmins.flags (дефолт 'ce')
+     */
+    public function deliver(string $steamId, string $access, int $serverId, int $duration, string $nickname, $orderId, string $authFlags = 'ce'): array
     {
         if ($steamId === '' || $access === '') {
             return ['success' => false, 'message' => 'Missing steam_id or access'];
+        }
+        if ($serverId <= 0) {
+            return ['success' => false, 'message' => 'Missing/invalid server_id'];
         }
 
         $now      = time();
         $username = $orderId !== '' && $orderId !== null ? "hs:{$orderId}" : 'hs:' . $now;
         $nick     = $nickname !== '' ? $nickname : $steamId;
 
-        // Шукаємо активну привілегію з тим самим steamid + access
+        // --- Крок 1: знайти/створити адміна в amx_amxadmins ---
         $existing = $this->db->table('amx_amxadmins')
             ->select('id, expired, days, created')
             ->where('steamid', $steamId)
@@ -63,66 +101,84 @@ class FreshbansRepository
             ->getRowArray();
 
         if ($existing) {
+            $adminId       = (int) $existing['id'];
             $oldExpired    = (int) ($existing['expired'] ?? 0);
             $oldDays       = (int) ($existing['days'] ?? 0);
             $extendSeconds = $duration > 0 ? $duration * 86400 : 0;
 
             if ($duration === 0) {
-                // Купив безстроковий — робимо безстроковим
                 $newExpired = 0;
                 $newDays    = 0;
             } elseif ($oldExpired === 0) {
-                // Була безстрокова — залишаємо безстроковою
                 $newExpired = 0;
                 $newDays    = 0;
             } else {
-                // Від поточного expired (або зараз, якщо вже минув) додаємо нові дні
                 $base       = max($oldExpired, $now);
                 $newExpired = $base + $extendSeconds;
                 $newDays    = $oldDays + $duration;
             }
 
             $this->db->table('amx_amxadmins')
-                ->where('id', $existing['id'])
+                ->where('id', $adminId)
                 ->update([
                     'expired'  => $newExpired,
                     'days'     => $newDays,
-                    'flags'    => $flags,
+                    'flags'    => $authFlags,
                     'nickname' => $nick,
                     'username' => $username,
                 ]);
 
-            return [
-                'success'     => true,
-                'action'      => 'extended',
-                'existing_id' => $existing['id'],
-                'message'     => "Extended privilege #{$existing['id']}: +{$duration} days",
-            ];
+            $action = 'extended';
+        } else {
+            $created = $now;
+            $expired = $duration > 0 ? $created + ($duration * 86400) : 0;
+            $days    = $duration > 0 ? $duration : 0;
+
+            $this->db->table('amx_amxadmins')->insert([
+                'username' => $username,
+                'password' => '',
+                'access'   => $access,
+                'flags'    => $authFlags,
+                'steamid'  => $steamId,
+                'nickname' => $nick,
+                'created'  => $created,
+                'expired'  => $expired,
+                'days'     => $days,
+            ]);
+            $adminId = (int) $this->db->insertID();
+            $action  = 'created';
         }
 
-        // Створюємо новий запис
-        $created = $now;
-        $expired = $duration > 0 ? $created + ($duration * 86400) : 0;
-        $days    = $duration > 0 ? $duration : 0;
+        // --- Крок 2: прив'язка до вибраного сервера в amx_admins_servers ---
+        // Цей рядок робить привілей активним САМЕ на цьому сервері.
+        $link = $this->db->table('amx_admins_servers')
+            ->where('admin_id', $adminId)
+            ->where('server_id', $serverId)
+            ->get()
+            ->getRowArray();
 
-        $this->db->table('amx_amxadmins')->insert([
-            'username' => $username,
-            'password' => '',
-            'access'   => $access,
-            'flags'    => $flags,
-            'steamid'  => $steamId,
-            'nickname' => $nick,
-            'created'  => $created,
-            'expired'  => $expired,
-            'days'     => $days,
-        ]);
+        if ($link) {
+            $this->db->table('amx_admins_servers')
+                ->where('admin_id', $adminId)
+                ->where('server_id', $serverId)
+                ->update(['custom_flags' => $access]);
+            $linkAction = 'link-updated';
+        } else {
+            $this->db->table('amx_admins_servers')->insert([
+                'admin_id'           => $adminId,
+                'server_id'          => $serverId,
+                'custom_flags'       => $access,
+                'use_static_bantime' => 'no',
+            ]);
+            $linkAction = 'link-created';
+        }
 
         return [
             'success'  => true,
-            'action'   => 'created',
+            'action'   => $action,
+            'admin_id' => $adminId,
             'username' => $username,
-            'admin_id' => $this->db->insertID(),
-            'message'  => "Created new privilege for {$steamId}",
+            'message'  => "Privilege {$action} (#{$adminId}) on server {$serverId}, {$linkAction}, +{$duration}d",
         ];
     }
 
@@ -147,7 +203,9 @@ class FreshbansRepository
     }
 
     /**
-     * Відкликати привілегію за маркером замовлення. Порт handle_revoke (тип admin/vip).
+     * Відкликати привілегію за маркером замовлення.
+     * Чистить і прив'язки до серверів (amx_admins_servers), і сам запис (amx_amxadmins).
+     * MyISAM не має FK/каскадів — видаляємо зв'язки вручну, щоб не лишити сиріт.
      * Тип 'model' тут не обробляється (FS-файл, ручна видача).
      */
     public function revoke($orderId, string $type = 'admin'): array
@@ -160,6 +218,23 @@ class FreshbansRepository
 
         if (in_array($type, ['admin', 'vip', 'all'], true)) {
             $username = "hs:{$orderId}";
+
+            // Знаходимо admin_id за маркером замовлення
+            $admins = $this->db->table('amx_amxadmins')
+                ->select('id')
+                ->where('username', $username)
+                ->get()
+                ->getResultArray();
+
+            $ids = array_map(static fn ($r) => (int) $r['id'], $admins);
+
+            if ($ids) {
+                // Спершу прив'язки до серверів
+                $this->db->table('amx_admins_servers')->whereIn('admin_id', $ids)->delete();
+                $revoked[] = "amx_admins_servers: {$this->db->affectedRows()} rows";
+            }
+
+            // Потім сам запис адміна
             $this->db->table('amx_amxadmins')->where('username', $username)->delete();
             $revoked[] = "amx_amxadmins: {$this->db->affectedRows()} rows";
         }

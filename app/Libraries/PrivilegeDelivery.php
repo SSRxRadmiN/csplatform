@@ -66,19 +66,48 @@ class PrivilegeDelivery
     }
 
     /**
-     * Видача VIP/Admin привілегій
+     * Видача VIP/Admin привілегій на вибраний гравцем сервер.
+     *
+     * server_id у замовленні — це CI4 servers.id (1=РК, 2=УЕ), що НЕ збігається з
+     * freshbans server_id (3/4). Тому: беремо IP:port CI4-сервера → резолвимо
+     * freshbans-id через amx_serverinfo (по адресу) → пишемо привілей туди.
      */
     private function deliverPrivilege(array $order, array $product): array
     {
-        $duration = (int) ($order['duration_days'] ?? $product['duration_days'] ?? 30);
+        $duration   = (int) ($order['duration_days'] ?? $product['duration_days'] ?? 30);
+        $ci4Server  = (int) ($order['server_id'] ?? 0);
+
+        if ($ci4Server <= 0) {
+            $msg = "Order #{$order['id']}: не вказано server_id (вибір сервера). Доставку зупинено.";
+            log_message('error', "[PrivilegeDelivery] {$msg}");
+            return ['success' => false, 'message' => $msg];
+        }
+
+        // IP:port вибраного сервера з CI4-таблиці servers
+        $serverModel = new ServerModel();
+        $server = $serverModel->find($ci4Server);
+        if (! $server) {
+            $msg = "Order #{$order['id']}: сервер CI4 #{$ci4Server} не знайдено.";
+            log_message('error', "[PrivilegeDelivery] {$msg}");
+            return ['success' => false, 'message' => $msg];
+        }
+
+        // Резолв freshbans server_id по адресу (amx_serverinfo)
+        $fbServerId = $this->repo->resolveServerId($server['ip'], (int) $server['port']);
+        if ($fbServerId === null) {
+            $msg = "Order #{$order['id']}: сервер {$server['ip']}:{$server['port']} відсутній у freshbans (amx_serverinfo). Привілей нікуди писати.";
+            log_message('error', "[PrivilegeDelivery] {$msg}");
+            return ['success' => false, 'message' => $msg];
+        }
 
         return $this->wrap('deliver', $this->repo->deliver(
             $order['steam_id'],
             $product['amx_access'] ?? 't',
-            $product['amx_flags'] ?? 'ce',
+            $fbServerId,
             $duration,
             $order['username'] ?? '',
-            $order['id']
+            $order['id'],
+            $product['amx_flags'] ?? 'ce'
         ));
     }
 

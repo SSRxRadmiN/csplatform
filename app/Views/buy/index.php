@@ -14,7 +14,6 @@ $duration = (int) $product['duration_days'];
             <div class="buy-product-card">
                 <h3 class="buy-product-name"><?= esc($name) ?></h3>
                 <div class="buy-product-meta">
-                    <span><?= lang('Account.buy_server') ?>: <strong><?= esc($server['name'] ?? '—') ?></strong></span>
                     <?php if ($duration > 0): ?>
                         <span><?= lang('Account.buy_duration') ?>: <strong><?= days_text($duration) ?></strong></span>
                     <?php else: ?>
@@ -31,7 +30,21 @@ $duration = (int) $product['duration_days'];
             <form method="post" action="/buy/<?= $product['id'] ?>" class="buy-form">
                 <?= csrf_field() ?>
 
-                <h3 class="buy-section-title"><?= lang('Account.payment_method') ?></h3>
+                <h3 class="buy-section-title"><?= lang('Account.buy_server') ?></h3>
+
+                <div class="payment-methods">
+                    <?php foreach ($servers as $i => $srv): ?>
+                        <label class="payment-method">
+                            <input type="radio" name="server_id" value="<?= (int) $srv['id'] ?>" <?= $i === 0 ? 'checked' : '' ?> required>
+                            <div class="payment-method-card">
+                                <span class="payment-method-name"><?= esc($srv['name']) ?></span>
+                                <span class="payment-method-desc"><?= esc($srv['ip']) ?>:<?= (int) $srv['port'] ?></span>
+                            </div>
+                        </label>
+                    <?php endforeach ?>
+                </div>
+
+                <h3 class="buy-section-title" style="margin-top: 1.5rem;"><?= lang('Account.payment_method') ?></h3>
 
                 <div class="payment-methods">
                     <label class="payment-method">

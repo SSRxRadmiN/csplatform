@@ -38,9 +38,16 @@ $catColor = $product['cat_color'] ?? '#9ca3af';
 
             <!-- Характеристики -->
             <div class="product-specs">
-                <div class="product-spec">
+                <div class="product-spec product-spec--server-select">
                     <span class="product-spec-label"><?= lang('Shop.spec_server') ?></span>
-                    <span class="product-spec-value"><?= esc($server['name'] ?? 'Реальні Кабани') ?></span>
+                    <div class="server-choice">
+                        <?php foreach ($servers as $i => $srv): ?>
+                            <label class="server-choice-option">
+                                <input type="radio" name="server_choice" value="<?= (int) $srv['id'] ?>" <?= $i === 0 ? 'checked' : '' ?>>
+                                <span class="server-choice-name"><?= esc($srv['name']) ?></span>
+                            </label>
+                        <?php endforeach ?>
+                    </div>
                 </div>
                 <div class="product-spec">
                     <span class="product-spec-label"><?= lang('Shop.spec_duration') ?></span>
@@ -84,7 +91,7 @@ $catColor = $product['cat_color'] ?? '#9ca3af';
             <?php endif ?>
 
             <?php if (session()->get('user_id')): ?>
-                <a href="/buy/<?= $product['id'] ?>" class="btn-buy">
+                <a href="/buy/<?= $product['id'] ?>?server=<?= (int) ($servers[0]['id'] ?? 0) ?>" class="btn-buy" id="buyBtn" data-base="/buy/<?= $product['id'] ?>">
                     <span><?= lang('Shop.buy_now') ?></span>
                     <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                         <line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/>
@@ -112,3 +119,16 @@ $catColor = $product['cat_color'] ?? '#9ca3af';
         </div>
     </div>
 </section>
+
+<script>
+(function () {
+    var btn = document.getElementById('buyBtn');
+    if (!btn) return; // незалогінений — кнопка веде на /login
+    var base = btn.getAttribute('data-base');
+    document.querySelectorAll('input[name="server_choice"]').forEach(function (r) {
+        r.addEventListener('change', function () {
+            if (this.checked) btn.setAttribute('href', base + '?server=' + this.value);
+        });
+    });
+})();
+</script>

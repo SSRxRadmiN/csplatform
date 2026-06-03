@@ -10,7 +10,8 @@ use App\Libraries\CassaPayment;
 class Buy extends BaseController
 {
     /**
-     * Сторінка оформлення замовлення
+     * Сторінка оформлення замовлення.
+     * Товари однакові для обох серверів — сервер обирає гравець тут.
      */
     public function index(int $productId)
     {
@@ -22,7 +23,16 @@ class Buy extends BaseController
         }
 
         $serverModel = new ServerModel();
-        $server = $serverModel->find($product['server_id']);
+        // Усі сервери (для підстраховки) + обраний на картці товару
+        $servers = $serverModel->findAll();
+
+        // Сервер, обраний гравцем на сторінці товару (?server=N)
+        $chosenId = (int) $this->request->getGet('server');
+        $chosen   = $chosenId > 0 ? $serverModel->find($chosenId) : null;
+        // Fallback: якщо прийшли без вибору або з кривим id — перший сервер
+        if (! $chosen) {
+            $chosen = $servers[0] ?? null;
+        }
 
         $cassa = new CassaPayment();
 
@@ -35,7 +45,8 @@ class Buy extends BaseController
             'page'    => 'buy/index',
             'title'   => 'Оформлення — CS Headshot',
             'product' => $product,
-            'server'  => $server,
+            'servers' => $servers,
+            'chosen'  => $chosen,
             'steamId' => session()->get('user_steam'),
         ]);
     }
@@ -52,10 +63,18 @@ class Buy extends BaseController
             throw \CodeIgniter\Exceptions\PageNotFoundException::forPageNotFound();
         }
 
-        // Валідація
+        // Спосіб оплати
         $ps = $this->request->getPost('ps');
-        if (! in_array($ps, ['p2p'])) {
-            return redirect()->back()->with('error', 'Оберіть спосіб оплати');
+        if (! in_array($ps, ['p2p'], true)) {
+            return redirect()->back()->withInput()->with('error', 'Оберіть спосіб оплати');
+        }
+
+        // Вибір сервера гравцем — обов'язковий, має існувати в таблиці servers
+        $serverId    = (int) $this->request->getPost('server_id');
+        $serverModel = new ServerModel();
+        $server      = $serverId > 0 ? $serverModel->find($serverId) : null;
+        if (! $server) {
+            return redirect()->back()->withInput()->with('error', 'Оберіть сервер');
         }
 
         $userId  = session()->get('user_id');
@@ -63,18 +82,18 @@ class Buy extends BaseController
         $email   = session()->get('user_email');
         $lang    = session()->get('lang') ?? 'ua';
 
-        // Створюємо замовлення
+        // Створюємо замовлення (server_id — з вибору гравця, не з товару)
         $orderModel = new OrderModel();
         $orderId = $orderModel->insert([
-            'user_id'      => $userId,
-            'product_id'   => $product['id'],
-            'server_id'    => $product['server_id'],
-            'steam_id'     => $steamId,
-            'amount'       => $product['price'],
-            'status'       => 'pending',
-            'product_name' => $product['name_' . $lang] ?? $product['name_ua'],
-            'amx_access'   => $product['amx_access'],
-            'amx_flags'    => $product['amx_flags'],
+            'user_id'       => $userId,
+            'product_id'    => $product['id'],
+            'server_id'     => $serverId,
+            'steam_id'      => $steamId,
+            'amount'        => $product['price'],
+            'status'        => 'pending',
+            'product_name'  => $product['name_' . $lang] ?? $product['name_ua'],
+            'amx_access'    => $product['amx_access'],
+            'amx_flags'     => $product['amx_flags'],
             'duration_days' => $product['duration_days'],
         ]);
 
@@ -91,12 +110,10 @@ class Buy extends BaseController
             $orderId
         );
 
-        // Зберігаємо payment_id
         $orderModel->update($orderId, [
             'payment_id' => $payment['fields']['idpay'],
         ]);
 
-        // Показуємо форму-редірект на CASSA
         return view('layouts/main', [
             'page'    => 'buy/redirect',
             'title'   => 'Переадресація на оплату...',
