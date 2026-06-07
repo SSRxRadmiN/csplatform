@@ -4,7 +4,6 @@ namespace App\Controllers\Admin;
 
 use App\Controllers\BaseController;
 use App\Models\ProductModel;
-use App\Models\ServerModel;
 use App\Models\CategoryModel;
 
 class Products extends BaseController
@@ -14,8 +13,8 @@ class Products extends BaseController
         $productModel = new ProductModel();
 
         $products = $productModel
-            ->select('products.*, servers.name as server_name')
-            ->join('servers', 'servers.id = products.server_id', 'left')
+            ->select('products.*, categories.name_ua as category_name')
+            ->join('categories', 'categories.id = products.category_id', 'left')
             ->orderBy('products.sort_order', 'ASC')
             ->findAll();
 
@@ -28,14 +27,12 @@ class Products extends BaseController
 
     public function create()
     {
-        $serverModel   = new ServerModel();
         $categoryModel = new CategoryModel();
 
         return view('layouts/main', [
             'page'       => 'admin/products/form',
             'title'      => 'Новий товар — Адмін',
             'product'    => null,
-            'servers'    => $serverModel->findAll(),
             'categories' => $categoryModel->where('is_active', 1)->orderBy('sort_order')->findAll(),
         ]);
     }
@@ -45,7 +42,7 @@ class Products extends BaseController
         $productModel = new ProductModel();
 
         $data = $this->request->getPost([
-            'server_id', 'category_id', 'name_ua', 'name_en',
+            'category_id', 'name_ua', 'name_en',
             'description_ua', 'description_en',
             'price', 'duration_days',
             'amx_access', 'amx_flags',
@@ -68,7 +65,6 @@ class Products extends BaseController
     public function edit(int $id)
     {
         $productModel  = new ProductModel();
-        $serverModel   = new ServerModel();
         $categoryModel = new CategoryModel();
 
         $product = $productModel->find($id);
@@ -80,7 +76,6 @@ class Products extends BaseController
             'page'       => 'admin/products/form',
             'title'      => 'Редагувати: ' . $product['name_ua'] . ' — Адмін',
             'product'    => $product,
-            'servers'    => $serverModel->findAll(),
             'categories' => $categoryModel->where('is_active', 1)->orderBy('sort_order')->findAll(),
         ]);
     }
@@ -95,7 +90,7 @@ class Products extends BaseController
         }
 
         $data = $this->request->getPost([
-            'server_id', 'category_id', 'name_ua', 'name_en',
+            'category_id', 'name_ua', 'name_en',
             'description_ua', 'description_en',
             'price', 'duration_days',
             'amx_access', 'amx_flags',
