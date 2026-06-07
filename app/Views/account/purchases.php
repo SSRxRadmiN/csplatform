@@ -18,6 +18,7 @@
                         <th><?= lang('Account.col_product') ?></th>
                         <th><?= lang('Account.col_amount') ?></th>
                         <th><?= lang('Account.col_status') ?></th>
+                        <th><?= current_lang() === 'en' ? 'Server' : 'Сервер' ?></th>
                         <th><?= lang('Account.col_steam') ?></th>
                         <th><?= lang('Account.col_created') ?></th>
                         <th><?= lang('Account.col_expires') ?></th>
@@ -31,6 +32,7 @@
                             <td class="orders-table-name"><?= esc($o['product_name'] ?? '—') ?></td>
                             <td class="orders-table-amount"><?= (int) $o['amount'] ?> ₴</td>
                             <td><span class="order-status order-status--<?= $st[1] ?>"><?= $st[0] ?></span></td>
+                            <td class="orders-table-server"><?= esc($servers[$o['server_id']] ?? '—') ?></td>
                             <td class="orders-table-steam"><code><?= esc($o['steam_id'] ?? '—') ?></code></td>
                             <td class="orders-table-date"><?= date('d.m.Y H:i', strtotime($o['created_at'])) ?></td>
                             <td class="orders-table-date">

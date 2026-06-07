@@ -4,12 +4,15 @@ namespace App\Controllers;
 
 use App\Models\UserModel;
 use App\Models\OrderModel;
+use App\Models\ServerModel;
 
 class Account extends BaseController
 {
     public function index()
     {
-        $orderModel = new OrderModel();
+        $orderModel  = new OrderModel();
+        $serverModel = new ServerModel();
+        $servers     = array_column($serverModel->findAll(), 'name', 'id');
 
         $userId     = session()->get('user_id');
         $privileges = $orderModel->getActivePrivileges($userId);
@@ -20,6 +23,7 @@ class Account extends BaseController
             'title'      => 'Кабінет — CS Headshot',
             'privileges' => $privileges,
             'orders'     => array_slice($orders, 0, 5),
+            'servers'    => $servers,
         ]);
     }
 
@@ -77,13 +81,16 @@ class Account extends BaseController
 
     public function purchases()
     {
-        $orderModel = new OrderModel();
-        $orders = $orderModel->getByUser(session()->get('user_id'));
+        $orderModel  = new OrderModel();
+        $serverModel = new ServerModel();
+        $servers     = array_column($serverModel->findAll(), 'name', 'id');
+        $orders      = $orderModel->getByUser(session()->get('user_id'));
 
         return view('layouts/main', [
-            'page'   => 'account/purchases',
-            'title'  => 'Історія покупок — CS Headshot',
-            'orders' => $orders,
+            'page'    => 'account/purchases',
+            'title'   => 'Історія покупок — CS Headshot',
+            'orders'  => $orders,
+            'servers' => $servers,
         ]);
     }
 }

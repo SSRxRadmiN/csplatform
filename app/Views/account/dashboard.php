@@ -41,6 +41,12 @@ $userRole  = session()->get('user_role') ?? 'player';
                             <span class="privilege-name"><?= esc($p['product_name'] ?? 'Privilege #' . $p['id']) ?></span>
                             <span class="privilege-status"><?= lang('Account.status_active') ?></span>
                         </div>
+                        <?php if (!empty($p['server_id']) && isset($servers[$p['server_id']])): ?>
+                            <div class="privilege-server">
+                                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="3" width="20" height="5" rx="1"/><rect x="2" y="10" width="20" height="5" rx="1"/><rect x="2" y="17" width="20" height="5" rx="1"/></svg>
+                                <?= esc($servers[$p['server_id']]) ?>
+                            </div>
+                        <?php endif ?>
                         <div class="privilege-detail-row">
                             <div class="privilege-detail-left">
                                 <?php if (!empty($p['expires_at'])): ?>
@@ -96,6 +102,7 @@ $userRole  = session()->get('user_role') ?? 'player';
                             <th><?= lang('Account.col_product') ?></th>
                             <th><?= lang('Account.col_amount') ?></th>
                             <th><?= lang('Account.col_status') ?></th>
+                            <th><?= current_lang() === 'en' ? 'Server' : 'Сервер' ?></th>
                             <th><?= lang('Account.col_date') ?></th>
                         </tr>
                     </thead>
@@ -106,6 +113,7 @@ $userRole  = session()->get('user_role') ?? 'player';
                                 <td class="orders-table-name"><?= esc($o['product_name'] ?? '—') ?></td>
                                 <td class="orders-table-amount"><?= (int) $o['amount'] ?> ₴</td>
                                 <td><span class="order-status order-status--<?= $st[1] ?>"><?= $st[0] ?></span></td>
+                                <td class="orders-table-server"><?= esc($servers[$o['server_id']] ?? '—') ?></td>
                                 <td class="orders-table-date"><?= date('d.m.Y H:i', strtotime($o['created_at'])) ?></td>
                             </tr>
                         <?php endforeach ?>

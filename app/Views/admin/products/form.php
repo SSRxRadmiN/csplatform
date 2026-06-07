@@ -38,18 +38,6 @@ $action = $isEdit ? '/admin/products/edit/' . $product['id'] : '/admin/products/
                 </div>
 
                 <div class="admin-form-group">
-                    <label class="admin-label">Сервер *</label>
-                    <select name="server_id" class="admin-input" required>
-                        <option value="">Оберіть...</option>
-                        <?php foreach ($servers as $s): ?>
-                            <option value="<?= $s['id'] ?>" <?= old('server_id', $product['server_id'] ?? '') == $s['id'] ? 'selected' : '' ?>>
-                                <?= esc($s['name']) ?>
-                            </option>
-                        <?php endforeach ?>
-                    </select>
-                </div>
-
-                <div class="admin-form-group">
                     <label class="admin-label">Категорія *</label>
                     <select name="category_id" class="admin-input" required>
                         <option value="">Оберіть...</option>

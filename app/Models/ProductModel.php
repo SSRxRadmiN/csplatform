@@ -13,7 +13,7 @@ class ProductModel extends Model
     protected $updatedField  = 'updated_at';
 
     protected $allowedFields = [
-        'server_id', 'name_ua', 'name_en',
+        'name_ua', 'name_en',
         'description_ua', 'description_en',
         'price', 'duration_days',
         'amx_access', 'amx_flags',
@@ -50,7 +50,19 @@ class ProductModel extends Model
     }
 
     /**
-     * Отримати назву товару в залежності від мови
+     * Отримати активні товари з JOIN categories (без фільтра по серверу)
+     */
+    public function getAllWithCategory(): array
+    {
+        return $this->select('products.*, categories.slug as cat_slug, categories.name_ua as cat_name_ua, categories.name_en as cat_name_en, categories.icon as cat_icon, categories.color as cat_color, categories.sort_order as cat_sort')
+                    ->join('categories', 'categories.id = products.category_id', 'left')
+                    ->where('products.is_active', 1)
+                    ->orderBy('categories.sort_order', 'ASC')
+                    ->orderBy('products.sort_order', 'ASC')
+                    ->findAll();
+    }
+
+    /**
      */
     public function getName(array $product, string $lang = 'ua'): string
     {

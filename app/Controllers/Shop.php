@@ -15,7 +15,7 @@ class Shop extends BaseController
         $categoryModel = new CategoryModel();
 
         $server     = $serverModel->getWithStats(1);
-        $products   = $productModel->getByServerWithCategory(1);
+        $products   = $productModel->getAllWithCategory();
         $categories = $categoryModel->getActive();
 
         return view('layouts/main', [
@@ -44,7 +44,7 @@ class Shop extends BaseController
             throw \CodeIgniter\Exceptions\PageNotFoundException::forPageNotFound();
         }
 
-        $server = $serverModel->getWithStats($product['server_id']);
+        $server = null; // server_id більше не зберігається в товарі — гравець обирає сам при купівлі
 
         // Усі сервери для вибору на картці товару (товари однакові для обох)
         $servers = $serverModel->findAll();
